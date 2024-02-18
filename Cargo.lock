@@ -295,7 +295,7 @@ checksum = "0754613691538d51f329cce9af41d7b7ca150bc973056f1156611489475f54f7"
 dependencies = [
  "borsh-derive-internal",
  "borsh-schema-derive-internal",
- "proc-macro-crate",
+ "proc-macro-crate 0.1.5",
  "proc-macro2",
  "syn 1.0.109",
 ]
@@ -993,9 +993,11 @@ checksum = "affdc52f7596ccb2d7645231fc6163bb314630c989b64998f3699a28b4d5d4dc"
 dependencies = [
  "jsonrpsee-core",
  "jsonrpsee-http-client",
+ "jsonrpsee-proc-macros",
  "jsonrpsee-server",
  "jsonrpsee-types",
  "tokio",
+ "tracing",
 ]
 
 [[package]]
@@ -1039,6 +1041,19 @@ dependencies = [
  "tower",
  "tracing",
  "url",
+]
+
+[[package]]
+name = "jsonrpsee-proc-macros"
+version = "0.20.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "29110019693a4fa2dbda04876499d098fa16d70eba06b1e6e2b3f1b251419515"
+dependencies = [
+ "heck",
+ "proc-macro-crate 1.3.1",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -1398,6 +1413,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1d6ea3c4595b96363c13943497db34af4460fb474a95c43f4446ad341b8c9785"
 dependencies = [
  "toml",
+]
+
+[[package]]
+name = "proc-macro-crate"
+version = "1.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f4c021e1093a56626774e81216a4ce732a735e5bad4868a03f3ed65ca0c3919"
+dependencies = [
+ "once_cell",
+ "toml_edit",
 ]
 
 [[package]]
@@ -1924,15 +1949,32 @@ dependencies = [
  "jmt",
  "rocksdb",
  "serde",
- "sov-rollup-interface",
- "sov-schema-db",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "sov-schema-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "tokio",
+]
+
+[[package]]
+name = "sov-db"
+version = "0.3.0"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+dependencies = [
+ "anyhow",
+ "bincode",
+ "borsh",
+ "byteorder",
+ "jmt",
+ "rocksdb",
+ "serde",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-schema-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "tokio",
 ]
 
 [[package]]
 name = "sov-modules-api"
 version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
 dependencies = [
  "anyhow",
  "bech32",
@@ -1948,11 +1990,11 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sov-modules-core",
- "sov-modules-macros",
+ "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-modules-macros 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "sov-prover-storage-manager",
- "sov-rollup-interface",
- "sov-state",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-state 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "thiserror",
 ]
 
@@ -1971,7 +2013,26 @@ dependencies = [
  "schemars",
  "serde",
  "sha2",
- "sov-rollup-interface",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "thiserror",
+]
+
+[[package]]
+name = "sov-modules-core"
+version = "0.3.0"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+dependencies = [
+ "anyhow",
+ "bech32",
+ "borsh",
+ "derive_more",
+ "digest 0.10.7",
+ "hex",
+ "jmt",
+ "schemars",
+ "serde",
+ "sha2",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "thiserror",
 ]
 
@@ -1982,12 +2043,27 @@ source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c32
 dependencies = [
  "anyhow",
  "borsh",
+ "proc-macro2",
+ "quote",
+ "schemars",
+ "serde_json",
+ "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "sov-modules-macros"
+version = "0.3.0"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+dependencies = [
+ "anyhow",
+ "borsh",
  "jsonrpsee",
  "proc-macro2",
  "quote",
  "schemars",
  "serde_json",
- "sov-modules-core",
+ "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "syn 1.0.109",
 ]
 
@@ -2002,20 +2078,20 @@ dependencies = [
  "serde",
  "serde_json",
  "sov-modules-api",
- "sov-modules-macros",
- "sov-state",
+ "sov-modules-macros 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "sov-state 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
 ]
 
 [[package]]
 name = "sov-prover-storage-manager"
 version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
 dependencies = [
  "anyhow",
- "sov-db",
- "sov-rollup-interface",
- "sov-schema-db",
- "sov-state",
+ "sov-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-schema-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-state 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "tracing",
 ]
 
@@ -2023,6 +2099,25 @@ dependencies = [
 name = "sov-rollup-interface"
 version = "0.3.0"
 source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "borsh",
+ "bytes",
+ "digest 0.10.7",
+ "futures",
+ "hex",
+ "proptest",
+ "serde",
+ "sha2",
+ "thiserror",
+ "tokio",
+]
+
+[[package]]
+name = "sov-rollup-interface"
+version = "0.3.0"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -2052,6 +2147,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "sov-schema-db"
+version = "0.3.0"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+dependencies = [
+ "anyhow",
+ "once_cell",
+ "prometheus",
+ "rocksdb",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
 name = "sov-state"
 version = "0.3.0"
 source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
@@ -2064,9 +2172,28 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sov-db",
- "sov-modules-core",
- "sov-rollup-interface",
+ "sov-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "thiserror",
+]
+
+[[package]]
+name = "sov-state"
+version = "0.3.0"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+dependencies = [
+ "anyhow",
+ "bcs",
+ "borsh",
+ "hex",
+ "jmt",
+ "serde",
+ "serde_json",
+ "sha2",
+ "sov-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
  "thiserror",
 ]
 
@@ -2240,6 +2367,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4f7f0dd8d50a853a531c426359045b1998f04219d88799810762cd4ad314234"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "toml_datetime"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3550f4e9685620ac18a50ed434eb3aec30db8ba93b0287467bca5826ea25baf1"
+
+[[package]]
+name = "toml_edit"
+version = "0.19.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1b5bb770da30e5cbfde35a2d7b9b8a2c4b8ef89548a7a6aeab5c9a576e3e7421"
+dependencies = [
+ "indexmap",
+ "toml_datetime",
+ "winnow",
 ]
 
 [[package]]
@@ -2530,6 +2674,15 @@ name = "windows_x86_64_msvc"
 version = "0.52.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dff9641d1cd4be8d1a070daf9e3773c5f67e78b4d9d42263020c057706765c04"
+
+[[package]]
+name = "winnow"
+version = "0.5.40"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f593a95398737aeed53e489c785df13f3618e41dbcd6718c6addbf1395aa6876"
+dependencies = [
+ "memchr",
+]
 
 [[package]]
 name = "zerocopy"
