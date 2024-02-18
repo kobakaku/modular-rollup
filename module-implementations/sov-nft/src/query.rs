@@ -8,13 +8,6 @@ use crate::utils::get_collection_address;
 use crate::NonFungibleToken;
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-/// Response for `getOwner` method
-pub struct OwnerResponse<C: Context> {
-    /// Optional owner address
-    pub owner: Option<C::Address>,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
     serialize = "CreatorAddress<C>: serde::Serialize",
     deserialize = "CreatorAddress<C>: serde::Deserialize<'de>"
@@ -38,17 +31,6 @@ pub struct CollectionAddressResponse<C: Context> {
 
 #[rpc_gen(client, server, namespace = "nft")]
 impl<C: sov_modules_api::Context> NonFungibleToken<C> {
-    #[rpc_method(name = "getOwner")]
-    pub fn get_owner(
-        &self,
-        token_id: u64,
-        working_set: &mut WorkingSet<C>,
-    ) -> RpcResult<OwnerResponse<C>> {
-        Ok(OwnerResponse {
-            owner: self.owners.get(&token_id, working_set),
-        })
-    }
-
     #[rpc_method(name = "getCollectionAddress")]
     /// Get the collection address
     pub fn get_collection_address(

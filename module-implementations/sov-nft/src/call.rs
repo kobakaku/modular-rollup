@@ -1,4 +1,3 @@
-use anyhow::bail;
 use sov_modules_api::{CallResponse, StateMapAccessor, WorkingSet};
 
 use crate::{
@@ -115,9 +114,9 @@ impl<C: sov_modules_api::Context> NonFungibleToken<C> {
     // TODO
     pub(crate) fn freeze_collection(
         &self,
-        collection_name: &str,
-        context: &C,
-        working_set: &mut WorkingSet<C>,
+        _collection_name: &str,
+        _context: &C,
+        _working_set: &mut WorkingSet<C>,
     ) -> anyhow::Result<CallResponse> {
         Ok(CallResponse::default())
     }
@@ -125,13 +124,13 @@ impl<C: sov_modules_api::Context> NonFungibleToken<C> {
     // TODO
     pub(crate) fn mint_nft(
         &self,
-        collection_name: &str,
-        token_id: &str,
-        owner: &OwnerAddress<C>,
-        frozen: bool,
-        token_uri: &str,
-        context: &C,
-        working_set: &mut WorkingSet<C>,
+        _collection_name: &str,
+        _token_id: &str,
+        _owner: &OwnerAddress<C>,
+        _frozen: bool,
+        _token_uri: &str,
+        _context: &C,
+        _working_set: &mut WorkingSet<C>,
     ) -> anyhow::Result<CallResponse> {
         Ok(CallResponse::default())
     }
@@ -139,12 +138,12 @@ impl<C: sov_modules_api::Context> NonFungibleToken<C> {
     // TODO
     pub(crate) fn update_nft(
         &self,
-        collection_name: &str,
-        token_id: &str,
-        frozen: Option<bool>,
-        token_uri: Option<String>,
-        context: &C,
-        working_set: &mut WorkingSet<C>,
+        _collection_name: &str,
+        _token_id: &str,
+        _frozen: Option<bool>,
+        _token_uri: Option<String>,
+        _context: &C,
+        _working_set: &mut WorkingSet<C>,
     ) -> anyhow::Result<CallResponse> {
         Ok(CallResponse::default())
     }
@@ -152,11 +151,11 @@ impl<C: sov_modules_api::Context> NonFungibleToken<C> {
     // TODO
     pub(crate) fn transfer_nft(
         &self,
-        collection_address: &CollectionAddress<C>,
-        token_id: &str,
-        to: &UserAddress<C>,
-        context: &C,
-        working_set: &mut WorkingSet<C>,
+        _collection_address: &CollectionAddress<C>,
+        _token_id: &str,
+        _to: &UserAddress<C>,
+        _context: &C,
+        _working_set: &mut WorkingSet<C>,
     ) -> anyhow::Result<CallResponse> {
         Ok(CallResponse::default())
     }
@@ -164,10 +163,10 @@ impl<C: sov_modules_api::Context> NonFungibleToken<C> {
     // TODO
     pub(crate) fn burn_nft(
         &self,
-        collection_name: &str,
-        token_id: &str,
-        context: &C,
-        working_set: &mut WorkingSet<C>,
+        _collection_name: &str,
+        _token_id: &str,
+        _context: &C,
+        _working_set: &mut WorkingSet<C>,
     ) -> anyhow::Result<CallResponse> {
         Ok(CallResponse::default())
     }

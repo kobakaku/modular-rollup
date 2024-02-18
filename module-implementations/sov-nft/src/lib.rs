@@ -24,12 +24,6 @@ pub struct NonFungibleToken<C: sov_modules_api::Context> {
 
     #[state]
     nfts: StateMap<NftIdentifier<C>, Nft<C>>,
-
-    #[state]
-    admin: sov_modules_api::StateValue<C::Address>,
-
-    #[state]
-    owners: sov_modules_api::StateMap<u64, C::Address>,
 }
 
 impl<C: sov_modules_api::Context> Module for NonFungibleToken<C> {

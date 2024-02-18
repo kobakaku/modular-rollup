@@ -1949,32 +1949,15 @@ dependencies = [
  "jmt",
  "rocksdb",
  "serde",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "sov-schema-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "tokio",
-]
-
-[[package]]
-name = "sov-db"
-version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
-dependencies = [
- "anyhow",
- "bincode",
- "borsh",
- "byteorder",
- "jmt",
- "rocksdb",
- "serde",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-schema-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-rollup-interface",
+ "sov-schema-db",
  "tokio",
 ]
 
 [[package]]
 name = "sov-modules-api"
 version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
 dependencies = [
  "anyhow",
  "bech32",
@@ -1990,11 +1973,11 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-modules-macros 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-modules-core",
+ "sov-modules-macros",
  "sov-prover-storage-manager",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-state 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-rollup-interface",
+ "sov-state",
  "thiserror",
 ]
 
@@ -2013,26 +1996,7 @@ dependencies = [
  "schemars",
  "serde",
  "sha2",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "thiserror",
-]
-
-[[package]]
-name = "sov-modules-core"
-version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
-dependencies = [
- "anyhow",
- "bech32",
- "borsh",
- "derive_more",
- "digest 0.10.7",
- "hex",
- "jmt",
- "schemars",
- "serde",
- "sha2",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-rollup-interface",
  "thiserror",
 ]
 
@@ -2040,21 +2004,6 @@ dependencies = [
 name = "sov-modules-macros"
 version = "0.3.0"
 source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
-dependencies = [
- "anyhow",
- "borsh",
- "proc-macro2",
- "quote",
- "schemars",
- "serde_json",
- "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "sov-modules-macros"
-version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
 dependencies = [
  "anyhow",
  "borsh",
@@ -2063,7 +2012,7 @@ dependencies = [
  "quote",
  "schemars",
  "serde_json",
- "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-modules-core",
  "syn 1.0.109",
 ]
 
@@ -2078,20 +2027,20 @@ dependencies = [
  "serde",
  "serde_json",
  "sov-modules-api",
- "sov-modules-macros 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "sov-state 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
+ "sov-modules-macros",
+ "sov-state",
 ]
 
 [[package]]
 name = "sov-prover-storage-manager"
 version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
+source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
 dependencies = [
  "anyhow",
- "sov-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-schema-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-state 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-db",
+ "sov-rollup-interface",
+ "sov-schema-db",
+ "sov-state",
  "tracing",
 ]
 
@@ -2099,25 +2048,6 @@ dependencies = [
 name = "sov-rollup-interface"
 version = "0.3.0"
 source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
-dependencies = [
- "anyhow",
- "async-trait",
- "borsh",
- "bytes",
- "digest 0.10.7",
- "futures",
- "hex",
- "proptest",
- "serde",
- "sha2",
- "thiserror",
- "tokio",
-]
-
-[[package]]
-name = "sov-rollup-interface"
-version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -2147,19 +2077,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sov-schema-db"
-version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
-dependencies = [
- "anyhow",
- "once_cell",
- "prometheus",
- "rocksdb",
- "thiserror",
- "tracing",
-]
-
-[[package]]
 name = "sov-state"
 version = "0.3.0"
 source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172#13e4077c329ff14954b32e3180d43a6d86fa3172"
@@ -2172,28 +2089,9 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sov-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git?rev=13e4077c329ff14954b32e3180d43a6d86fa3172)",
- "thiserror",
-]
-
-[[package]]
-name = "sov-state"
-version = "0.3.0"
-source = "git+https://github.com/Sovereign-Labs/sovereign-sdk.git#c9f56b479c6ea17893e282099fcb8ab804c2feb1"
-dependencies = [
- "anyhow",
- "bcs",
- "borsh",
- "hex",
- "jmt",
- "serde",
- "serde_json",
- "sha2",
- "sov-db 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-modules-core 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
- "sov-rollup-interface 0.3.0 (git+https://github.com/Sovereign-Labs/sovereign-sdk.git)",
+ "sov-db",
+ "sov-modules-core",
+ "sov-rollup-interface",
  "thiserror",
 ]
 

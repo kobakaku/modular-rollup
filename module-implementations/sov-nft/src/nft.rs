@@ -7,9 +7,9 @@ pub type TokenId = u64;
 pub struct NftIdentifier<C: Context>(pub TokenId, pub CollectionAddress<C>);
 
 pub struct Nft<C: Context> {
-    token_id: TokenId,
-    collection_address: CollectionAddress<C>,
-    owner: OwnerAddress<C>,
-    frozen: bool,
-    token_uri: String,
+    _token_id: TokenId,
+    _collection_address: CollectionAddress<C>,
+    _owner: OwnerAddress<C>,
+    _frozen: bool,
+    _token_uri: String,
 }
