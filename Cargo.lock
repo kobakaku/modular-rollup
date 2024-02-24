@@ -2028,7 +2028,9 @@ dependencies = [
  "serde_json",
  "sov-modules-api",
  "sov-modules-macros",
+ "sov-prover-storage-manager",
  "sov-state",
+ "tempfile",
 ]
 
 [[package]]

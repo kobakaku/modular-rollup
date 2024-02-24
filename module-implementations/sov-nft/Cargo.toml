@@ -9,13 +9,15 @@ authors = { workspace = true }
 sov-modules-api = { workspace = true }
 sov-state = { workspace = true }
 sov-modules-macros = { workspace = true }
-schemars = { workspace = true, optional = true }
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
 
+schemars = { workspace = true, optional = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 anyhow = { workspace = true }
 borsh = { workspace = true, features = ["rc", "bytes"] }
 jsonrpsee = { workspace = true, features = ["macros", "client-core", "server"], optional = true }
+tempfile = { workspace = true }
 
 [features]
 default = ["native"]

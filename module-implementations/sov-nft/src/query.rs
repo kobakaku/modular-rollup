@@ -13,7 +13,7 @@ use crate::NonFungibleToken;
     deserialize = "CreatorAddress<C>: serde::Deserialize<'de>"
 ))]
 pub struct CollectionResponse<C: Context> {
-    pub name: String,
+    pub collection_name: String,
     pub creator: CreatorAddress<C>,
     pub frozen: bool,
     pub supply: u64,
@@ -58,7 +58,7 @@ impl<C: sov_modules_api::Context> NonFungibleToken<C> {
             .get(&collection_address, working_set)
             .unwrap();
         Ok(CollectionResponse {
-            name: c.collection_name,
+            collection_name: c.collection_name,
             creator: c.creator,
             frozen: c.frozen,
             supply: c.supply,

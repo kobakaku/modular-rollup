@@ -1,5 +1,5 @@
-mod address;
-mod call;
+pub mod address;
+pub mod call;
 mod collection;
 pub mod genesis;
 mod nft;
