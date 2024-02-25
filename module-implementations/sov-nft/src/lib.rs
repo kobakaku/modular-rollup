@@ -12,8 +12,9 @@ use collection::Collection;
 use genesis::NonFungibleTokenConfig;
 
 // use nft::{Nft, NftIdentifier};
-use sov_modules_api::{Error, Module, StateMap, WorkingSet};
+use sov_modules_api::{Error, Module, ModuleCallJsonSchema, StateMap, WorkingSet};
 
+#[cfg_attr(feature = "native", derive(ModuleCallJsonSchema))]
 #[derive(sov_modules_api::ModuleInfo)]
 pub struct NonFungibleToken<C: sov_modules_api::Context> {
     #[address]

@@ -24,6 +24,11 @@ impl<C: Context> CollectionState<C> {
     }
 }
 
+#[cfg_attr(
+    feature = "native",
+    derive(serde::Serialize),
+    derive(serde::Deserialize)
+)]
 #[derive(borsh::BorshDeserialize, borsh::BorshSerialize, Debug, PartialEq, Clone)]
 pub struct Collection<C: Context> {
     pub collection_name: String,

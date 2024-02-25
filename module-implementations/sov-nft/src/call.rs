@@ -8,6 +8,11 @@ use crate::{
 
 #[cfg_attr(
     feature = "native",
+    derive(schemars::JsonSchema),
+    schemars(bound = "C::Address: ::schemars::JsonSchema", rename = "CallMessage")
+)]
+#[cfg_attr(
+    feature = "serde",
     derive(serde::Serialize),
     derive(serde::Deserialize)
 )]
