@@ -2,7 +2,7 @@ pub mod address;
 pub mod call;
 mod collection;
 pub mod genesis;
-mod nft;
+// mod nft;
 pub mod query;
 mod utils;
 
@@ -11,7 +11,7 @@ use call::CallMessage;
 use collection::Collection;
 use genesis::NonFungibleTokenConfig;
 
-use nft::{Nft, NftIdentifier};
+// use nft::{Nft, NftIdentifier};
 use sov_modules_api::{Error, Module, StateMap, WorkingSet};
 
 #[derive(sov_modules_api::ModuleInfo)]
@@ -21,9 +21,8 @@ pub struct NonFungibleToken<C: sov_modules_api::Context> {
 
     #[state]
     collections: StateMap<CollectionAddress<C>, Collection<C>>,
-
-    #[state]
-    nfts: StateMap<NftIdentifier<C>, Nft<C>>,
+    // #[state]
+    // nfts: StateMap<NftIdentifier<C>, Nft<C>>,
 }
 
 impl<C: sov_modules_api::Context> Module for NonFungibleToken<C> {

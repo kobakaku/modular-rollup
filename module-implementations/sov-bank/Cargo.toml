@@ -1,0 +1,19 @@
+[package]
+name = "sov-bank"
+resolver = "2"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+
+[dependencies]
+sov-modules-api = { workspace = true }
+
+anyhow = { workspace = true }
+borsh = { workspace = true, features = ["rc"] }
+serde = { workspace = true, optional = true  }
+serde_json = { workspace = true, optional = true }
+jsonrpsee = { workspace = true, features = ["macros", "client-core", "server"], optional = true }
+
+[features]
+default = []
+native = ["sov-modules-api/native", "serde", "serde_json", "jsonrpsee"]
