@@ -1,18 +1,45 @@
 mod call;
 mod genesis;
 mod query;
+mod token;
+mod utils;
 
-// use call::*;
 use genesis::*;
+use token::*;
+use utils::*;
 
 use crate::call::CallMessage;
 
-use sov_modules_api::{Error, Module, ModuleInfo, WorkingSet};
+use sov_modules_api::{Error, GasUnit, Module, ModuleInfo, WorkingSet};
 
+pub(crate) struct BankGasConfig<GU: GasUnit> {
+    /// Gas price multiplier for the create token operation
+    create_token: GU,
+
+    /// Gas price multiplier for the transfer operation
+    transfer: GU,
+
+    /// Gas price multiplier for the burn operation
+    burn: GU,
+
+    /// Gas price multiplier for the mint operation
+    mint: GU,
+
+    /// Gas price multiplier for the freeze operation
+    freeze: GU,
+}
+
+#[cfg_attr(feature = "native", derive(sov_modules_api::ModuleCallJsonSchema))]
 #[derive(ModuleInfo)]
 pub struct Bank<C: sov_modules_api::Context> {
     #[address]
     address: C::Address,
+
+    #[gas]
+    gas: BankGasConfig<C::GasUnit>,
+
+    #[state]
+    tokens: sov_modules_api::StateMap<C::Address, Token<C>>,
 }
 
 impl<C: sov_modules_api::Context> Module for Bank<C> {
@@ -32,7 +59,22 @@ impl<C: sov_modules_api::Context> Module for Bank<C> {
         working_set: &mut WorkingSet<C>,
     ) -> Result<sov_modules_api::CallResponse, Error> {
         let call_result = match msg {
-            CallMessage::CreateToken { address: _ } => self.create_token(context, working_set),
+            CallMessage::CreateToken {
+                salt,
+                token_name,
+                initial_balance,
+                minter_address,
+            } => {
+                self.charge_gas(working_set, &self.gas.create_token)?;
+                self.create_token(
+                    salt,
+                    &token_name,
+                    initial_balance,
+                    minter_address,
+                    context,
+                    working_set,
+                )
+            }
         };
         Ok(call_result?)
     }
