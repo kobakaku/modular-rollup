@@ -8,9 +8,9 @@ pub(crate) type Amount = u64;
 
 #[derive(borsh::BorshDeserialize, borsh::BorshSerialize, Debug, PartialEq, Clone)]
 pub(crate) struct Token<C: sov_modules_api::Context> {
-    name: String,
-    total_supply: u64,
-    balances: sov_modules_api::StateMap<C::Address, Amount>,
+    pub(crate) name: String,
+    pub(crate) total_supply: u64,
+    pub(crate) balances: sov_modules_api::StateMap<C::Address, Amount>,
 }
 
 impl<C: sov_modules_api::Context> Token<C> {

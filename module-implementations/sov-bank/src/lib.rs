@@ -4,15 +4,14 @@ mod query;
 mod token;
 mod utils;
 
-use genesis::*;
+pub use call::*;
+pub use genesis::*;
 use token::*;
-use utils::*;
-
-use crate::call::CallMessage;
+pub use utils::*;
 
 use sov_modules_api::{Error, GasUnit, Module, ModuleInfo, WorkingSet};
 
-pub(crate) struct BankGasConfig<GU: GasUnit> {
+pub struct BankGasConfig<GU: GasUnit> {
     /// Gas price multiplier for the create token operation
     create_token: GU,
 

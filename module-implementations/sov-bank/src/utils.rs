@@ -2,7 +2,7 @@ use sov_modules_api::digest::Digest;
 
 use sov_state::Prefix;
 
-pub(crate) fn get_token_address<C: sov_modules_api::Context>(
+pub fn get_token_address<C: sov_modules_api::Context>(
     token_name: &str,
     sender: &[u8],
     salt: u64,
@@ -16,7 +16,7 @@ pub(crate) fn get_token_address<C: sov_modules_api::Context>(
     C::Address::from(hash)
 }
 
-pub(crate) fn prefix_from_address_with_parent<C: sov_modules_api::Context>(
+pub fn prefix_from_address_with_parent<C: sov_modules_api::Context>(
     parent_prefix: &Prefix,
     token_address: &C::Address,
 ) -> Prefix {
