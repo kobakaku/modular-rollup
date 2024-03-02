@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub(crate) const DEPLOYER: [u8; 32] = [0; 32];
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[serde(bound = "C::Address: Serialize + DeserializeOwned")]
 
 pub struct BankConfig<C: sov_modules_api::Context> {
     pub tokens: Vec<TokenConfig<C>>,
