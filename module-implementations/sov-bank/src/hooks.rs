@@ -1,7 +1,5 @@
 use core::str::FromStr;
 
-use anyhow::Context as _;
-
 use sov_modules_api::{hooks::TxHooks, macros::config_constant, GasUnit};
 
 use crate::Bank;

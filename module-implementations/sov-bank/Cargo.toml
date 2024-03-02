@@ -12,7 +12,7 @@ sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
 
 anyhow = { workspace = true }
 borsh = { workspace = true, features = ["rc"] }
-serde = { workspace = true, optional = true  }
+serde = { workspace = true }
 serde_json = { workspace = true, optional = true }
 jsonrpsee = { workspace = true, features = ["macros", "client-core", "server"], optional = true }
 schemars = { workspace = true, optional = true }
@@ -21,3 +21,4 @@ tempfile = { workspace = true }
 [features]
 default = []
 native = ["sov-modules-api/native", "serde", "serde_json", "jsonrpsee", "schemars"]
+serde = []

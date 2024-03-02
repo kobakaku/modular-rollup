@@ -12,7 +12,7 @@ use crate::{Amount, Bank, Coins, Token};
     derive(serde::Serialize),
     derive(serde::Deserialize)
 )]
-#[derive(Debug, borsh::BorshDeserialize, borsh::BorshSerialize)]
+#[derive(Debug, borsh::BorshDeserialize, borsh::BorshSerialize, PartialEq, Clone)]
 pub enum CallMessage<C: sov_modules_api::Context> {
     /// Creates a new token with the specified name and initial balance.
     CreateToken {

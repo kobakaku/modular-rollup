@@ -1,12 +1,16 @@
 mod call;
 mod genesis;
-mod hook;
+mod hooks;
+#[cfg(feature = "native")]
 mod query;
 mod token;
 mod utils;
 
 pub use call::*;
 pub use genesis::*;
+pub use hooks::BankTxHook;
+#[cfg(feature = "native")]
+pub use query::*;
 use token::*;
 pub use utils::*;
 
@@ -44,7 +48,7 @@ pub struct Bank<C: sov_modules_api::Context> {
 
 impl<C: sov_modules_api::Context> Module for Bank<C> {
     type Context = C;
-    type Config = BankConfig;
+    type Config = BankConfig<C>;
     type CallMessage = CallMessage<C>;
     type Event = ();
 
