@@ -23,7 +23,7 @@ pub fn get_genesis_token_address<C: sov_modules_api::Context>(
     sender: &[u8],
     salt: u64,
 ) -> C::Address {
-    get_token_address(token_name, &DEPLOYER, salt)
+    get_token_address::<C>(token_name, &DEPLOYER, salt)
 }
 
 pub fn prefix_from_address_with_parent<C: sov_modules_api::Context>(

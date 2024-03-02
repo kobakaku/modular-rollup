@@ -1,6 +1,6 @@
 use sov_modules_api::{CallResponse, Module, StateMapAccessor, WorkingSet};
 
-use crate::{Amount, Bank, Token};
+use crate::{Amount, Bank, Coins, Token};
 
 #[cfg_attr(
     feature = "native",
@@ -64,6 +64,18 @@ impl<C: sov_modules_api::Context> Bank<C> {
 }
 
 impl<C: sov_modules_api::Context> Bank<C> {
+    pub fn transfer_from(
+        &self,
+        from: &C::Address,
+        to: &C::Address,
+        coins: Coins<C>,
+        working_set: &mut WorkingSet<C>,
+    ) -> anyhow::Result<CallResponse> {
+        let token = self.tokens.get_or_err(&coins.token_address, working_set)?;
+        token.transfer(from, to, coins.amount, working_set)?;
+        Ok(CallResponse::default())
+    }
+
     pub fn get_balance_of(
         &self,
         user_address: &C::Address,

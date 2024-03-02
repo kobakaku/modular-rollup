@@ -1,10 +1,22 @@
-use anyhow::bail;
+use anyhow::{bail, Context};
 use sov_modules_api::{StateMap, StateMapAccessor, WorkingSet};
 use sov_state::Prefix;
 
 use crate::prefix_from_address_with_parent;
 
 pub(crate) type Amount = u64;
+
+#[cfg_attr(
+    feature = "native",
+    // derive(clap::Parser),
+    derive(schemars::JsonSchema),
+    schemars(bound = "C::Address: ::schemars::JsonSchema", rename = "Coins")
+)]
+#[derive(borsh::BorshDeserialize, borsh::BorshSerialize, Debug, PartialEq, Clone)]
+pub struct Coins<C: sov_modules_api::Context> {
+    pub amount: Amount,
+    pub token_address: C::Address,
+}
 
 #[derive(borsh::BorshDeserialize, borsh::BorshSerialize, Debug, PartialEq, Clone)]
 pub(crate) struct Token<C: sov_modules_api::Context> {
@@ -43,5 +55,41 @@ impl<C: sov_modules_api::Context> Token<C> {
             balances,
         };
         Ok((token_address, token))
+    }
+
+    pub(crate) fn transfer(
+        &self,
+        from: &C::Address,
+        to: &C::Address,
+        amount: Amount,
+        working_set: &mut WorkingSet<C>,
+    ) -> anyhow::Result<()> {
+        if from == to {
+            return Ok(());
+        }
+
+        let from_balance = self
+            .check_balance(from, amount, working_set)
+            .with_context(|| format!("Incorrect balance on={} for token={}", from, self.name))?;
+
+        let to_balance = self.balances.get(to, working_set).unwrap() + amount;
+
+        self.balances.set(from, &from_balance, working_set);
+        self.balances.set(to, &to_balance, working_set);
+        Ok(())
+    }
+
+    fn check_balance(
+        &self,
+        from: &C::Address,
+        amount: Amount,
+        working_set: &mut WorkingSet<C>,
+    ) -> anyhow::Result<Amount> {
+        let balance = self.balances.get_or_err(from, working_set)?;
+        let new_balance = match balance.checked_sub(amount) {
+            Some(from_balance) => from_balance,
+            None => anyhow::bail!("Infufficient funds for {}", from),
+        };
+        Ok(new_balance)
     }
 }
