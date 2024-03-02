@@ -36,7 +36,7 @@ impl<C: sov_modules_api::Context> Token<C> {
     ) -> anyhow::Result<(C::Address, Self)> {
         let token_address = super::get_token_address::<C>(token_name, sender, salt);
         let token_prefix = prefix_from_address_with_parent::<C>(parent_prefix, &token_address);
-        let mut balances = StateMap::new(token_prefix);
+        let balances = StateMap::new(token_prefix);
 
         let mut total_supply: Option<u64> = Some(0);
         for (address, balance) in address_and_balances.iter() {

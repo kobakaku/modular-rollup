@@ -3,6 +3,7 @@ pub mod call;
 mod collection;
 pub mod genesis;
 // mod nft;
+#[cfg(feature = "native")]
 pub mod query;
 mod utils;
 
@@ -10,6 +11,8 @@ use address::CollectionAddress;
 use call::CallMessage;
 use collection::Collection;
 use genesis::NonFungibleTokenConfig;
+#[cfg(feature = "native")]
+pub use query::*;
 
 // use nft::{Nft, NftIdentifier};
 use sov_modules_api::{Error, Module, ModuleCallJsonSchema, StateMap, WorkingSet};

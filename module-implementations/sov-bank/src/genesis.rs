@@ -18,8 +18,6 @@ pub struct TokenConfig<C: sov_modules_api::Context> {
     pub token_name: String,
     /// A vector of tuples containing the initial addresses and balances (as u64)
     pub address_and_balances: Vec<(C::Address, u64)>,
-    /// The addresses that are authorized to mint the token.
-    pub authorized_minters: Vec<C::Address>,
     /// A salt used to encrypt the token address.
     pub salt: u64,
 }
