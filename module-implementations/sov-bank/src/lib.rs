@@ -1,5 +1,6 @@
 mod call;
 mod genesis;
+mod hook;
 mod query;
 mod token;
 mod utils;

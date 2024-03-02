@@ -2,6 +2,8 @@ use sov_modules_api::digest::Digest;
 
 use sov_state::Prefix;
 
+use crate::DEPLOYER;
+
 pub fn get_token_address<C: sov_modules_api::Context>(
     token_name: &str,
     sender: &[u8],
@@ -14,6 +16,14 @@ pub fn get_token_address<C: sov_modules_api::Context>(
 
     let hash: [u8; 32] = hasher.finalize().into();
     C::Address::from(hash)
+}
+
+pub fn get_genesis_token_address<C: sov_modules_api::Context>(
+    token_name: &str,
+    sender: &[u8],
+    salt: u64,
+) -> C::Address {
+    get_token_address(token_name, &DEPLOYER, salt)
 }
 
 pub fn prefix_from_address_with_parent<C: sov_modules_api::Context>(
