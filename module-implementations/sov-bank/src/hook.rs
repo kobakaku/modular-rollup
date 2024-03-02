@@ -57,10 +57,24 @@ impl<C: sov_modules_api::Context> TxHooks for Bank<C> {
 
     fn post_dispatch_tx_hook(
         &self,
-        tx: &sov_modules_api::transaction::Transaction<Self::Context>,
+        _tx: &sov_modules_api::transaction::Transaction<Self::Context>,
         ctx: &Self::Context,
         working_set: &mut sov_modules_api::WorkingSet<Self::Context>,
     ) -> anyhow::Result<()> {
+        let amount = working_set.gas_remaining_funds();
+
+        if amount > 0 {
+            let token_address = C::Address::from_str(GAS_TOKEN_ADDRESS)
+                .map_err(|_| anyhow::anyhow!("Failed to parse gas token address"))?;
+            let from = ctx.sequencer();
+            let to = ctx.sender();
+            let coins = crate::Coins {
+                amount,
+                token_address,
+            };
+
+            self.transfer_from(from, to, coins, working_set)?;
+        }
         Ok(())
     }
 }
