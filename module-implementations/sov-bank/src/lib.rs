@@ -11,7 +11,8 @@ pub use genesis::*;
 pub use hooks::BankTxHook;
 #[cfg(feature = "native")]
 pub use query::*;
-use token::*;
+use token::Token;
+pub use token::{Amount, Coins};
 pub use utils::*;
 
 use sov_modules_api::{Error, GasUnit, Module, ModuleInfo, WorkingSet};

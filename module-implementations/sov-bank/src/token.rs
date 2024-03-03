@@ -4,7 +4,7 @@ use sov_state::Prefix;
 
 use crate::prefix_from_address_with_parent;
 
-pub(crate) type Amount = u64;
+pub type Amount = u64;
 
 #[cfg_attr(
     feature = "native",
