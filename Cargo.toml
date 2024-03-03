@@ -1,8 +1,8 @@
 [workspace]
 resolver = "2"
 members = [
-    "module-implementations/sov-nft",
-    "module-implementations/sov-bank"
+    "module-system/module-implementations/sov-nft",
+    "module-system/module-implementations/sov-bank"
 ]
 
 [workspace.package]
