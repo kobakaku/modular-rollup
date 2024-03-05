@@ -2,7 +2,8 @@
 resolver = "2"
 members = [
     "module-system/module-implementations/sov-nft",
-    "module-system/module-implementations/sov-bank"
+    "module-system/module-implementations/sov-bank",
+    "module-system/sov-modules-rollup-blueprint"
 ]
 
 [workspace.package]
@@ -18,7 +19,7 @@ authors = ["kobakaku"]
 # sov-risc0-adapter = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # Full Node
 sov-prover-storage-manager = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-stf-runner = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
+sov-stf-runner = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # sov-db = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # sov-sequencer = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # Module System
@@ -31,7 +32,7 @@ sov-modules-stf-blueprint = { git = "https://github.com/kobakaku/sovereign-sdk",
 # sov-sequencer-registry = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 sov-modules-macros = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # Rollup Interface
-# sov-rollup-interface = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
+sov-rollup-interface = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 
 serde = { version = "1.0.192", features = ["derive", "rc"] }
 serde_json = { version = "1.0" }
