@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "demo-rollup",
     "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/sov-bank",
     "module-system/sov-modules-rollup-blueprint"
