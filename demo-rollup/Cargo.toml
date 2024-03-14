@@ -16,7 +16,8 @@ async-trait = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 
-sov-modules-rollup-blueprint = { path = "../module-system/sov-modules-rollup-blueprint", features = ["native"] }
+sov-modules-rollup-blueprint = { path = "../module-system/sov-modules-rollup-blueprint" }
+sov-stf-runner = { path = "../full-node/sov-stf-runner" }
 
 
 [features]

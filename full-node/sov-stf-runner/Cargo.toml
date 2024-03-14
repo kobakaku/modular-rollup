@@ -1,0 +1,19 @@
+[package]
+name = "sov-stf-runner"
+resolver = "2"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true, optional = true }
+toml = { workspace = true }
+futures = { workspace = true }
+jsonrpsee = { workspace = true, features = ["server"] }
+tokio = { workspace = true }
+tracing = { workspace = true }
+
+[features]
+default = []

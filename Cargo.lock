@@ -471,31 +471,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "crossbeam-deque"
-version = "0.8.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "613f8cc01fe9cf1a3eb3d7f488fd2fa8388403e97039e2f73692932e291a770d"
-dependencies = [
- "crossbeam-epoch",
- "crossbeam-utils",
-]
-
-[[package]]
-name = "crossbeam-epoch"
-version = "0.9.18"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
-dependencies = [
- "crossbeam-utils",
-]
-
-[[package]]
-name = "crossbeam-utils"
-version = "0.8.19"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "248e3bacc7dc6baa3b21e405ee045c3047101a49145e7e9eca583ab4c2ca5345"
-
-[[package]]
 name = "crypto-common"
 version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -542,6 +517,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sov-modules-rollup-blueprint",
+ "sov-stf-runner",
  "tokio",
  "tracing",
  "tracing-subscriber",
@@ -1601,26 +1577,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rayon"
-version = "1.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4963ed1bc86e4f3ee217022bd855b297cef07fb9eac5dfa1f788b220b49b3bd"
-dependencies = [
- "either",
- "rayon-core",
-]
-
-[[package]]
-name = "rayon-core"
-version = "1.12.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1465873a3dfdaa8ae7cb14b4383657caab0b3e8a0aa9ae8e04b044854c8dfce2"
-dependencies = [
- "crossbeam-deque",
- "crossbeam-utils",
-]
-
-[[package]]
 name = "redox_syscall"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2040,63 +1996,11 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
- "sov-bank 0.1.0",
+ "sov-bank",
  "sov-modules-api",
  "sov-prover-storage-manager",
  "sov-state",
  "tempfile",
-]
-
-[[package]]
-name = "sov-bank"
-version = "0.3.0"
-source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
-dependencies = [
- "anyhow",
- "borsh",
- "clap",
- "jsonrpsee",
- "schemars",
- "serde",
- "serde_json",
- "sov-modules-api",
- "sov-state",
- "thiserror",
-]
-
-[[package]]
-name = "sov-blob-storage"
-version = "0.3.0"
-source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
-dependencies = [
- "anyhow",
- "bincode",
- "borsh",
- "clap",
- "hex",
- "jsonrpsee",
- "schemars",
- "serde",
- "serde_json",
- "sov-chain-state",
- "sov-modules-api",
- "sov-sequencer-registry",
- "sov-state",
- "tracing",
-]
-
-[[package]]
-name = "sov-chain-state"
-version = "0.3.0"
-source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
-dependencies = [
- "anyhow",
- "borsh",
- "jsonrpsee",
- "serde",
- "serde_json",
- "sov-modules-api",
- "sov-state",
 ]
 
 [[package]]
@@ -2190,32 +2094,10 @@ dependencies = [
  "serde_json",
  "sov-modules-api",
  "sov-modules-rollup-blueprint",
- "sov-modules-stf-blueprint",
  "sov-rollup-interface",
  "sov-state",
  "sov-stf-runner",
  "tokio",
-]
-
-[[package]]
-name = "sov-modules-stf-blueprint"
-version = "0.3.0"
-source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
-dependencies = [
- "anyhow",
- "borsh",
- "hex",
- "jmt",
- "jsonrpsee",
- "serde",
- "sov-blob-storage",
- "sov-chain-state",
- "sov-modules-api",
- "sov-modules-core",
- "sov-rollup-interface",
- "sov-state",
- "thiserror",
- "tracing",
 ]
 
 [[package]]
@@ -2282,23 +2164,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sov-sequencer-registry"
-version = "0.3.0"
-source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
-dependencies = [
- "anyhow",
- "borsh",
- "clap",
- "jsonrpsee",
- "schemars",
- "serde",
- "serde_json",
- "sov-bank 0.3.0",
- "sov-modules-api",
- "sov-state",
-]
-
-[[package]]
 name = "sov-state"
 version = "0.3.0"
 source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
@@ -2319,24 +2184,15 @@ dependencies = [
 
 [[package]]
 name = "sov-stf-runner"
-version = "0.3.0"
-source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
+version = "0.1.0"
 dependencies = [
  "anyhow",
- "async-trait",
- "borsh",
  "futures",
- "hex",
  "jsonrpsee",
- "num_cpus",
- "rayon",
  "serde",
  "serde_json",
- "sov-db",
- "sov-rollup-interface",
- "thiserror",
  "tokio",
- "toml 0.8.10",
+ "toml 0.8.11",
  "tracing",
 ]
 
@@ -2524,14 +2380,14 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "0.8.10"
+version = "0.8.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a9aad4a3066010876e8dcf5a8a06e70a558751117a145c6ce2b82c2e2054290"
+checksum = "af06656561d28735e9c1cd63dfd57132c8155426aa6af24f36a00a351f88c48e"
 dependencies = [
  "serde",
  "serde_spanned",
  "toml_datetime",
- "toml_edit 0.22.6",
+ "toml_edit 0.22.7",
 ]
 
 [[package]]
@@ -2556,9 +2412,9 @@ dependencies = [
 
 [[package]]
 name = "toml_edit"
-version = "0.22.6"
+version = "0.22.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c1b5fd4128cc8d3e0cb74d4ed9a9cc7c7284becd4df68f5f940e1ad123606f6"
+checksum = "18769cd1cec395d70860ceb4d932812a0b4d06b1a4bb336745a4d21b9496e992"
 dependencies = [
  "indexmap",
  "serde",

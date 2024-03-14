@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "demo-rollup",
+    "full-node/sov-stf-runner",
     "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/sov-bank",
     "module-system/sov-modules-rollup-blueprint"
@@ -20,7 +21,7 @@ authors = ["kobakaku"]
 # sov-risc0-adapter = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # Full Node
 sov-prover-storage-manager = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-sov-stf-runner = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
+# sov-stf-runner = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # sov-db = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # sov-sequencer = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
 # Module System
@@ -47,3 +48,5 @@ jsonrpsee = { version = "0.20.1", features = ["jsonrpsee-types"] }
 borsh = { version = "0.10.3", features = ["rc", "bytes"] }
 schemars = { version = "0.8.16", features = ["derive"] }
 tempfile = "3.8"
+toml = "0.8.0"
+futures = "0.3"
