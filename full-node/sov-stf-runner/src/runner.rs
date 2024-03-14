@@ -27,19 +27,22 @@ impl StateTransitionRunner {
     }
 
     /// Starts a RPC server
-    pub async fn start_rpc_server(&self) {
-        let server_addr = Self::run_server(self.listen_address).await.unwrap();
+    pub async fn start_rpc_server(&self, rpc_module: RpcModule<()>) {
+        let server_addr = Self::run_server(rpc_module, self.listen_address)
+            .await
+            .unwrap();
         info!("Starting RPC server at {} ", &server_addr);
         futures::future::pending().await
     }
 
-    async fn run_server(listen_address: SocketAddr) -> Result<SocketAddr, anyhow::Error> {
+    async fn run_server(
+        rpc_module: RpcModule<()>,
+        listen_address: SocketAddr,
+    ) -> Result<SocketAddr, anyhow::Error> {
         let server = Server::builder().build(listen_address).await?;
-        let mut module = RpcModule::new(());
-        module.register_method("say_hello", |_, _| "lo")?;
 
         let addr = server.local_addr()?;
-        let handle = server.start(module);
+        let handle = server.start(rpc_module);
         tokio::spawn(handle.stopped());
 
         Ok(addr)

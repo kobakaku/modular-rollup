@@ -514,6 +514,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "jsonrpsee",
  "serde",
  "serde_json",
  "sov-modules-rollup-blueprint",
@@ -2092,12 +2093,9 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
- "sov-modules-api",
- "sov-modules-rollup-blueprint",
- "sov-rollup-interface",
- "sov-state",
  "sov-stf-runner",
  "tokio",
+ "tracing",
 ]
 
 [[package]]
