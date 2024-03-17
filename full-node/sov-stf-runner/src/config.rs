@@ -3,6 +3,11 @@ use std::{fs::File, io::Read, path::Path};
 use serde::{de::DeserializeOwned, Deserialize};
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
+pub struct RollupConfig {
+    pub runner: RunnerConfig,
+}
+
+#[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct RunnerConfig {
     /// DA start height.
     pub start_height: u64,
@@ -16,11 +21,6 @@ pub struct RpcConfig {
     pub bind_host: String,
     /// RPC port.
     pub bind_port: u16,
-}
-
-#[derive(Debug, Clone, PartialEq, Deserialize)]
-pub struct RollupConfig {
-    pub runner: RunnerConfig,
 }
 
 /// Reads toml file as a specific type.

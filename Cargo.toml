@@ -4,6 +4,7 @@ members = [
     "demo-rollup",
     "full-node/sov-stf-runner",
     "module-system/module-implementations/sov-nft",
+    "module-system/module-implementations/my-module",
     "module-system/module-implementations/sov-bank",
     "module-system/sov-modules-rollup-blueprint"
 ]
