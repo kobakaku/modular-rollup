@@ -15,6 +15,7 @@ borsh = { workspace = true }
 async-trait = { workspace = true }
 tracing = { workspace = true }
 
+sov-db = { path = "../../full-node/sov-db" }
 sov-stf-runner = { path = "../../full-node/sov-stf-runner" }
 my-module = { path = "../../module-system/module-implementations/my-module" }
 

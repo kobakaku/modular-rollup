@@ -5,11 +5,18 @@ pub use runtime_rpc::register_rpc;
 
 use async_trait::async_trait;
 
+use sov_db::ledger_db::LedgerDB;
 use sov_stf_runner::{RollupConfig, StateTransitionRunner};
 
 #[async_trait]
 pub trait RollupBlueprint: Sized + Send + Sync {
-    async fn create_new_rollup(self, rollup_config: RollupConfig) -> anyhow::Result<Rollup> {
+    /// Creates instance of a LedgerDB.
+    fn create_ledger_db(&self) -> LedgerDB {
+        todo!()
+    }
+
+    /// Creates a new Rollup
+    async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup> {
         let runner = StateTransitionRunner::new(rollup_config.runner)?;
         let rpc_methods = self.create_rpc_methods()?;
         Ok(Rollup {
@@ -18,7 +25,8 @@ pub trait RollupBlueprint: Sized + Send + Sync {
         })
     }
 
-    fn create_rpc_methods(self) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error>;
+    /// Creates RPC methods for the rollup
+    fn create_rpc_methods(&self) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error>;
 }
 
 /// Dependencies needed to run the rollup.

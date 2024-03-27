@@ -5,7 +5,7 @@ pub struct MockRollup {}
 
 #[async_trait]
 impl RollupBlueprint for MockRollup {
-    fn create_rpc_methods(self) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error> {
+    fn create_rpc_methods(&self) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error> {
         register_rpc()
     }
 }

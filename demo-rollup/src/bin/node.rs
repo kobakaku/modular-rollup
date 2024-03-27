@@ -5,14 +5,16 @@ use tracing::info;
 use demo_rollup::mock_rollup::MockRollup;
 use sov_modules_rollup_blueprint::{Rollup, RollupBlueprint};
 
+const CONFIG_PATH: &str = "./rollup_config.toml";
+
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
     tracing_subscriber::fmt().init();
-    let rollup = new_rollup("./rollup_config.toml").await?;
+    let rollup = new_rollup(CONFIG_PATH).await?;
 
     info!(
-        "Starting Mock Rollup with start_height: {}, listen_address: {}",
-        rollup.runner.start_height, rollup.runner.listen_address,
+        "Starting Mock Rollup with start_height: {}",
+        rollup.runner.start_height,
     );
 
     rollup.run().await
