@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "demo-rollup",
     "full-node/sov-db",
+    "full-node/sov-schema-db",
     "full-node/sov-stf-runner",
     "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/my-module",
@@ -52,3 +53,4 @@ schemars = { version = "0.8.16", features = ["derive"] }
 tempfile = "3.8"
 toml = "0.8.0"
 futures = "0.3"
+rocksdb = { version = "0.21.0" }

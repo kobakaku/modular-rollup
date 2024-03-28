@@ -2033,7 +2033,7 @@ dependencies = [
  "rocksdb",
  "serde",
  "sov-rollup-interface",
- "sov-schema-db",
+ "sov-schema-db 0.3.0",
  "tokio",
 ]
 
@@ -2142,7 +2142,7 @@ dependencies = [
  "anyhow",
  "sov-db 0.3.0",
  "sov-rollup-interface",
- "sov-schema-db",
+ "sov-schema-db 0.3.0",
  "sov-state",
  "tracing",
 ]
@@ -2164,6 +2164,15 @@ dependencies = [
  "sha2",
  "thiserror",
  "tokio",
+]
+
+[[package]]
+name = "sov-schema-db"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rocksdb",
+ "tracing",
 ]
 
 [[package]]
