@@ -1,10 +1,15 @@
-use std::{fs::File, io::Read, path::Path};
+use std::{
+    fs::File,
+    io::Read,
+    path::{Path, PathBuf},
+};
 
 use serde::{de::DeserializeOwned, Deserialize};
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct RollupConfig {
     pub runner: RunnerConfig,
+    pub storage: StorageConfig,
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
@@ -23,12 +28,16 @@ pub struct RpcConfig {
     pub bind_port: u16,
 }
 
+#[derive(Debug, Clone, PartialEq, Deserialize)]
+pub struct StorageConfig {
+    pub path: PathBuf,
+}
+
 /// Reads toml file as a specific type.
 pub fn from_toml_path<P: AsRef<Path> + std::fmt::Display, R: DeserializeOwned>(
     path: P,
 ) -> anyhow::Result<R> {
     let mut contents = String::new();
-    println!("{}", path);
     {
         let mut file = File::open(path)?;
         file.read_to_string(&mut contents)?;

@@ -11,13 +11,14 @@ use sov_stf_runner::{RollupConfig, StateTransitionRunner};
 #[async_trait]
 pub trait RollupBlueprint: Sized + Send + Sync {
     /// Creates instance of a LedgerDB.
-    fn create_ledger_db(&self) -> LedgerDB {
-        todo!()
+    fn create_ledger_db(&self, rollup_config: &RollupConfig) -> LedgerDB {
+        LedgerDB::open_ledger_db(&rollup_config.storage.path).expect("Ledger DB failed to open")
     }
 
     /// Creates a new Rollup
     async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup> {
-        let runner = StateTransitionRunner::new(rollup_config.runner)?;
+        let ledger_db = self.create_ledger_db(&rollup_config);
+        let runner = StateTransitionRunner::new(rollup_config.runner, ledger_db)?;
         let rpc_methods = self.create_rpc_methods()?;
         Ok(Rollup {
             runner,
@@ -45,7 +46,7 @@ impl Rollup {
 
     /// Runs the rollup. Reports rpc port to the caller using the provided channel.
     async fn run_and_report_rpc_port(self) -> Result<(), anyhow::Error> {
-        let mut runner = self.runner;
+        let runner = self.runner;
         runner.start_rpc_server(self.rpc_methods).await;
         runner.run_in_progress()?;
         Ok(())

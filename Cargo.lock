@@ -2019,6 +2019,12 @@ dependencies = [
 [[package]]
 name = "sov-db"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rocksdb",
+ "sov-schema-db 0.1.0",
+ "tracing",
+]
 
 [[package]]
 name = "sov-db"
@@ -2216,6 +2222,7 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
+ "sov-db 0.1.0",
  "tokio",
  "toml 0.8.11",
  "tracing",

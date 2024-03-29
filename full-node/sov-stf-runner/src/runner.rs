@@ -1,17 +1,19 @@
-use crate::config::RunnerConfig;
-
-use std::net::{IpAddr, SocketAddr};
-
 use jsonrpsee::server::{RpcModule, Server};
+use std::net::{IpAddr, SocketAddr};
 use tracing::info;
+
+use sov_db::ledger_db::LedgerDB;
+
+use crate::config::RunnerConfig;
 
 pub struct StateTransitionRunner {
     pub start_height: u64,
     pub listen_address: SocketAddr,
+    pub ledger_db: LedgerDB,
 }
 
 impl StateTransitionRunner {
-    pub fn new(runner_config: RunnerConfig) -> Result<Self, anyhow::Error> {
+    pub fn new(runner_config: RunnerConfig, ledger_db: LedgerDB) -> Result<Self, anyhow::Error> {
         let RunnerConfig {
             start_height,
             rpc_config,
@@ -23,6 +25,7 @@ impl StateTransitionRunner {
         Ok(Self {
             start_height,
             listen_address,
+            ledger_db,
         })
     }
 
@@ -49,7 +52,7 @@ impl StateTransitionRunner {
     }
 
     /// Runs the rollup.
-    pub fn run_in_progress(mut self) -> Result<(), anyhow::Error> {
+    pub fn run_in_progress(self) -> Result<(), anyhow::Error> {
         Ok(())
     }
 }

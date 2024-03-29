@@ -15,5 +15,7 @@ jsonrpsee = { workspace = true, features = ["server"] }
 tokio = { workspace = true }
 tracing = { workspace = true }
 
+sov-db = { path = "../sov-db" }
+
 [features]
 default = []

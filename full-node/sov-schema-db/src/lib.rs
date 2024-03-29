@@ -1,4 +1,5 @@
 use rocksdb;
+use std::path::Path;
 use tracing::info;
 
 pub struct DB {
@@ -8,7 +9,11 @@ pub struct DB {
 }
 
 impl DB {
-    pub fn open(opts: &rocksdb::Options, path: &str, name: &str) -> anyhow::Result<Self> {
+    pub fn open<P: AsRef<Path>>(
+        path: P,
+        opts: &rocksdb::Options,
+        name: &str,
+    ) -> anyhow::Result<Self> {
         let inner = rocksdb::DB::open(opts, path)?;
         Self::log_creating_db(name);
         Ok(DB {

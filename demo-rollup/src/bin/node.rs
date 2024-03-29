@@ -5,7 +5,7 @@ use tracing::info;
 use demo_rollup::mock_rollup::MockRollup;
 use sov_modules_rollup_blueprint::{Rollup, RollupBlueprint};
 
-const CONFIG_PATH: &str = "./rollup_config.toml";
+const CONFIG_PATH: &'static str = "./rollup_config.toml";
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
