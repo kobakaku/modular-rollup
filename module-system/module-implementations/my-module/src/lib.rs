@@ -1,8 +1,9 @@
 use jsonrpsee::core::RpcResult;
 use rpc::MyModuleRpcServer;
 
-mod rpc;
 pub use rpc::get_my_module_rpc_method;
+
+mod rpc;
 
 pub struct MyModule;
 

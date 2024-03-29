@@ -1,9 +1,9 @@
 use anyhow::Context;
-use sov_stf_runner::{from_toml_path, RollupConfig};
 use tracing::info;
 
 use demo_rollup::mock_rollup::MockRollup;
 use sov_modules_rollup_blueprint::{Rollup, RollupBlueprint};
+use sov_stf_runner::{from_toml_path, RollupConfig};
 
 const CONFIG_PATH: &'static str = "./rollup_config.toml";
 

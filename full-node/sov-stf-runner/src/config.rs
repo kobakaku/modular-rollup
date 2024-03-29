@@ -1,10 +1,9 @@
+use serde::{de::DeserializeOwned, Deserialize};
 use std::{
     fs::File,
     io::Read,
     path::{Path, PathBuf},
 };
-
-use serde::{de::DeserializeOwned, Deserialize};
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct RollupConfig {

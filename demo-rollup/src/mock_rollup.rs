@@ -1,4 +1,5 @@
 use async_trait::async_trait;
+
 use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint};
 
 pub struct MockRollup {}
