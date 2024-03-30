@@ -8,7 +8,9 @@ members = [
     "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/my-module",
     "module-system/module-implementations/sov-bank",
-    "module-system/sov-modules-rollup-blueprint"
+    "module-system/sov-modules-rollup-blueprint",
+    # "module-system/sov-modules-stf-blueprint",
+    "rollup-interface"
 ]
 
 [workspace.package]

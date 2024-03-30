@@ -12,12 +12,27 @@ pub struct StateTransitionRunner {
     pub ledger_db: LedgerDB,
 }
 
+pub enum InitVariant {
+    Initialized,
+    Genesis { block_header: String },
+}
+
 impl StateTransitionRunner {
-    pub fn new(runner_config: RunnerConfig, ledger_db: LedgerDB) -> Result<Self, anyhow::Error> {
+    pub fn new(
+        runner_config: RunnerConfig,
+        ledger_db: LedgerDB,
+        init_variant: InitVariant,
+    ) -> Result<Self, anyhow::Error> {
         let RunnerConfig {
             start_height,
             rpc_config,
         } = runner_config;
+        let _ = match init_variant {
+            InitVariant::Initialized => {}
+            InitVariant::Genesis { block_header } => {
+                // TODO: block_headerを使用してstate_rootを取得する
+            }
+        };
         let listen_address = SocketAddr::new(
             rpc_config.bind_host.parse::<IpAddr>()?,
             rpc_config.bind_port,

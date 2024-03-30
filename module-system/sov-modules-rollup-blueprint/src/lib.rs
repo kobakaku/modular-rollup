@@ -6,7 +6,7 @@ pub use runtime_rpc::register_rpc;
 use async_trait::async_trait;
 
 use sov_db::ledger_db::LedgerDB;
-use sov_stf_runner::{RollupConfig, StateTransitionRunner};
+use sov_stf_runner::{InitVariant, RollupConfig, StateTransitionRunner};
 
 #[async_trait]
 pub trait RollupBlueprint: Sized + Send + Sync {
@@ -18,7 +18,11 @@ pub trait RollupBlueprint: Sized + Send + Sync {
     /// Creates a new Rollup
     async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup> {
         let ledger_db = self.create_ledger_db(&rollup_config);
-        let runner = StateTransitionRunner::new(rollup_config.runner, ledger_db)?;
+        // TODO: はじめてRollupを起動したかどうかを判定する
+        let init_valiant = InitVariant::Genesis {
+            block_header: "todo".to_string(),
+        };
+        let runner = StateTransitionRunner::new(rollup_config.runner, ledger_db, init_valiant)?;
         let rpc_methods = self.create_rpc_methods()?;
         Ok(Rollup {
             runner,
