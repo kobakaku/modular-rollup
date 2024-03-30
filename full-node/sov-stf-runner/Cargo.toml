@@ -16,6 +16,7 @@ tokio = { workspace = true }
 tracing = { workspace = true }
 
 sov-db = { path = "../sov-db" }
+rollup-interface = { path = "../../rollup-interface" }
 
 [features]
 default = []

@@ -1,0 +1,14 @@
+[package]
+name = "sov-modules-stf-blueprint"
+resolver = "2"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+
+rollup-interface = { path = "../../rollup-interface" }
+
+[features]
+default = []

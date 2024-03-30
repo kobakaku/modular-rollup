@@ -2,26 +2,38 @@ use jsonrpsee::server::{RpcModule, Server};
 use std::net::{IpAddr, SocketAddr};
 use tracing::info;
 
+use rollup_interface::state::stf::StateTransitionFunction;
 use sov_db::ledger_db::LedgerDB;
 
 use crate::config::RunnerConfig;
 
-pub struct StateTransitionRunner {
+pub struct StateTransitionRunner<Stf>
+where
+    Stf: StateTransitionFunction,
+{
     pub start_height: u64,
     pub listen_address: SocketAddr,
     pub ledger_db: LedgerDB,
+    pub stf: Stf,
 }
 
-pub enum InitVariant {
+pub enum InitVariant<Stf: StateTransitionFunction> {
     Initialized,
-    Genesis { block_header: String },
+    Genesis {
+        block_header: String,
+        genesis_params: Stf::GenesisParams,
+    },
 }
 
-impl StateTransitionRunner {
+impl<Stf> StateTransitionRunner<Stf>
+where
+    Stf: StateTransitionFunction,
+{
     pub fn new(
         runner_config: RunnerConfig,
         ledger_db: LedgerDB,
-        init_variant: InitVariant,
+        init_variant: InitVariant<Stf>,
+        stf: Stf,
     ) -> Result<Self, anyhow::Error> {
         let RunnerConfig {
             start_height,
@@ -29,8 +41,11 @@ impl StateTransitionRunner {
         } = runner_config;
         let _ = match init_variant {
             InitVariant::Initialized => {}
-            InitVariant::Genesis { block_header } => {
-                // TODO: block_headerを使用してstate_rootを取得する
+            InitVariant::Genesis {
+                block_header,
+                genesis_params,
+            } => {
+                let (state_root, f) = stf.init_chain(genesis_params);
             }
         };
         let listen_address = SocketAddr::new(
@@ -41,6 +56,7 @@ impl StateTransitionRunner {
             start_height,
             listen_address,
             ledger_db,
+            stf,
         })
     }
 

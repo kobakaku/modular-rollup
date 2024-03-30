@@ -2130,6 +2130,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "sov-modules-stf-blueprint"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rollup-interface",
+]
+
+[[package]]
 name = "sov-nft"
 version = "0.1.0"
 dependencies = [
@@ -2227,6 +2235,7 @@ dependencies = [
  "anyhow",
  "futures",
  "jsonrpsee",
+ "rollup-interface",
  "serde",
  "serde_json",
  "sov-db 0.1.0",
