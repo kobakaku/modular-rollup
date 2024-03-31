@@ -1,7 +1,7 @@
 mod stf_blueprint;
 
 use rollup_interface::state::stf::StateTransitionFunction;
-use stf_blueprint::StfBlueprint;
+pub use stf_blueprint::StfBlueprint;
 
 impl StfBlueprint {}
 
@@ -17,8 +17,10 @@ impl StateTransitionFunction for StfBlueprint {
     fn init_chain(
         &self,
         // genesis_state: Self::PreState,
-        params: Self::GenesisParams,
+        _params: Self::GenesisParams,
     ) -> (Self::StateRoot, Self::ChangeSet) {
-        todo!()
+        let genesis_hash = "TODO".to_string();
+        let pre_state = "TODO".to_string();
+        (genesis_hash, pre_state)
     }
 }

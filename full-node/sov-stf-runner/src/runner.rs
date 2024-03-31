@@ -42,10 +42,10 @@ where
         let _ = match init_variant {
             InitVariant::Initialized => {}
             InitVariant::Genesis {
-                block_header,
+                block_header: _,
                 genesis_params,
             } => {
-                let (state_root, f) = stf.init_chain(genesis_params);
+                let (_genesis_hash, _pre_state) = stf.init_chain(genesis_params);
             }
         };
         let listen_address = SocketAddr::new(
