@@ -44,11 +44,17 @@ where
             rpc_config,
         } = runner_config;
         let _ = match init_variant {
-            InitVariant::Initialized => {}
+            InitVariant::Initialized => {
+                info!("Chain is already initialized. Skipping initialization.");
+            }
             InitVariant::Genesis {
-                block_header: _,
+                block_header,
                 genesis_params,
             } => {
+                info!(
+                    "No history detected. Initializing chain on block_header={:?}...",
+                    block_header
+                );
                 let storage = storage_manager.create_storage_on()?;
                 let (_gemesis_root, _initialized_storage) = stf.init_chain(storage, genesis_params);
                 storage_manager.save_change_set()?;

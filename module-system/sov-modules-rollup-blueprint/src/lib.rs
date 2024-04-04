@@ -30,10 +30,14 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 
     /// Creates a new Rollup
     async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup<Self>> {
+        // TODO: da serviceのインスタンスを作成する
+        // TODO: 最新のブロックのblock_headerを取得する
+
         let ledger_db = self.create_ledger_db(&rollup_config);
+
         // TODO: はじめてRollupを起動したかどうかを判定する
         let init_valiant = InitVariant::Genesis {
-            block_header: "TODO".to_string(),
+            block_header: "TODO".to_string(), // TODO: 取得したblock_headerを代入する
             genesis_params: (),
         };
 
