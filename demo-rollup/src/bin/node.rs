@@ -20,7 +20,7 @@ async fn main() -> Result<(), anyhow::Error> {
     rollup.run().await
 }
 
-async fn new_rollup(rollup_config_path: &str) -> Result<Rollup, anyhow::Error> {
+async fn new_rollup(rollup_config_path: &str) -> Result<Rollup<MockRollup>, anyhow::Error> {
     let rollup_config: RollupConfig =
         from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
     let mock_rollup = MockRollup {};

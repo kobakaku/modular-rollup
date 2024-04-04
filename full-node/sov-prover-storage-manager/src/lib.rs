@@ -2,6 +2,13 @@ use rollup_interface::state::storage::HierarchicalStorageManager;
 use sov_state::ProverStorage;
 
 pub struct ProverStorageManager {}
+
+impl ProverStorageManager {
+    pub fn new() -> Self {
+        Self {}
+    }
+}
+
 impl HierarchicalStorageManager for ProverStorageManager {
     type NativeStorage = ProverStorage;
 
@@ -10,14 +17,14 @@ impl HierarchicalStorageManager for ProverStorageManager {
     }
 
     fn create_finalized_storage(&self) -> anyhow::Result<Self::NativeStorage> {
-        todo!()
+        Ok(ProverStorage {})
     }
 
     fn save_change_set(&self) -> anyhow::Result<()> {
-        todo!()
+        Ok(())
     }
 
     fn finalize(&self) -> anyhow::Result<()> {
-        todo!()
+        Ok(())
     }
 }

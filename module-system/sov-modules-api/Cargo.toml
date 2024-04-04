@@ -1,0 +1,13 @@
+[package]
+name = "sov-modules-api"
+resolver = "2"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+
+[dependencies]
+sov-modules-core = { path = "../sov-modules-core" }
+sov-state = { path = "../sov-state" }
+
+[features]
+default = []

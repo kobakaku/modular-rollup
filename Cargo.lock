@@ -517,7 +517,9 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
+ "sov-modules-api 0.1.0",
  "sov-modules-rollup-blueprint",
+ "sov-prover-storage-manager 0.1.0",
  "sov-stf-runner",
  "tokio",
  "tracing",
@@ -2017,7 +2019,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sov-bank",
- "sov-modules-api",
+ "sov-modules-api 0.3.0",
  "sov-prover-storage-manager 0.3.0",
  "sov-state 0.3.0",
  "tempfile",
@@ -2048,6 +2050,14 @@ dependencies = [
  "sov-rollup-interface",
  "sov-schema-db 0.3.0",
  "tokio",
+]
+
+[[package]]
+name = "sov-modules-api"
+version = "0.1.0"
+dependencies = [
+ "sov-modules-core 0.1.0",
+ "sov-state 0.1.0",
 ]
 
 [[package]]
@@ -2155,7 +2165,7 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
- "sov-modules-api",
+ "sov-modules-api 0.3.0",
  "sov-modules-macros",
  "sov-nft",
  "sov-prover-storage-manager 0.3.0",
