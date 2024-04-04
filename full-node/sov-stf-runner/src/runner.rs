@@ -2,19 +2,21 @@ use jsonrpsee::server::{RpcModule, Server};
 use std::net::{IpAddr, SocketAddr};
 use tracing::info;
 
-use rollup_interface::state::stf::StateTransitionFunction;
+use rollup_interface::state::{stf::StateTransitionFunction, storage::HierarchicalStorageManager};
 use sov_db::ledger_db::LedgerDB;
 
 use crate::config::RunnerConfig;
 
-pub struct StateTransitionRunner<Stf>
+pub struct StateTransitionRunner<Stf, Sm>
 where
     Stf: StateTransitionFunction,
+    Sm: HierarchicalStorageManager,
 {
     pub start_height: u64,
     pub listen_address: SocketAddr,
     pub ledger_db: LedgerDB,
     pub stf: Stf,
+    pub storage_manager: Sm,
 }
 
 pub enum InitVariant<Stf: StateTransitionFunction> {
@@ -25,15 +27,17 @@ pub enum InitVariant<Stf: StateTransitionFunction> {
     },
 }
 
-impl<Stf> StateTransitionRunner<Stf>
+impl<Stf, Sm> StateTransitionRunner<Stf, Sm>
 where
-    Stf: StateTransitionFunction,
+    Stf: StateTransitionFunction<PreState = Sm::NativeStorage>,
+    Sm: HierarchicalStorageManager,
 {
     pub fn new(
         runner_config: RunnerConfig,
         ledger_db: LedgerDB,
         init_variant: InitVariant<Stf>,
         stf: Stf,
+        storage_manager: Sm,
     ) -> Result<Self, anyhow::Error> {
         let RunnerConfig {
             start_height,
@@ -45,7 +49,10 @@ where
                 block_header: _,
                 genesis_params,
             } => {
-                let (_genesis_hash, _pre_state) = stf.init_chain(genesis_params);
+                let storage = storage_manager.create_storage_on()?;
+                let (_gemesis_root, _initialized_storage) = stf.init_chain(storage, genesis_params);
+                storage_manager.save_change_set()?;
+                storage_manager.finalize()?;
             }
         };
         let listen_address = SocketAddr::new(
@@ -57,6 +64,7 @@ where
             listen_address,
             ledger_db,
             stf,
+            storage_manager,
         })
     }
 

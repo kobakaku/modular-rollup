@@ -18,7 +18,9 @@ tracing = { workspace = true }
 sov-db = { path = "../../full-node/sov-db" }
 sov-stf-runner = { path = "../../full-node/sov-stf-runner" }
 my-module = { path = "../../module-system/module-implementations/my-module" }
+rollup-interface = { path = "../../rollup-interface" }
 sov-modules-stf-blueprint = { path = "../sov-modules-stf-blueprint" }
+sov-modules-core = { path = "../sov-modules-core" }
 
 [features]
 default = []

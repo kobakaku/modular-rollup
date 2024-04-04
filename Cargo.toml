@@ -3,12 +3,15 @@ resolver = "2"
 members = [
     "demo-rollup",
     "full-node/sov-db",
+    "full-node/sov-prover-storage-manager",
     "full-node/sov-schema-db",
     "full-node/sov-stf-runner",
     "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/my-module",
     "module-system/module-implementations/sov-bank",
+    "module-system/sov-modules-core",
     "module-system/sov-modules-rollup-blueprint",
+    "module-system/sov-state",
     "module-system/sov-modules-stf-blueprint",
     "rollup-interface"
 ]

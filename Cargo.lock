@@ -2018,8 +2018,8 @@ dependencies = [
  "serde_json",
  "sov-bank",
  "sov-modules-api",
- "sov-prover-storage-manager",
- "sov-state",
+ "sov-prover-storage-manager 0.3.0",
+ "sov-state 0.3.0",
  "tempfile",
 ]
 
@@ -2069,13 +2069,17 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sov-modules-core",
+ "sov-modules-core 0.3.0",
  "sov-modules-macros",
- "sov-prover-storage-manager",
+ "sov-prover-storage-manager 0.3.0",
  "sov-rollup-interface",
- "sov-state",
+ "sov-state 0.3.0",
  "thiserror",
 ]
+
+[[package]]
+name = "sov-modules-core"
+version = "0.1.0"
 
 [[package]]
 name = "sov-modules-core"
@@ -2108,7 +2112,7 @@ dependencies = [
  "quote",
  "schemars",
  "serde_json",
- "sov-modules-core",
+ "sov-modules-core 0.3.0",
  "syn 1.0.109",
 ]
 
@@ -2121,9 +2125,11 @@ dependencies = [
  "borsh",
  "jsonrpsee",
  "my-module",
+ "rollup-interface",
  "serde",
  "serde_json",
  "sov-db 0.1.0",
+ "sov-modules-core 0.1.0",
  "sov-modules-stf-blueprint",
  "sov-stf-runner",
  "tokio",
@@ -2136,6 +2142,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "rollup-interface",
+ "sov-modules-core 0.1.0",
 ]
 
 [[package]]
@@ -2151,9 +2158,18 @@ dependencies = [
  "sov-modules-api",
  "sov-modules-macros",
  "sov-nft",
- "sov-prover-storage-manager",
- "sov-state",
+ "sov-prover-storage-manager 0.3.0",
+ "sov-state 0.3.0",
  "tempfile",
+]
+
+[[package]]
+name = "sov-prover-storage-manager"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rollup-interface",
+ "sov-state 0.1.0",
 ]
 
 [[package]]
@@ -2165,7 +2181,7 @@ dependencies = [
  "sov-db 0.3.0",
  "sov-rollup-interface",
  "sov-schema-db 0.3.0",
- "sov-state",
+ "sov-state 0.3.0",
  "tracing",
 ]
 
@@ -2212,6 +2228,13 @@ dependencies = [
 
 [[package]]
 name = "sov-state"
+version = "0.1.0"
+dependencies = [
+ "sov-modules-core 0.1.0",
+]
+
+[[package]]
+name = "sov-state"
 version = "0.3.0"
 source = "git+https://github.com/kobakaku/sovereign-sdk?rev=669d5d33f6ec5c057e5ae4fd6441d3e79b29914d#669d5d33f6ec5c057e5ae4fd6441d3e79b29914d"
 dependencies = [
@@ -2224,7 +2247,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "sov-db 0.3.0",
- "sov-modules-core",
+ "sov-modules-core 0.3.0",
  "sov-rollup-interface",
  "thiserror",
 ]

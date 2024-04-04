@@ -17,7 +17,7 @@ pub trait StateTransitionFunction {
     /// If the init chain fails we panic.
     fn init_chain(
         &self,
-        // genesis_state: Self::PreState,
+        genesis_state: Self::PreState,
         params: Self::GenesisParams,
     ) -> (Self::StateRoot, Self::ChangeSet);
 }

@@ -1,5 +1,5 @@
 [package]
-name = "sov-modules-stf-blueprint"
+name = "sov-prover-storage-manager"
 resolver = "2"
 version = { workspace = true }
 edition = { workspace = true }
@@ -9,7 +9,7 @@ authors = { workspace = true }
 anyhow = { workspace = true }
 
 rollup-interface = { path = "../../rollup-interface" }
-sov-modules-core = { path = "../sov-modules-core" }
+sov-state = { path = "../../module-system/sov-state" }
 
 [features]
 default = []

@@ -1,26 +1,26 @@
 mod stf_blueprint;
 
 use rollup_interface::state::stf::StateTransitionFunction;
+use sov_modules_core::Context;
 pub use stf_blueprint::StfBlueprint;
 
-impl StfBlueprint {}
+impl<C> StateTransitionFunction for StfBlueprint<C>
+where
+    C: Context,
+{
+    type StateRoot = [u8; 0];
 
-impl StateTransitionFunction for StfBlueprint {
-    type StateRoot = String;
+    type GenesisParams = ();
 
-    type GenesisParams = String;
+    type PreState = C::Storage;
 
-    type PreState = String;
-
-    type ChangeSet = String;
+    type ChangeSet = ();
 
     fn init_chain(
         &self,
-        // genesis_state: Self::PreState,
-        _params: Self::GenesisParams,
+        _pre_state: Self::PreState,
+        _genesis_params: Self::GenesisParams,
     ) -> (Self::StateRoot, Self::ChangeSet) {
-        let genesis_hash = "TODO".to_string();
-        let pre_state = "TODO".to_string();
-        (genesis_hash, pre_state)
+        ([], ())
     }
 }
