@@ -2141,6 +2141,7 @@ dependencies = [
  "sov-db 0.1.0",
  "sov-modules-core 0.1.0",
  "sov-modules-stf-blueprint",
+ "sov-sequencer",
  "sov-stf-runner",
  "tokio",
  "tracing",
@@ -2233,6 +2234,15 @@ dependencies = [
  "prometheus",
  "rocksdb",
  "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "sov-sequencer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "jsonrpsee",
  "tracing",
 ]
 

@@ -5,6 +5,7 @@ members = [
     "full-node/sov-db",
     "full-node/sov-prover-storage-manager",
     "full-node/sov-schema-db",
+    "full-node/sov-sequencer",
     "full-node/sov-stf-runner",
     "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/my-module",

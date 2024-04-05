@@ -1,0 +1,14 @@
+[package]
+name = "sov-sequencer"
+resolver = "2"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+jsonrpsee = { workspace = true, features = ["macros", "server"]  }
+tracing = { workspace = true }
+
+[features]
+default = []
