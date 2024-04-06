@@ -518,6 +518,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sov-modules-api 0.1.0",
+ "sov-modules-core 0.1.0",
  "sov-modules-rollup-blueprint",
  "sov-prover-storage-manager 0.1.0",
  "sov-stf-runner",

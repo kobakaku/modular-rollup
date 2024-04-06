@@ -1,6 +1,7 @@
 use async_trait::async_trait;
 
 use sov_modules_api::default_context::DefaultContext;
+use sov_modules_core::Spec;
 use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint};
 use sov_prover_storage_manager::ProverStorageManager;
 use sov_stf_runner::RollupConfig;
@@ -19,7 +20,10 @@ impl RollupBlueprint for MockRollup {
         Ok(Self::StorageManager::new())
     }
 
-    fn create_rpc_methods(&self) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error> {
-        register_rpc()
+    fn create_rpc_methods(
+        &self,
+        storage: &<Self::NativeContext as Spec>::Storage,
+    ) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error> {
+        register_rpc::<Self::NativeContext>(storage)
     }
 }

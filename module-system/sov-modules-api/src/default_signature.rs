@@ -1,13 +1,16 @@
 use sov_modules_core::{PrivateKey, PublicKey, Signature};
 
+#[derive(Clone)]
 pub struct DefaultPublicKey {}
 
 impl PublicKey for DefaultPublicKey {}
 
+#[derive(Clone)]
 pub struct DefaultPrivateKey {}
 
 impl PrivateKey for DefaultPrivateKey {}
 
+#[derive(Clone)]
 pub struct DefaultSignature {}
 
 impl Signature for DefaultSignature {

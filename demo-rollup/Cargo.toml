@@ -15,10 +15,11 @@ async-trait = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 
-sov-modules-api = { path = "../module-system/sov-modules-api" }
-sov-modules-rollup-blueprint = { path = "../module-system/sov-modules-rollup-blueprint" }
-sov-stf-runner = { path = "../full-node/sov-stf-runner" }
 sov-prover-storage-manager = { path = "../full-node/sov-prover-storage-manager" }
+sov-stf-runner = { path = "../full-node/sov-stf-runner" }
+sov-modules-api = { path = "../module-system/sov-modules-api" }
+sov-modules-core = { path = "../module-system/sov-modules-core" }
+sov-modules-rollup-blueprint = { path = "../module-system/sov-modules-rollup-blueprint" }
 
 
 [features]

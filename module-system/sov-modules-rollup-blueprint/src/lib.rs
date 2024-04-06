@@ -43,6 +43,7 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 
         // TODO: storage_managerを作成し、runnerに渡す
         let storage_manager = self.create_storage_manager(&rollup_config)?;
+        let prover_storage = storage_manager.create_finalized_storage()?;
 
         let stf = StfBlueprint::new();
 
@@ -54,7 +55,7 @@ pub trait RollupBlueprint: Sized + Send + Sync {
             storage_manager,
         )?;
 
-        let rpc_methods = self.create_rpc_methods()?;
+        let rpc_methods = self.create_rpc_methods(&prover_storage)?;
 
         Ok(Rollup {
             runner,
@@ -63,7 +64,10 @@ pub trait RollupBlueprint: Sized + Send + Sync {
     }
 
     /// Creates RPC methods for the rollup
-    fn create_rpc_methods(&self) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error>;
+    fn create_rpc_methods(
+        &self,
+        storage: &<Self::NativeContext as Spec>::Storage,
+    ) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error>;
 }
 
 /// Dependencies needed to run the rollup.

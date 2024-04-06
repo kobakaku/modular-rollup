@@ -6,5 +6,5 @@ pub trait BatchBuilder {
 
     /// Build a new batch out of transactions in mempool.
     /// Logic of which transactions and how many of them is included in batch is up to implementation.
-    fn get_next_blob() -> anyhow::Result<()>;
+    fn get_next_blob(&mut self) -> anyhow::Result<Vec<Vec<u8>>>;
 }

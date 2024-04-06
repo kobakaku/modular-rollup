@@ -17,4 +17,4 @@ pub trait Spec {
 }
 
 /// A context contains information which is passed to modules during transaction is executed.
-pub trait Context: Spec {}
+pub trait Context: Spec + Clone + 'static {}

@@ -1,4 +1,5 @@
 use jsonrpsee::{core::RpcResult, proc_macros::rpc, RpcModule};
+use sov_modules_core::Context;
 
 use crate::{batch_builder::FiFoBatchBuilder, Sequencer};
 
@@ -8,9 +9,9 @@ pub trait SequencerRpc {
     fn publish_batch(&self) -> RpcResult<()>;
 }
 
-pub fn get_sequencer_rpc(batch_builder: FiFoBatchBuilder) -> RpcModule<()> {
-    let mut module = RpcModule::new(());
+pub fn get_sequencer_rpc<C: Context>(batch_builder: FiFoBatchBuilder<C>) -> RpcModule<()> {
     let sequencer = Sequencer { batch_builder };
+    let mut module = RpcModule::new(());
     module.merge(Sequencer::into_rpc(sequencer)).unwrap();
     module
 }
