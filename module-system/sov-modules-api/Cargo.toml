@@ -6,6 +6,8 @@ edition = { workspace = true }
 authors = { workspace = true }
 
 [dependencies]
+anyhow = { workspace = true }
+
 sov-modules-core = { path = "../sov-modules-core" }
 sov-state = { path = "../sov-state" }
 
