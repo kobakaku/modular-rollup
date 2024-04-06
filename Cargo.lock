@@ -2056,6 +2056,7 @@ dependencies = [
 name = "sov-modules-api"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "sov-modules-core 0.1.0",
  "sov-state 0.1.0",
 ]
@@ -2090,6 +2091,9 @@ dependencies = [
 [[package]]
 name = "sov-modules-core"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+]
 
 [[package]]
 name = "sov-modules-core"
@@ -2243,6 +2247,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "jsonrpsee",
+ "rollup-interface",
+ "sov-modules-api 0.1.0",
+ "sov-modules-core 0.1.0",
  "tracing",
 ]
 

@@ -10,6 +10,7 @@ pub trait MyModuleRpc {
 
 pub fn get_my_module_rpc_method() -> jsonrpsee::RpcModule<()> {
     let mut module = jsonrpsee::RpcModule::new(());
-    module.merge(MyModule.into_rpc()).unwrap();
+    let my_module = MyModule {};
+    module.merge(MyModule::into_rpc(my_module)).unwrap();
     module
 }

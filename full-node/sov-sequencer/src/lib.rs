@@ -1,13 +1,18 @@
+pub mod batch_builder;
 pub mod rpc;
 
+use batch_builder::FiFoBatchBuilder;
 use jsonrpsee::core::RpcResult;
 use rpc::SequencerRpcServer;
 
-pub struct Sequencer;
+// Single data structure that manages mempool and batch producting.
+pub struct Sequencer {
+    batch_builder: FiFoBatchBuilder,
+}
 
 impl Sequencer {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(batch_builder: FiFoBatchBuilder) -> Self {
+        Self { batch_builder }
     }
 
     fn submit_tx(&self) -> anyhow::Result<()> {
