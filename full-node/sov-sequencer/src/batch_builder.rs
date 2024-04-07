@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 
 use anyhow::bail;
-use rollup_interface::node::services::batch_builder::BatchBuilder;
+use rollup_interface::services::batch_builder::BatchBuilder;
 use sov_modules_api::transaction::Transaction;
 use sov_modules_core::Context;
 
@@ -29,10 +29,12 @@ impl<C: Context> FiFoBatchBuilder<C> {
 }
 
 impl<C: Context> BatchBuilder for FiFoBatchBuilder<C> {
+    /// Attempt to add transaction to the mempool.
     fn accept_tx() -> anyhow::Result<()> {
         Ok(())
     }
 
+    /// Builds a new batch of valid transactions in order they were added to mempool.
     fn get_next_blob(&mut self) -> anyhow::Result<Vec<Vec<u8>>> {
         let mut txs = Vec::new();
 

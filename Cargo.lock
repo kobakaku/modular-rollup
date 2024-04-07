@@ -2058,8 +2058,10 @@ name = "sov-modules-api"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "jsonrpsee",
  "sov-modules-core 0.1.0",
  "sov-state 0.1.0",
+ "tracing",
 ]
 
 [[package]]

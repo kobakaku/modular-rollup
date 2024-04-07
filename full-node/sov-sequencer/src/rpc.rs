@@ -10,7 +10,7 @@ pub trait SequencerRpc {
 }
 
 pub fn get_sequencer_rpc<C: Context>(batch_builder: FiFoBatchBuilder<C>) -> RpcModule<()> {
-    let sequencer = Sequencer { batch_builder };
+    let sequencer = Sequencer::new(batch_builder);
     let mut module = RpcModule::new(());
     module.merge(Sequencer::into_rpc(sequencer)).unwrap();
     module
