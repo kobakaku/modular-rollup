@@ -35,10 +35,14 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 
         let ledger_db = self.create_ledger_db(&rollup_config);
 
-        // TODO: はじめてRollupを起動したかどうかを判定する
-        let init_valiant = InitVariant::Genesis {
-            block_header: "TODO".to_string(), // TODO: 取得したblock_headerを代入する
-            genesis_params: (),
+        let prev_root = ledger_db.get_head_slot()?;
+
+        let init_valiant = match prev_root {
+            Some(_) => InitVariant::Initialized::<StfBlueprint<Self::NativeContext>>,
+            None => InitVariant::Genesis {
+                block_header: "TODO".to_string(), // TODO: 取得したblock_headerを代入する
+                genesis_params: (),
+            },
         };
 
         // TODO: storage_managerを作成し、runnerに渡す
