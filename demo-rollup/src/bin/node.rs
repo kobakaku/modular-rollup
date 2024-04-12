@@ -12,10 +12,7 @@ async fn main() -> Result<(), anyhow::Error> {
     tracing_subscriber::fmt().init();
     let rollup = new_rollup(CONFIG_PATH).await?;
 
-    info!(
-        "Starting Mock Rollup with start_height: {}",
-        rollup.runner.start_height,
-    );
+    info!("Starting Mock Rollup with config: {}", CONFIG_PATH);
 
     rollup.run().await
 }

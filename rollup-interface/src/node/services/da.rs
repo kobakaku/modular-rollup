@@ -16,8 +16,11 @@ pub trait DaService {
     /// Fetch the block at the given height.
     fn get_block_at(&self, height: u64) -> anyhow::Result<Self::Block>;
 
-    /// Fetch the BlockHeader of the last finalized block.
-    fn get_block_header(&self) -> anyhow::Result<<Self::Spec as DaSpec>::BlockHeader>;
+    /// Fetch the block header of the last finalized block.
+    /// If there's no finalized block yet, it should return an error.
+    fn get_last_finalized_block_header(
+        &self,
+    ) -> anyhow::Result<<Self::Spec as DaSpec>::BlockHeader>;
 
     /// Send a transaction directly to the DA layer.
     /// Returns nothing if the transaction wa successfully sent.
@@ -27,4 +30,8 @@ pub trait DaService {
 /// `SlotData` is the subset of the DA layer block which is stored in the rollup's database.
 pub trait SlotData {
     type BlockHeader;
+
+    fn hash(&self) -> [u8; 32];
+
+    fn header(&self) -> &Self::BlockHeader;
 }

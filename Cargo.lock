@@ -517,6 +517,7 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
+ "sov-mock-da",
  "sov-modules-api 0.1.0",
  "sov-modules-core 0.1.0",
  "sov-modules-rollup-blueprint",
@@ -2051,6 +2052,15 @@ dependencies = [
  "sov-rollup-interface",
  "sov-schema-db 0.3.0",
  "tokio",
+]
+
+[[package]]
+name = "sov-mock-da"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "hex",
+ "rollup-interface",
 ]
 
 [[package]]

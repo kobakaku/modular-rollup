@@ -9,6 +9,10 @@ use std::{
 pub struct RollupConfig {
     pub runner: RunnerConfig,
     pub storage: StorageConfig,
+    /// Da configuration.
+    pub da: DaServiceConfig,
+    /// Prover Service configration.
+    pub prover_service: ProverServiceConfig,
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
@@ -31,6 +35,14 @@ pub struct RpcConfig {
 pub struct StorageConfig {
     pub path: PathBuf,
 }
+
+#[derive(Debug, Clone, PartialEq, Deserialize)]
+pub struct DaServiceConfig {
+    pub sender_address: [u8; 32],
+}
+
+#[derive(Debug, Clone, PartialEq, Deserialize)]
+pub struct ProverServiceConfig {}
 
 /// Reads toml file as a specific type.
 pub fn from_toml_path<P: AsRef<Path> + std::fmt::Display, R: DeserializeOwned>(

@@ -5,7 +5,7 @@ pub use runtime_rpc::register_rpc;
 
 use async_trait::async_trait;
 
-use rollup_interface::state::storage::HierarchicalStorageManager;
+use rollup_interface::{services::da::DaService, state::storage::HierarchicalStorageManager};
 use sov_db::ledger_db::LedgerDB;
 use sov_modules_core::{Context, Spec};
 use sov_modules_stf_blueprint::StfBlueprint;
@@ -17,11 +17,14 @@ pub trait RollupBlueprint: Sized + Send + Sync {
         NativeStorage = <Self::NativeContext as Spec>::Storage,
     >;
     type NativeContext: Context;
+    type DaService: DaService;
 
     /// Creates instance of a LedgerDB.
     fn create_ledger_db(&self, rollup_config: &RollupConfig) -> LedgerDB {
         LedgerDB::open_ledger_db(&rollup_config.storage.path).expect("Ledger DB failed to open")
     }
+
+    fn create_da_service(&self, rollup_config: &RollupConfig) -> Self::DaService;
 
     fn create_storage_manager(
         &self,
@@ -30,17 +33,18 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 
     /// Creates a new Rollup
     async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup<Self>> {
-        // TODO: da serviceのインスタンスを作成する
-        // TODO: 最新のブロックのblock_headerを取得する
+        let da_service = self.create_da_service(&rollup_config);
+
+        let last_finalized_block_header = da_service.get_last_finalized_block_header()?;
 
         let ledger_db = self.create_ledger_db(&rollup_config);
 
         let prev_root = ledger_db.get_head_slot()?;
 
         let init_valiant = match prev_root {
-            Some(_) => InitVariant::Initialized::<StfBlueprint<Self::NativeContext>>,
+            Some(_) => InitVariant::Initialized,
             None => InitVariant::Genesis {
-                block_header: "TODO".to_string(), // TODO: 取得したblock_headerを代入する
+                block_header: last_finalized_block_header,
                 genesis_params: (),
             },
         };
@@ -57,6 +61,7 @@ pub trait RollupBlueprint: Sized + Send + Sync {
             init_valiant,
             stf,
             storage_manager,
+            da_service,
         )?;
 
         let rpc_methods = self.create_rpc_methods(&prover_storage)?;
@@ -77,7 +82,8 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 /// Dependencies needed to run the rollup.
 pub struct Rollup<S: RollupBlueprint> {
     /// The State Transition Runner.
-    pub runner: StateTransitionRunner<StfBlueprint<S::NativeContext>, S::StorageManager>,
+    pub runner:
+        StateTransitionRunner<StfBlueprint<S::NativeContext>, S::StorageManager, S::DaService>,
     /// Rpc methods for the rollup.
     pub rpc_methods: jsonrpsee::RpcModule<()>,
 }

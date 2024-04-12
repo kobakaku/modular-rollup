@@ -1,10 +1,12 @@
+use std::fmt::Debug;
+
 /// A specification for the types used by the DA layer.
 pub trait DaSpec {
     /// The hash of the DA layer block.
     type BlockHash;
 
     /// The block header type used by the DA layer.
-    type BlockHeader;
+    type BlockHeader: Debug;
 
     /// The transaction used by the DA layer.
     type BlobTransaction;
