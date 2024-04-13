@@ -2061,6 +2061,7 @@ dependencies = [
  "anyhow",
  "hex",
  "rollup-interface",
+ "tracing",
 ]
 
 [[package]]

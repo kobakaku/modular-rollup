@@ -1,5 +1,7 @@
 // use std::fmt::{write, Display};
 
+use std::fmt::{Debug, Formatter};
+
 use rollup_interface::services::da::SlotData;
 
 pub struct MockBlock {
@@ -19,20 +21,26 @@ impl SlotData for MockBlock {
     }
 }
 
-#[derive(Debug, Clone)]
-pub struct MockHash([u8; 32]);
+#[derive(Clone)]
+pub struct MockHash(pub [u8; 32]);
 
-impl core::fmt::Display for MockHash {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+impl Debug for MockHash {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "0x{}", hex::encode(self.0))
     }
 }
 
+// impl core::fmt::Display for MockHash {
+//     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+//         write!(f, "0x{}", hex::encode(self.0))
+//     }
+// }
+
 #[derive(Debug, Clone)]
 pub struct MockBlockHeader {
-    prev_hash: MockHash,
-    hash: MockHash,
-    height: u64,
+    pub prev_hash: MockHash,
+    pub hash: MockHash,
+    pub height: u64,
 }
 
 // impl Display for MockBlockHeader {
