@@ -22,10 +22,11 @@ where
     stf: Stf,
     storage_manager: Sm,
     da_service: Da,
+    state_root: Stf::StateRoot,
 }
 
 pub enum InitVariant<Stf: StateTransitionFunction, Da: DaSpec> {
-    Initialized,
+    Initialized(Stf::StateRoot),
     Genesis {
         block_header: Da::BlockHeader,
         genesis_params: Stf::GenesisParams,
@@ -50,22 +51,29 @@ where
             start_height,
             rpc_config,
         } = runner_config;
-        let _ = match init_variant {
-            InitVariant::Initialized => {
+
+        let prev_state_root = match init_variant {
+            InitVariant::Initialized(state_root) => {
                 info!("Chain is already initialized. Skipping initialization.");
+                state_root
             }
             InitVariant::Genesis {
                 block_header,
                 genesis_params,
             } => {
                 info!(
-                    "No history detected. Initializing chain on block_header={:?}...",
+                    "No history detected. Initializing chain on block_header={:?}",
                     block_header
                 );
                 let storage = storage_manager.create_storage_on()?;
-                let (_gemesis_root, _initialized_storage) = stf.init_chain(storage, genesis_params);
+                let (genesis_root, _initialized_storage) = stf.init_chain(storage, genesis_params);
                 storage_manager.save_change_set()?;
                 storage_manager.finalize()?;
+                info!(
+                    "Chain initialization is done. Genesis root: 0x{}",
+                    hex::encode(genesis_root.as_ref()),
+                );
+                genesis_root
             }
         };
         let listen_address = SocketAddr::new(
@@ -79,6 +87,7 @@ where
             stf,
             storage_manager,
             da_service,
+            state_root: prev_state_root,
         })
     }
 

@@ -1,7 +1,7 @@
 /// State transition function defines business logic that responsible for changing state.
 pub trait StateTransitionFunction {
     /// Root hash of state merkle tree
-    type StateRoot;
+    type StateRoot: AsRef<[u8]>;
 
     /// The initial params of the rollup.
     type GenesisParams;

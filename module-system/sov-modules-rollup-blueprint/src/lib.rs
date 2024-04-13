@@ -7,7 +7,7 @@ use async_trait::async_trait;
 
 use rollup_interface::{services::da::DaService, state::storage::HierarchicalStorageManager};
 use sov_db::ledger_db::LedgerDB;
-use sov_modules_core::{Context, Spec};
+use sov_modules_core::{Context, Spec, Storage};
 use sov_modules_stf_blueprint::StfBlueprint;
 use sov_stf_runner::{InitVariant, RollupConfig, StateTransitionRunner};
 
@@ -39,19 +39,21 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 
         let ledger_db = self.create_ledger_db(&rollup_config);
 
-        let prev_root = ledger_db.get_head_slot()?;
+        let storage_manager = self.create_storage_manager(&rollup_config)?;
+        let prover_storage = storage_manager.create_finalized_storage()?;
+
+        let prev_root = ledger_db
+            .get_head_slot()?
+            .map(|(_, _)| prover_storage.get_root_hash())
+            .transpose()?;
 
         let init_valiant = match prev_root {
-            Some(_) => InitVariant::Initialized,
+            Some(state_root) => InitVariant::Initialized(state_root),
             None => InitVariant::Genesis {
                 block_header: last_finalized_block_header,
                 genesis_params: (),
             },
         };
-
-        // TODO: storage_managerを作成し、runnerに渡す
-        let storage_manager = self.create_storage_manager(&rollup_config)?;
-        let prover_storage = storage_manager.create_finalized_storage()?;
 
         let stf = StfBlueprint::new();
 

@@ -2271,6 +2271,8 @@ dependencies = [
 name = "sov-state"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "jmt",
  "sov-modules-core 0.1.0",
 ]
 
@@ -2299,6 +2301,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "futures",
+ "hex",
  "jsonrpsee",
  "rollup-interface",
  "serde",
