@@ -100,7 +100,7 @@ impl<S: RollupBlueprint> Rollup<S> {
     async fn run_and_report_rpc_port(self) -> Result<(), anyhow::Error> {
         let runner = self.runner;
         runner.start_rpc_server(self.rpc_methods).await;
-        runner.run_in_progress()?;
+        runner.run_in_progress().await?;
         Ok(())
     }
 }

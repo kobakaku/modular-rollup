@@ -93,28 +93,25 @@ where
 
     /// Starts a RPC server
     pub async fn start_rpc_server(&self, rpc_module: RpcModule<()>) {
-        let server_addr = Self::run_server(rpc_module, self.listen_address)
-            .await
-            .unwrap();
-        info!("Starting RPC server at {} ", &server_addr);
-        futures::future::pending().await
-    }
+        let listen_address = self.listen_address;
+        let _handle = tokio::spawn(async move {
+            let server = jsonrpsee::server::ServerBuilder::default()
+                .build(listen_address)
+                .await
+                .unwrap();
+            let addr = server.local_addr().unwrap();
+            info!("Starting RPC server at {} ", addr);
 
-    async fn run_server(
-        rpc_module: RpcModule<()>,
-        listen_address: SocketAddr,
-    ) -> Result<SocketAddr, anyhow::Error> {
-        let server = Server::builder().build(listen_address).await?;
+            let _server_handle = server.start(rpc_module);
 
-        let addr = server.local_addr()?;
-        let handle = server.start(rpc_module);
-        tokio::spawn(handle.stopped());
-
-        Ok(addr)
+            futures::future::pending::<()>().await;
+        });
     }
 
     /// Runs the rollup.
-    pub fn run_in_progress(self) -> Result<(), anyhow::Error> {
-        Ok(())
+    pub async fn run_in_progress(&self) -> Result<(), anyhow::Error> {
+        let height = self.start_height;
+        tracing::debug!("Requesting data for height {}", height);
+        loop {}
     }
 }

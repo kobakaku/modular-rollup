@@ -9,7 +9,9 @@ const CONFIG_PATH: &'static str = "./rollup_config.toml";
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
-    tracing_subscriber::fmt().init();
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
     let rollup = new_rollup(CONFIG_PATH).await?;
 
     info!("Starting Mock Rollup with config: {}", CONFIG_PATH);
