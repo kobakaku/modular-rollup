@@ -57,6 +57,8 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 
         let stf = StfBlueprint::new();
 
+        let rpc_methods = self.create_rpc_methods(&prover_storage, &da_service)?;
+
         let runner = StateTransitionRunner::new(
             rollup_config.runner,
             ledger_db,
@@ -65,8 +67,6 @@ pub trait RollupBlueprint: Sized + Send + Sync {
             storage_manager,
             da_service,
         )?;
-
-        let rpc_methods = self.create_rpc_methods(&prover_storage)?;
 
         Ok(Rollup {
             runner,
@@ -78,6 +78,7 @@ pub trait RollupBlueprint: Sized + Send + Sync {
     fn create_rpc_methods(
         &self,
         storage: &<Self::NativeContext as Spec>::Storage,
+        da_service: &Self::DaService,
     ) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error>;
 }
 

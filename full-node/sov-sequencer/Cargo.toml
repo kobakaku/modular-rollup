@@ -9,6 +9,8 @@ authors = { workspace = true }
 anyhow = { workspace = true }
 jsonrpsee = { workspace = true, features = ["macros", "server"]  }
 tracing = { workspace = true }
+borsh = { workspace = true }
+tokio = { workspace = true }
 
 sov-modules-api = { path = "../../module-system/sov-modules-api" }
 sov-modules-core = { path = "../../module-system/sov-modules-core" }

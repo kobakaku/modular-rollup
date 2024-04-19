@@ -1670,6 +1670,7 @@ name = "rollup-interface"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
 ]
 
 [[package]]
@@ -2059,6 +2060,7 @@ name = "sov-mock-da"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "hex",
  "rollup-interface",
  "tracing",
@@ -2260,10 +2262,12 @@ name = "sov-sequencer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "borsh",
  "jsonrpsee",
  "rollup-interface",
  "sov-modules-api 0.1.0",
  "sov-modules-core 0.1.0",
+ "tokio",
  "tracing",
 ]
 

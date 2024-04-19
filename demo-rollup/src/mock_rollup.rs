@@ -29,7 +29,8 @@ impl RollupBlueprint for MockRollup {
     fn create_rpc_methods(
         &self,
         storage: &<Self::NativeContext as Spec>::Storage,
+        da_service: &Self::DaService,
     ) -> Result<jsonrpsee::RpcModule<()>, anyhow::Error> {
-        register_rpc::<Self::NativeContext>(storage)
+        register_rpc::<Self::NativeContext, Self::DaService>(storage, da_service)
     }
 }

@@ -1,17 +1,40 @@
-use jsonrpsee::{core::RpcResult, proc_macros::rpc, RpcModule};
-use sov_modules_core::Context;
+use jsonrpsee::{types::ErrorObjectOwned, RpcModule};
+use rollup_interface::services::{batch_builder::BatchBuilder, da::DaService};
+use sov_modules_api::utils::to_jsonrpsee_error_object;
 
-use crate::{batch_builder::FiFoBatchBuilder, Sequencer};
+use crate::Sequencer;
 
-#[rpc(server, namespace = "sequencer")]
-pub trait SequencerRpc {
-    #[method(name = "publish_batch")]
-    fn publish_batch(&self) -> RpcResult<()>;
+const SEQUENCER_RPC_ERROR: &str = "SEQUENCER_RPC_ERROR";
+
+fn register_txs_rpc_methods<B, D>(
+    rpc: &mut RpcModule<Sequencer<B, D>>,
+) -> Result<(), jsonrpsee::core::Error>
+where
+    B: BatchBuilder + Send + Sync + 'static,
+    D: DaService + Send,
+{
+    rpc.register_async_method("sequencer_publishBatch", |params, sequencer| async move {
+        sequencer
+            .accept_tx()
+            .map_err(|e| to_jsonrpsee_error_object(SEQUENCER_RPC_ERROR, e))?;
+
+        let blob_len = sequencer
+            .submit_batch()
+            .await
+            .map_err(|e| to_jsonrpsee_error_object(SEQUENCER_RPC_ERROR, e))?;
+
+        Ok::<String, ErrorObjectOwned>(format!("Submitted {} transactions", blob_len))
+    })?;
+
+    Ok(())
 }
 
-pub fn get_sequencer_rpc<C: Context>(batch_builder: FiFoBatchBuilder<C>) -> RpcModule<()> {
-    let sequencer = Sequencer::new(batch_builder);
-    let mut module = RpcModule::new(());
-    module.merge(Sequencer::into_rpc(sequencer)).unwrap();
+pub fn get_sequencer_rpc<B: BatchBuilder + Send + Sync + 'static, D: DaService>(
+    batch_builder: B,
+    da_service: D,
+) -> RpcModule<Sequencer<B, D>> {
+    let sequencer = Sequencer::new(batch_builder, da_service);
+    let mut module = RpcModule::new(sequencer);
+    register_txs_rpc_methods(&mut module).expect("Failed to register sequencer RPC methods");
     module
 }

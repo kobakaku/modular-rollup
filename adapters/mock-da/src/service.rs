@@ -1,6 +1,7 @@
 use std::sync::{Arc, Mutex};
 
 use anyhow::anyhow;
+use async_trait::async_trait;
 use rollup_interface::services::da::DaService;
 use rollup_interface::services::da::SlotData;
 
@@ -17,6 +18,7 @@ const GENESIS_HEADER: MockBlockHeader = MockBlockHeader {
     height: 0,
 };
 
+#[derive(Clone)]
 pub struct MockDaService {
     sender_address: [u8; 32],
     blocks: Arc<Mutex<Vec<MockBlock>>>,
@@ -31,6 +33,7 @@ impl MockDaService {
     }
 }
 
+#[async_trait]
 impl DaService for MockDaService {
     type Spec = MockDaSpec;
 
@@ -62,7 +65,7 @@ impl DaService for MockDaService {
         Ok(blocks[0].header().clone())
     }
 
-    fn send_transaction(&self, blob: &[u8]) -> anyhow::Result<()> {
+    async fn send_transaction(&self, blob: &[u8]) -> anyhow::Result<()> {
         todo!()
     }
 }

@@ -1,9 +1,12 @@
+use async_trait::async_trait;
+
 use crate::state::da::{DaSpec, DaVerifier};
 
 /// The DaService is the local side of an RPC connection talking to a node of the DA layer.
 /// The DaService has two responsibilities - facing data from the DA layer, transforming the
 /// data into a representation that can be efficiently verified in circuit.
-pub trait DaService {
+#[async_trait]
+pub trait DaService: Send + Sync + 'static {
     /// A handle to the types used by the DA layer.
     type Spec: DaSpec;
 
@@ -24,7 +27,7 @@ pub trait DaService {
 
     /// Send a transaction directly to the DA layer.
     /// Returns nothing if the transaction wa successfully sent.
-    fn send_transaction(&self, blob: &[u8]) -> anyhow::Result<()>;
+    async fn send_transaction(&self, blob: &[u8]) -> anyhow::Result<()>;
 }
 
 /// `SlotData` is the subset of the DA layer block which is stored in the rollup's database.
