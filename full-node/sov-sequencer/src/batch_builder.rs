@@ -1,6 +1,7 @@
-use std::collections::VecDeque;
+use std::{collections::VecDeque, io::Cursor};
 
-use anyhow::bail;
+use anyhow::{bail, Context as _};
+use borsh::BorshDeserialize;
 use rollup_interface::services::batch_builder::BatchBuilder;
 use sov_modules_api::transaction::Transaction;
 use sov_modules_core::Context;
@@ -10,27 +11,50 @@ pub struct PooledTransaction<C: Context> {
     /// Raw transaction bytes.
     raw: Vec<u8>,
     /// Deserialized transaction.
-    transaction: Transaction<C>,
+    tx: Transaction<C>,
 }
 
 /// BatchBuilder that creates batches of transaction in the order of FIFO (First-In First-Out)
 pub struct FiFoBatchBuilder<C: Context> {
     mempool: VecDeque<PooledTransaction<C>>,
     current_storage: C::Storage,
+    mempool_max_txs_count: usize,
 }
 
 impl<C: Context> FiFoBatchBuilder<C> {
-    pub fn new(current_storage: C::Storage) -> Self {
+    pub fn new(current_storage: C::Storage, mempool_max_txs_count: usize) -> Self {
         Self {
             mempool: VecDeque::new(),
             current_storage,
+            mempool_max_txs_count,
         }
     }
 }
 
 impl<C: Context> BatchBuilder for FiFoBatchBuilder<C> {
     /// Attempt to add transaction to the mempool.
-    fn accept_tx() -> anyhow::Result<()> {
+    ///
+    /// The transaction is discarded if:
+    ///  -  mempool is full
+    ///  -  transaction is invalid (deserializeation, verification or decoding of the runtime message failed)
+    fn accept_tx(&mut self, raw: Vec<u8>) -> anyhow::Result<()> {
+        if self.mempool.len() >= self.mempool_max_txs_count {
+            anyhow::bail!("Mempool is full.")
+        }
+
+        // Deserialize
+        let mut data = Cursor::new(&raw);
+        // TODO: これでdeserializeできる？トランザクションを送るときのserialize方法を正しく理解する。
+        let tx = Transaction::<C>::deserialize_reader(&mut data)
+            .context("Failed to deserialize transaction.")?;
+
+        // Verify
+        tx.verify().context("Failed to verify transaction.")?;
+
+        // Decode (メッセージをデコードするときに必要？)
+
+        // Add the tx to mempool
+        self.mempool.push_back(PooledTransaction { raw, tx });
         Ok(())
     }
 

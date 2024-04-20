@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use crate::{storage::Storage, PrivateKey, PublicKey, Signature};
 
 /// The `Spec` trait configures certain key primitives to be used by a paticular instance of a rollup.
@@ -17,4 +19,4 @@ pub trait Spec {
 }
 
 /// A context contains information which is passed to modules during transaction is executed.
-pub trait Context: Spec + Clone + 'static {}
+pub trait Context: Spec + Debug + Clone + 'static {}

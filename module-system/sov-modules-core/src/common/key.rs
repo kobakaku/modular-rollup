@@ -1,11 +1,15 @@
+use std::fmt::Debug;
+
+use borsh::BorshDeserialize;
+
 /// PublicKey used in the Module System.
-pub trait PublicKey: Clone + Send + Sync {}
+pub trait PublicKey: Clone + Debug + Send + Sync + BorshDeserialize {}
 
 /// PrivateKey used in the Module System.
-pub trait PrivateKey: Clone + Send + Sync {}
+pub trait PrivateKey: Clone + Debug + Send + Sync + BorshDeserialize {}
 
 /// Signature used in the Module System.
-pub trait Signature: Clone + Send + Sync {
+pub trait Signature: Clone + Debug + Send + Sync + BorshDeserialize {
     /// The public key associated with the key pair of the signature;
     type PublicKey;
 

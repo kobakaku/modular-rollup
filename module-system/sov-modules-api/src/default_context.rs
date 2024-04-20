@@ -3,7 +3,7 @@ use sov_state::ProverStorage;
 
 use crate::default_signature::{DefaultPrivateKey, DefaultPublicKey, DefaultSignature};
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct DefaultContext {}
 
 impl Spec for DefaultContext {

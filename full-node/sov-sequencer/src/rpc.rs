@@ -14,10 +14,13 @@ where
     D: DaService + Send,
 {
     rpc.register_async_method("sequencer_publishBatch", |params, sequencer| async move {
-        sequencer
-            .accept_tx()
-            .map_err(|e| to_jsonrpsee_error_object(SEQUENCER_RPC_ERROR, e))?;
-
+        let mut params_iter = params.sequence();
+        while let Some(tx) = params_iter.optional_next::<Vec<u8>>()? {
+            sequencer
+                .accept_tx(tx)
+                .await
+                .map_err(|e| to_jsonrpsee_error_object(SEQUENCER_RPC_ERROR, e))?;
+        }
         let blob_len = sequencer
             .submit_batch()
             .await

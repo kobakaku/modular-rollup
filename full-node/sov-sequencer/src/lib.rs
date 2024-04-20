@@ -32,8 +32,10 @@ impl<B: BatchBuilder, D: DaService> Sequencer<B, D> {
         }
     }
 
-    fn accept_tx(&self) -> anyhow::Result<()> {
-        tracing::info!("Accepting tx: 0x......");
+    async fn accept_tx(&self, tx: Vec<u8>) -> anyhow::Result<()> {
+        tracing::info!("Accepting tx: 0x{}", hex::encode(&tx));
+        let mut batch_builder = self.batch_builder.lock().await;
+        batch_builder.accept_tx(tx)?;
         Ok(())
     }
 }

@@ -2071,6 +2071,7 @@ name = "sov-modules-api"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "borsh",
  "jsonrpsee",
  "sov-modules-core 0.1.0",
  "sov-state 0.1.0",
@@ -2109,6 +2110,7 @@ name = "sov-modules-core"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "borsh",
 ]
 
 [[package]]
@@ -2263,6 +2265,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "borsh",
+ "hex",
  "jsonrpsee",
  "rollup-interface",
  "sov-modules-api 0.1.0",

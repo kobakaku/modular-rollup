@@ -21,7 +21,7 @@ where
     // Sequencer RPC.
     {
         // TODO: Cをいれたくない
-        let batch_builder = FiFoBatchBuilder::<C>::new(storage.clone());
+        let batch_builder = FiFoBatchBuilder::<C>::new(storage.clone(), u32::MAX as usize);
         let sequencer_rpc_method =
             sov_sequencer::rpc::get_sequencer_rpc(batch_builder, da_service.clone());
         module.merge(sequencer_rpc_method).unwrap();
