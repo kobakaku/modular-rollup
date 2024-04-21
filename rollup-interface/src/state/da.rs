@@ -22,3 +22,18 @@ pub trait DaVerifier {
 
     fn verify() -> anyhow::Result<()>;
 }
+
+/// A block header, typically used in the context of an underlying DA blockchain.
+pub trait BlockHeaderTrait {
+    /// Each block header must have a unique canonical hash.
+    type Hash;
+
+    /// Each block header must contain the hash of the previous block.
+    fn prev_hash(&self) -> Self::Hash;
+
+    /// Hash the type to get the digest.
+    fn hash(&self) -> Self::Hash;
+
+    /// The current header height.
+    fn height(&self) -> u64;
+}
