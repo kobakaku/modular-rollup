@@ -16,12 +16,12 @@ pub trait DaService: Send + Sync + 'static {
     /// The DA lauyer block.
     type Block: SlotData;
 
-    /// Fetch the block at the given height.
-    fn get_block_at(&self, height: u64) -> anyhow::Result<Self::Block>;
+    /// Fetch the block at the given height, wating for one to be mined if necessary.
+    async fn get_block_at(&self, height: u64) -> anyhow::Result<Self::Block>;
 
     /// Fetch the block header of the last finalized block.
     /// If there's no finalized block yet, it should return an error.
-    fn get_last_finalized_block_header(
+    async fn get_last_finalized_block_header(
         &self,
     ) -> anyhow::Result<<Self::Spec as DaSpec>::BlockHeader>;
 
@@ -31,7 +31,7 @@ pub trait DaService: Send + Sync + 'static {
 }
 
 /// `SlotData` is the subset of the DA layer block which is stored in the rollup's database.
-pub trait SlotData {
+pub trait SlotData: Send + Sync {
     type BlockHeader;
 
     fn hash(&self) -> [u8; 32];

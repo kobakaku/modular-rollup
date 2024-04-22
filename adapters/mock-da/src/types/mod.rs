@@ -4,6 +4,7 @@ use std::fmt::{Debug, Formatter};
 
 use rollup_interface::{services::da::SlotData, state::da::BlockHeaderTrait};
 
+#[derive(Clone)]
 pub struct MockBlock {
     pub header: MockBlockHeader,
     pub blobs: Vec<MockBlob>,
@@ -53,6 +54,7 @@ impl BlockHeaderTrait for MockBlockHeader {
     }
 }
 
+#[derive(Clone)]
 pub struct MockBlob {}
 
 impl MockBlob {

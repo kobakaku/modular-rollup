@@ -35,7 +35,7 @@ pub trait RollupBlueprint: Sized + Send + Sync {
     async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup<Self>> {
         let da_service = self.create_da_service(&rollup_config);
 
-        let last_finalized_block_header = da_service.get_last_finalized_block_header()?;
+        let last_finalized_block_header = da_service.get_last_finalized_block_header().await?;
 
         let ledger_db = self.create_ledger_db(&rollup_config);
 

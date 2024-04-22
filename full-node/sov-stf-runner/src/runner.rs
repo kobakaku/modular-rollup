@@ -1,7 +1,8 @@
-use jsonrpsee::server::{RpcModule, Server};
+use jsonrpsee::server::RpcModule;
 use std::net::{IpAddr, SocketAddr};
 use tracing::info;
 
+use rollup_interface::state::da::BlockHeaderTrait;
 use rollup_interface::{
     services::da::DaService,
     state::{da::DaSpec, stf::StateTransitionFunction, storage::HierarchicalStorageManager},
@@ -110,8 +111,19 @@ where
 
     /// Runs the rollup.
     pub async fn run_in_progress(&self) -> Result<(), anyhow::Error> {
-        let height = self.start_height;
-        tracing::debug!("Requesting data for height {}", height);
-        loop {}
+        let mut height = self.start_height;
+        loop {
+            tracing::debug!("Requesting data for height {}", height);
+            let block = self.da_service.get_block_at(height).await?;
+
+            height += 1;
+
+            let last_finalized_block_header =
+                self.da_service.get_last_finalized_block_header().await?;
+            tracing::info!(
+                "Last finalized header height is {}",
+                last_finalized_block_header.height()
+            );
+        }
     }
 }

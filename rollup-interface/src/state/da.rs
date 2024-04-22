@@ -6,7 +6,7 @@ pub trait DaSpec {
     type BlockHash;
 
     /// The block header type used by the DA layer.
-    type BlockHeader: Debug;
+    type BlockHeader: BlockHeaderTrait;
 
     /// The transaction used by the DA layer.
     type BlobTransaction;
@@ -24,7 +24,7 @@ pub trait DaVerifier {
 }
 
 /// A block header, typically used in the context of an underlying DA blockchain.
-pub trait BlockHeaderTrait {
+pub trait BlockHeaderTrait: Debug {
     /// Each block header must have a unique canonical hash.
     type Hash;
 

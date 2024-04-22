@@ -1,5 +1,8 @@
 use std::collections::VecDeque;
-use std::sync::{Arc, Mutex, MutexGuard, RwLock, RwLockWriteGuard};
+use std::sync::Arc;
+use std::time::Duration;
+use tokio::sync::{broadcast, RwLock, RwLockWriteGuard};
+use tokio::time;
 
 use crate::types::MockHash;
 use crate::types::{MockBlob, MockBlockHeader};
@@ -7,13 +10,10 @@ use crate::{
     types::MockBlock,
     verifier::{MockDaSpec, MockDaVerifier},
 };
-use anyhow::anyhow;
 use async_trait::async_trait;
 use rollup_interface::services::da::DaService;
 use rollup_interface::services::da::SlotData;
 use rollup_interface::state::da::BlockHeaderTrait;
-use tokio::sync::broadcast;
-use tracing::span;
 
 const GENESIS_HEADER: MockBlockHeader = MockBlockHeader {
     prev_hash: MockHash([0; 32]),
@@ -76,6 +76,18 @@ impl MockDaService {
 
         Ok(())
     }
+
+    async fn wait_for_height(&self, height: u64) -> anyhow::Result<()> {
+        /// Wait 100s
+        for _ in 0..100000 {
+            let blocks = self.blocks.read().await;
+            if blocks.iter().any(|b| b.header().height() == height) {
+                return Ok(());
+            }
+            time::sleep(Duration::from_millis(1)).await;
+        }
+        anyhow::bail!("No block at height={height} has been sent in {:?}s", 100)
+    }
 }
 
 #[async_trait]
@@ -86,17 +98,26 @@ impl DaService for MockDaService {
 
     type Block = MockBlock;
 
-    fn get_block_at(&self, height: u64) -> anyhow::Result<Self::Block> {
-        todo!()
+    /// Gets block at given height
+    async fn get_block_at(&self, height: u64) -> anyhow::Result<Self::Block> {
+        if height == 0 {
+            anyhow::bail!("The lowest queryable block should be > 0.")
+        }
+
+        // Waits
+        self.wait_for_height(height).await?;
+
+        let blocks = self.blocks.read().await;
+
+        let index = height - 1;
+
+        Ok(blocks.get(index as usize).unwrap().clone())
     }
 
-    fn get_last_finalized_block_header(
+    async fn get_last_finalized_block_header(
         &self,
     ) -> anyhow::Result<<Self::Spec as rollup_interface::state::da::DaSpec>::BlockHeader> {
-        let blocks = self
-            .blocks
-            .read()
-            .map_err(|e| anyhow!("Failed to lock blocks: {}", e))?;
+        let blocks = self.blocks.read().await;
         if blocks.len() < 1 {
             return Ok(GENESIS_HEADER);
         }
@@ -106,7 +127,7 @@ impl DaService for MockDaService {
     }
 
     async fn send_transaction(&self, blob: &[u8]) -> anyhow::Result<()> {
-        let mut blocks = self.blocks.write().unwrap();
+        let mut blocks = self.blocks.write().await;
         self.add_blob(blob, &mut blocks)?;
         Ok(())
     }
