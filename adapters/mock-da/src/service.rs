@@ -51,8 +51,8 @@ impl MockDaService {
         blocks: &mut RwLockWriteGuard<'_, VecDeque<MockBlock>>,
     ) -> anyhow::Result<()> {
         let (prev_block_hash, height) = match blocks.iter().last().map(|b| b.header()) {
-            Some(block_header) => (block_header.hash(), block_header.height()),
-            None => (GENESIS_HEADER.hash(), GENESIS_HEADER.height()),
+            Some(block_header) => (block_header.hash(), block_header.height() + 1),
+            None => (GENESIS_HEADER.hash(), GENESIS_HEADER.height() + 1),
         };
 
         let header = MockBlockHeader {
