@@ -1,7 +1,7 @@
 use anyhow::Context;
 use tracing::info;
 
-use demo_rollup::mock_rollup::MockRollup;
+use demo_rollup::{initialize_logging, mock_rollup::MockRollup};
 use sov_modules_rollup_blueprint::{Rollup, RollupBlueprint};
 use sov_stf_runner::{from_toml_path, RollupConfig};
 
@@ -9,9 +9,8 @@ const CONFIG_PATH: &'static str = "./rollup_config.toml";
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
-        .init();
+    initialize_logging();
+
     let rollup = new_rollup(CONFIG_PATH).await?;
 
     info!("Starting Mock Rollup with config: {}", CONFIG_PATH);

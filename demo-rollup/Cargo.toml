@@ -13,7 +13,7 @@ jsonrpsee = { workspace = true, features = ["server"] }
 tokio = { workspace = true }
 async-trait = { workspace = true }
 tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 
 sov-mock-da = { path = "../adapters/mock-da" }
 sov-prover-storage-manager = { path = "../full-node/sov-prover-storage-manager" }
