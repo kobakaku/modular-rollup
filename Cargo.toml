@@ -65,3 +65,4 @@ toml = "0.8.0"
 futures = "0.3"
 rocksdb = { version = "0.21.0" }
 hex = { version = "0.4.3", default-features = false, features = ["alloc", "serde"] }
+sha2 = { version = "0.10.6", default-features = false }

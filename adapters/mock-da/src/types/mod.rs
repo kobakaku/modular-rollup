@@ -31,6 +31,12 @@ impl Debug for MockHash {
     }
 }
 
+impl From<MockHash> for [u8; 32] {
+    fn from(value: MockHash) -> Self {
+        value.0
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct MockBlockHeader {
     pub prev_hash: MockHash,

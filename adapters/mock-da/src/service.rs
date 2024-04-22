@@ -1,3 +1,4 @@
+use sha2::Digest;
 use std::collections::VecDeque;
 use std::sync::Arc;
 use std::time::Duration;
@@ -55,10 +56,12 @@ impl MockDaService {
             None => (GENESIS_HEADER.hash(), GENESIS_HEADER.height() + 1),
         };
 
+        let data_hash = hash_to_array(blob);
+        let block_hash = block_hash(prev_block_hash.into(), data_hash, height);
+
         let header = MockBlockHeader {
             prev_hash: prev_block_hash,
-            // TODO: blobデータから有効なハッシュを作成する。
-            hash: MockHash([123; 32]),
+            hash: block_hash,
             height,
         };
         let blob = MockBlob::new();
@@ -131,4 +134,23 @@ impl DaService for MockDaService {
         self.add_blob(blob, &mut blocks)?;
         Ok(())
     }
+}
+
+fn hash_to_array(bytes: &[u8]) -> [u8; 32] {
+    let mut hasher = sha2::Sha256::new();
+    hasher.update(bytes);
+    let result = hasher.finalize();
+    result
+        .as_slice()
+        .try_into()
+        .expect("SHA256 should be 32 bytes")
+}
+
+fn block_hash(prev_hash: [u8; 32], data_hash: [u8; 32], height: u64) -> MockHash {
+    let mut block_to_hash = height.to_be_bytes().to_vec();
+
+    block_to_hash.extend_from_slice(&prev_hash);
+    block_to_hash.extend_from_slice(&data_hash);
+
+    MockHash(hash_to_array(&block_to_hash))
 }

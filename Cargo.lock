@@ -2087,6 +2087,7 @@ dependencies = [
  "async-trait",
  "hex",
  "rollup-interface",
+ "sha2",
  "tokio",
  "tracing",
 ]
