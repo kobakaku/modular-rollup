@@ -15,7 +15,8 @@ async-trait = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 
-sov-mock-da = { path = "../adapters/mock-da" }
+sov-mock = { path = "../adapters/mock", optional = true }
+sov-celestia = { path = "../adapters/celestia", optional = true }
 sov-prover-storage-manager = { path = "../full-node/sov-prover-storage-manager" }
 sov-stf-runner = { path = "../full-node/sov-stf-runner" }
 sov-modules-api = { path = "../module-system/sov-modules-api" }
@@ -24,4 +25,6 @@ sov-modules-rollup-blueprint = { path = "../module-system/sov-modules-rollup-blu
 
 
 [features]
-default = []
+default = ["mock"]
+mock = ["sov-mock"]
+celestia = ["sov-celestia"]

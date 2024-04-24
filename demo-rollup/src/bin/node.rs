@@ -1,7 +1,12 @@
 use anyhow::Context;
 use tracing::info;
 
-use demo_rollup::{initialize_logging, mock_rollup::MockRollup};
+#[cfg(feature = "celestia")]
+use demo_rollup::celestia_rollup::CelestiaRollup;
+#[cfg(feature = "mock")]
+use demo_rollup::mock_rollup::MockRollup;
+
+use demo_rollup::initialize_logging;
 use sov_modules_rollup_blueprint::{Rollup, RollupBlueprint};
 use sov_stf_runner::{from_toml_path, RollupConfig};
 
@@ -18,9 +23,18 @@ async fn main() -> Result<(), anyhow::Error> {
     rollup.run().await
 }
 
+#[cfg(feature = "mock")]
 async fn new_rollup(rollup_config_path: &str) -> Result<Rollup<MockRollup>, anyhow::Error> {
     let rollup_config: RollupConfig =
         from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
-    let mock_rollup = MockRollup {};
-    mock_rollup.create_new_rollup(rollup_config).await
+    let rollup = MockRollup {};
+    rollup.create_new_rollup(rollup_config).await
+}
+
+#[cfg(feature = "celestia")]
+async fn new_rollup(rollup_config_path: &str) -> Result<Rollup<CelestiaRollup>, anyhow::Error> {
+    let rollup_config: RollupConfig =
+        from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
+    let rollup = CelestiaRollup {};
+    rollup.create_new_rollup(rollup_config).await
 }

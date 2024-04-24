@@ -517,7 +517,8 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
- "sov-mock-da",
+ "sov-celestia",
+ "sov-mock",
  "sov-modules-api 0.1.0",
  "sov-modules-core 0.1.0",
  "sov-modules-rollup-blueprint",
@@ -2053,6 +2054,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "sov-celestia"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "hex",
+ "rollup-interface",
+ "sha2",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "sov-db"
 version = "0.1.0"
 dependencies = [
@@ -2080,7 +2094,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "sov-mock-da"
+name = "sov-mock"
 version = "0.1.0"
 dependencies = [
  "anyhow",

@@ -5,38 +5,38 @@ use std::time::Duration;
 use tokio::sync::{broadcast, RwLock, RwLockWriteGuard};
 use tokio::time;
 
-use crate::types::MockHash;
-use crate::types::{MockBlob, MockBlockHeader};
+use crate::types::CelestiaHash;
+use crate::types::{CelestiaBlob, CelestiaBlockHeader};
 use crate::{
-    types::MockBlock,
-    verifier::{MockDaSpec, MockDaVerifier},
+    types::CelestiaBlock,
+    verifier::{CelestiaDaSpec, CelestiaDaVerifier},
 };
 use async_trait::async_trait;
 use rollup_interface::services::da::DaService;
 use rollup_interface::services::da::SlotData;
 use rollup_interface::state::da::BlockHeaderTrait;
 
-const GENESIS_HEADER: MockBlockHeader = MockBlockHeader {
-    prev_hash: MockHash([0; 32]),
-    hash: MockHash([1; 32]),
+const GENESIS_HEADER: CelestiaBlockHeader = CelestiaBlockHeader {
+    prev_hash: CelestiaHash([0; 32]),
+    hash: CelestiaHash([1; 32]),
     height: 0,
 };
 
 #[derive(Clone)]
-pub struct MockDaService {
+pub struct CelestiaDaService {
     sender_address: [u8; 32],
-    blocks: Arc<RwLock<VecDeque<MockBlock>>>,
+    blocks: Arc<RwLock<VecDeque<CelestiaBlock>>>,
     /// Used for calculating correct finality from state of `blocks`
-    finalized_header_sender: broadcast::Sender<MockBlockHeader>,
+    finalized_header_sender: broadcast::Sender<CelestiaBlockHeader>,
 }
 
-impl MockDaService {
+impl CelestiaDaService {
     pub fn new(sender_address: [u8; 32]) -> Self {
         let (tx, rx1) = broadcast::channel(10);
         tokio::spawn(async move {
             let mut rx = rx1;
             while let Ok(header) = rx.recv().await {
-                tracing::debug!("Finalized MockHeader: {:?}", header);
+                tracing::debug!("Finalized CelestiaHeader: {:?}", header);
             }
         });
         Self {
@@ -49,7 +49,7 @@ impl MockDaService {
     fn add_blob(
         &self,
         blob: &[u8],
-        blocks: &mut RwLockWriteGuard<'_, VecDeque<MockBlock>>,
+        blocks: &mut RwLockWriteGuard<'_, VecDeque<CelestiaBlock>>,
     ) -> anyhow::Result<()> {
         let (prev_block_hash, height) = match blocks.iter().last().map(|b| b.header()) {
             Some(block_header) => (block_header.hash(), block_header.height() + 1),
@@ -59,13 +59,13 @@ impl MockDaService {
         let data_hash = hash_to_array(blob);
         let block_hash = block_hash(prev_block_hash.into(), data_hash, height);
 
-        let header = MockBlockHeader {
+        let header = CelestiaBlockHeader {
             prev_hash: prev_block_hash,
             hash: block_hash,
             height,
         };
-        let blob = MockBlob::new();
-        let block = MockBlock {
+        let blob = CelestiaBlob::new();
+        let block = CelestiaBlock {
             header,
             blobs: vec![blob],
         };
@@ -81,7 +81,7 @@ impl MockDaService {
     }
 
     async fn wait_for_height(&self, height: u64) -> anyhow::Result<()> {
-        /// Wait 100s
+        // Wait 100s
         for _ in 0..100000 {
             let blocks = self.blocks.read().await;
             if blocks.iter().any(|b| b.header().height() == height) {
@@ -94,12 +94,12 @@ impl MockDaService {
 }
 
 #[async_trait]
-impl DaService for MockDaService {
-    type Spec = MockDaSpec;
+impl DaService for CelestiaDaService {
+    type Spec = CelestiaDaSpec;
 
-    type Verifier = MockDaVerifier;
+    type Verifier = CelestiaDaVerifier;
 
-    type Block = MockBlock;
+    type Block = CelestiaBlock;
 
     /// Gets block at given height
     async fn get_block_at(&self, height: u64) -> anyhow::Result<Self::Block> {
@@ -146,11 +146,11 @@ fn hash_to_array(bytes: &[u8]) -> [u8; 32] {
         .expect("SHA256 should be 32 bytes")
 }
 
-fn block_hash(prev_hash: [u8; 32], data_hash: [u8; 32], height: u64) -> MockHash {
+fn block_hash(prev_hash: [u8; 32], data_hash: [u8; 32], height: u64) -> CelestiaHash {
     let mut block_to_hash = height.to_be_bytes().to_vec();
 
     block_to_hash.extend_from_slice(&prev_hash);
     block_to_hash.extend_from_slice(&data_hash);
 
-    MockHash(hash_to_array(&block_to_hash))
+    CelestiaHash(hash_to_array(&block_to_hash))
 }

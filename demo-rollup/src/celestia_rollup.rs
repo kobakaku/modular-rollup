@@ -1,19 +1,19 @@
 use async_trait::async_trait;
 
-use sov_mock::MockDaService;
+use sov_celestia::CelestiaDaService;
 use sov_modules_api::default_context::DefaultContext;
 use sov_modules_core::Spec;
 use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint};
 use sov_prover_storage_manager::ProverStorageManager;
 use sov_stf_runner::RollupConfig;
 
-pub struct MockRollup {}
+pub struct CelestiaRollup {}
 
 #[async_trait]
-impl RollupBlueprint for MockRollup {
+impl RollupBlueprint for CelestiaRollup {
     type StorageManager = ProverStorageManager;
     type NativeContext = DefaultContext;
-    type DaService = MockDaService;
+    type DaService = CelestiaDaService;
 
     fn create_storage_manager(
         &self,

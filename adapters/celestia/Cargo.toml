@@ -1,5 +1,5 @@
 [package]
-name = "sov-mock-da"
+name = "sov-celestia"
 resolver = "2"
 version = { workspace = true }
 edition = { workspace = true }
