@@ -1,7 +1,7 @@
 use jsonrpsee::server::RpcModule;
 
-use my_module::get_my_module_rpc_method;
 use rollup_interface::services::da::DaService;
+use sov_bank_module::get_bank_module_rpc_method;
 use sov_modules_core::Context;
 use sov_sequencer::batch_builder::FiFoBatchBuilder;
 
@@ -15,8 +15,8 @@ where
     let mut module = RpcModule::new(());
 
     // Module RPC.
-    let my_module_rpc_method = get_my_module_rpc_method();
-    module.merge(my_module_rpc_method).unwrap();
+    let bank_module_rpc_method = get_bank_module_rpc_method();
+    module.merge(bank_module_rpc_method).unwrap();
 
     // Sequencer RPC.
     {

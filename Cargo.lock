@@ -1401,6 +1401,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "sov-bank-module"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "jsonrpsee",
+ "serde",
+ "serde_json",
+ "tracing",
+]
+
+[[package]]
 name = "sov-celestia"
 version = "0.1.0"
 dependencies = [
@@ -1464,10 +1475,10 @@ dependencies = [
  "async-trait",
  "borsh",
  "jsonrpsee",
- "my-module",
  "rollup-interface",
  "serde",
  "serde_json",
+ "sov-bank-module",
  "sov-db",
  "sov-modules-core",
  "sov-modules-stf-blueprint",

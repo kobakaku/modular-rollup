@@ -12,6 +12,7 @@ members = [
     # "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/my-module",
     # "module-system/module-implementations/sov-bank",
+    "module-system/module-implementations/bank-module",
     "module-system/sov-modules-api",
     "module-system/sov-modules-core",
     "module-system/sov-modules-rollup-blueprint",
