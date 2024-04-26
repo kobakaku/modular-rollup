@@ -13,7 +13,7 @@ use sov_stf_runner::{from_toml_path, RollupConfig};
 const CONFIG_PATH: &'static str = "./rollup_config.toml";
 
 #[tokio::main]
-async fn main() -> Result<(), anyhow::Error> {
+async fn main() -> anyhow::Result<()> {
     initialize_logging();
 
     let rollup = new_rollup(CONFIG_PATH).await?;
@@ -24,7 +24,7 @@ async fn main() -> Result<(), anyhow::Error> {
 }
 
 #[cfg(feature = "mock")]
-async fn new_rollup(rollup_config_path: &str) -> Result<Rollup<MockRollup>, anyhow::Error> {
+async fn new_rollup(rollup_config_path: &str) -> anyhow::Result<Rollup<MockRollup>> {
     let rollup_config: RollupConfig =
         from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
     let rollup = MockRollup {};
@@ -32,7 +32,7 @@ async fn new_rollup(rollup_config_path: &str) -> Result<Rollup<MockRollup>, anyh
 }
 
 #[cfg(feature = "celestia")]
-async fn new_rollup(rollup_config_path: &str) -> Result<Rollup<CelestiaRollup>, anyhow::Error> {
+async fn new_rollup(rollup_config_path: &str) -> anyhow::Result<Rollup<CelestiaRollup>> {
     let rollup_config: RollupConfig =
         from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
     let rollup = CelestiaRollup {};

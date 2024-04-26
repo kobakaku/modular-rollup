@@ -3,7 +3,7 @@ use async_trait::async_trait;
 use sov_mock::MockDaService;
 use sov_modules_api::default_context::DefaultContext;
 use sov_modules_core::Spec;
-use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint};
+use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint, WalletBlueprint};
 use sov_prover_storage_manager::ProverStorageManager;
 use sov_stf_runner::RollupConfig;
 
@@ -34,3 +34,5 @@ impl RollupBlueprint for MockRollup {
         register_rpc::<Self::NativeContext, Self::DaService>(storage, da_service)
     }
 }
+
+impl WalletBlueprint for MockRollup {}

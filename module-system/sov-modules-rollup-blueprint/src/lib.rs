@@ -2,6 +2,7 @@ mod runtime_rpc;
 mod wallet;
 
 pub use runtime_rpc::register_rpc;
+pub use wallet::WalletBlueprint;
 
 use async_trait::async_trait;
 
