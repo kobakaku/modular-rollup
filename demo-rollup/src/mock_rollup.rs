@@ -7,6 +7,8 @@ use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint, WalletBlueprin
 use sov_prover_storage_manager::ProverStorageManager;
 use sov_stf_runner::RollupConfig;
 
+use crate::stf::Runtime;
+
 pub struct MockRollup {}
 
 #[async_trait]
@@ -14,6 +16,7 @@ impl RollupBlueprint for MockRollup {
     type StorageManager = ProverStorageManager;
     type NativeContext = DefaultContext;
     type DaService = MockDaService;
+    type NativeRuntime = Runtime<Self::NativeContext>;
 
     fn create_storage_manager(
         &self,

@@ -403,6 +403,7 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
+ "sov-bank-module",
  "sov-celestia",
  "sov-cli",
  "sov-mock",
@@ -1511,6 +1512,7 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
+ "sov-modules-core",
  "tracing",
 ]
 
@@ -1532,6 +1534,7 @@ name = "sov-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "borsh",
  "clap",
  "serde",
  "serde_json",

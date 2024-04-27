@@ -1,8 +1,10 @@
 use jsonrpsee::core::RpcResult;
 use rpc::BankModuleRpcServer;
 
+pub use call::CallMessage as BankCallMessage;
 pub use rpc::get_bank_module_rpc_method;
 
+mod call;
 mod rpc;
 
 pub struct BankModule {}

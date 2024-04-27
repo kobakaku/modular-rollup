@@ -1,10 +1,10 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use sov_modules_core::{Address, Context, Spec};
 use sov_state::ProverStorage;
 
 use crate::default_signature::{DefaultPrivateKey, DefaultPublicKey, DefaultSignature};
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct DefaultContext {}
 
 impl Spec for DefaultContext {

@@ -1,5 +1,3 @@
-use std::fmt::Debug;
-
 use clap::Parser;
 use sov_cli::{
     wallet_state::WalletState,
@@ -25,13 +23,13 @@ enum Workflows {
 
 const WALLET_STATE_DIR: &str = "wallet_state.json";
 
-pub trait WalletBlueprint: RollupBlueprint
-where
-    <Self as RollupBlueprint>::NativeContext: serde::Serialize + serde::de::DeserializeOwned,
-    <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable:
-        serde::Serialize + serde::de::DeserializeOwned,
-{
-    fn run_wallet() -> anyhow::Result<()> {
+pub trait WalletBlueprint: RollupBlueprint {
+    fn run_wallet() -> anyhow::Result<()>
+    where
+        <Self as RollupBlueprint>::NativeContext: serde::Serialize + serde::de::DeserializeOwned,
+        <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable:
+            serde::Serialize + serde::de::DeserializeOwned,
+    {
         let wallet_state = WalletState::<
             <Self as RollupBlueprint>::NativeContext,
             <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable,

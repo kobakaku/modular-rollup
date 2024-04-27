@@ -1,7 +1,6 @@
 use crate::wallet_state::WalletState;
 use serde::{de::DeserializeOwned, Serialize};
 use sov_modules_core::Context;
-use std::fmt::Debug;
 
 /// Import, Clean and List the transactions
 #[derive(clap::Subcommand)]
@@ -29,7 +28,7 @@ impl TransactionWorkFlows {
             }
             TransactionWorkFlows::List => {
                 println!(
-                    "{:?}",
+                    "{}",
                     serde_json::to_string_pretty(&wallet_state.unsent_transactions)?
                 );
                 Ok(())
