@@ -1,18 +1,19 @@
 use std::{fs, path::Path};
 
 use serde::de::DeserializeOwned;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use sov_modules_api::transaction::UnsentTransaction;
 use sov_modules_core::Context;
 
 /// A struct representing the current state of the CLI wallet
-#[derive(Debug, Deserialize)]
-pub struct WalletState<C: Context> {
-    pub unsent_transactions: Vec<UnsentTransaction<C>>,
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(bound = "Tx: Serialize + DeserializeOwned, C::Address: Serialize")]
+pub struct WalletState<C: Context, Tx> {
+    pub unsent_transactions: Vec<UnsentTransaction<Tx>>,
     pub addresses: Vec<AddressEntry<C>>,
 }
 
-impl<C: Context> Default for WalletState<C> {
+impl<C: Context, Tx: Serialize + DeserializeOwned> Default for WalletState<C, Tx> {
     fn default() -> Self {
         Self {
             unsent_transactions: Vec::new(),
@@ -21,7 +22,7 @@ impl<C: Context> Default for WalletState<C> {
     }
 }
 
-impl<C: Context + DeserializeOwned> WalletState<C> {
+impl<C: Context + DeserializeOwned, Tx: Serialize + DeserializeOwned> WalletState<C, Tx> {
     /// Read the wallet state from the given path
     pub fn load<P: AsRef<Path>>(path: P) -> anyhow::Result<Self> {
         let path = path.as_ref();
@@ -45,7 +46,7 @@ impl<C: Context + DeserializeOwned> WalletState<C> {
 // }
 
 /// An entry in the address list
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct AddressEntry<C: Context> {
     /// The address
     pub address: C::Address,

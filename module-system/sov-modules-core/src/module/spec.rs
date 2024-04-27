@@ -14,13 +14,13 @@ pub trait Spec {
     type Storage: Storage;
 
     /// The public key used for digital signatures.
-    type PublicKey: PublicKey + for<'a> serde::Deserialize<'a>;
+    type PublicKey: PublicKey;
 
     /// The private key used for digital signatures.
     type PrivateKey: PrivateKey;
 
     /// The digital signature schema used by the rollup.
-    type Signature: Signature + for<'a> serde::Deserialize<'a>;
+    type Signature: Signature;
 }
 
 /// A context contains information which is passed to modules during transaction is executed.

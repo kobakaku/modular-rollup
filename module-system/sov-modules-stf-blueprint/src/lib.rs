@@ -1,12 +1,16 @@
 mod stf_blueprint;
 
 use rollup_interface::state::stf::StateTransitionFunction;
-use sov_modules_core::{Context, Storage};
+use sov_modules_core::{Context, DispatchCall, Storage};
 pub use stf_blueprint::StfBlueprint;
 
-impl<C> StateTransitionFunction for StfBlueprint<C>
+/// This trait has to be implementer by a runtime in order to be used in `StfBlueprint`.
+pub trait RuntimeTrait: DispatchCall + Default {}
+
+impl<C, RT> StateTransitionFunction for StfBlueprint<C, RT>
 where
     C: Context,
+    RT: RuntimeTrait,
 {
     type StateRoot = <C::Storage as Storage>::Root;
 

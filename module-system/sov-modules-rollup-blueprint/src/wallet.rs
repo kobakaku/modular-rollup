@@ -1,8 +1,11 @@
+use std::fmt::Debug;
+
 use clap::Parser;
 use sov_cli::{
     wallet_state::WalletState,
     workflows::{rpc::RpcWorkFlows, transaction::TransactionWorkFlows},
 };
+use sov_modules_core::DispatchCall;
 
 use crate::RollupBlueprint;
 
@@ -24,18 +27,20 @@ const WALLET_STATE_DIR: &str = "wallet_state.json";
 
 pub trait WalletBlueprint: RollupBlueprint
 where
-    <Self as RollupBlueprint>::NativeContext: serde::de::DeserializeOwned,
+    <Self as RollupBlueprint>::NativeContext: serde::Serialize + serde::de::DeserializeOwned,
+    <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable:
+        serde::Serialize + serde::de::DeserializeOwned,
 {
     fn run_wallet() -> anyhow::Result<()> {
-        let wallet_state =
-            WalletState::<<Self as RollupBlueprint>::NativeContext>::load(WALLET_STATE_DIR)?;
+        let wallet_state = WalletState::<
+            <Self as RollupBlueprint>::NativeContext,
+            <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable,
+        >::load(WALLET_STATE_DIR)?;
 
-        println!("current wallet state:{:?}", wallet_state);
+        let cli = Cli::parse();
 
-        let invocation = Cli::parse();
-
-        match invocation.workflow {
-            Workflows::Transaction(_) => todo!(),
+        match cli.workflow {
+            Workflows::Transaction(inner) => inner.run(&wallet_state),
             Workflows::Rpc(_) => todo!(),
         }
     }

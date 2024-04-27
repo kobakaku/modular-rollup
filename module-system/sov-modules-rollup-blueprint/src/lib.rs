@@ -9,7 +9,7 @@ use async_trait::async_trait;
 use rollup_interface::{services::da::DaService, state::storage::HierarchicalStorageManager};
 use sov_db::ledger_db::LedgerDB;
 use sov_modules_core::{Context, Spec, Storage};
-use sov_modules_stf_blueprint::StfBlueprint;
+use sov_modules_stf_blueprint::{RuntimeTrait, StfBlueprint};
 use sov_stf_runner::{InitVariant, RollupConfig, StateTransitionRunner};
 
 #[async_trait]
@@ -18,6 +18,7 @@ pub trait RollupBlueprint: Sized + Send + Sync {
         NativeStorage = <Self::NativeContext as Spec>::Storage,
     >;
     type NativeContext: Context;
+    type NativeRuntime: RuntimeTrait;
     type DaService: DaService;
 
     /// Creates instance of a LedgerDB.
@@ -86,8 +87,11 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 /// Dependencies needed to run the rollup.
 pub struct Rollup<S: RollupBlueprint> {
     /// The State Transition Runner.
-    pub runner:
-        StateTransitionRunner<StfBlueprint<S::NativeContext>, S::StorageManager, S::DaService>,
+    pub runner: StateTransitionRunner<
+        StfBlueprint<S::NativeContext, S::NativeRuntime>,
+        S::StorageManager,
+        S::DaService,
+    >,
     /// Rpc methods for the rollup.
     pub rpc_methods: jsonrpsee::RpcModule<()>,
 }

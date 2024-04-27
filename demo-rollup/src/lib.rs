@@ -7,6 +7,8 @@ pub mod celestia_rollup;
 #[cfg(feature = "mock")]
 pub mod mock_rollup;
 
+pub mod stf;
+
 pub fn initialize_logging() {
     tracing_subscriber::registry()
         .with(fmt::layer())
