@@ -1,16 +1,16 @@
 use sov_modules_core::{PrivateKey, PublicKey, Signature};
 
-#[derive(Clone, Debug, borsh::BorshDeserialize)]
+#[derive(Clone, Debug, borsh::BorshDeserialize, serde::Deserialize)]
 pub struct DefaultPublicKey {}
 
 impl PublicKey for DefaultPublicKey {}
 
-#[derive(Clone, Debug, borsh::BorshDeserialize)]
+#[derive(Clone, Debug, borsh::BorshDeserialize, serde::Deserialize)]
 pub struct DefaultPrivateKey {}
 
 impl PrivateKey for DefaultPrivateKey {}
 
-#[derive(Clone, Debug, borsh::BorshDeserialize)]
+#[derive(Clone, Debug, borsh::BorshDeserialize, serde::Deserialize)]
 pub struct DefaultSignature {}
 
 impl Signature for DefaultSignature {

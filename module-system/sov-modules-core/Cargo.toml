@@ -8,6 +8,7 @@ authors = { workspace = true }
 [dependencies]
 anyhow = { workspace = true }
 borsh = { workspace = true }
+serde = { workspace = true }
 
 rollup-interface = { path = "../../rollup-interface" }
 

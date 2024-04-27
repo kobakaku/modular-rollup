@@ -1,5 +1,8 @@
 use clap::Parser;
-use sov_cli::{workflows::rpc::RpcWorkFlows, workflows::transaction::TransactionWorkFlows};
+use sov_cli::{
+    wallet_state::WalletState,
+    workflows::{rpc::RpcWorkFlows, transaction::TransactionWorkFlows},
+};
 
 use crate::RollupBlueprint;
 
@@ -17,9 +20,17 @@ enum Workflows {
     Rpc(RpcWorkFlows),
 }
 
-pub trait WalletBlueprint: RollupBlueprint {
+const WALLET_STATE_DIR: &str = "wallet_state.json";
+
+pub trait WalletBlueprint: RollupBlueprint
+where
+    <Self as RollupBlueprint>::NativeContext: serde::de::DeserializeOwned,
+{
     fn run_wallet() -> anyhow::Result<()> {
-        // TODO: walletの値をjsonの形で取得する
+        let wallet_state =
+            WalletState::<<Self as RollupBlueprint>::NativeContext>::load(WALLET_STATE_DIR)?;
+
+        println!("current wallet state:{:?}", wallet_state);
 
         let invocation = Cli::parse();
 

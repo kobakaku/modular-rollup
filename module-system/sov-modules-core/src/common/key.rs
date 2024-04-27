@@ -1,6 +1,7 @@
 use std::fmt::Debug;
 
 use borsh::BorshDeserialize;
+use serde::Deserialize;
 
 /// PublicKey used in the Module System.
 pub trait PublicKey: Clone + Debug + Send + Sync + BorshDeserialize {}

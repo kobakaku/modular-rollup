@@ -1,3 +1,4 @@
+/// Import, Clean and List the transactions
 #[derive(clap::Subcommand)]
 pub enum TransactionWorkFlows {
     /// Import a transaction

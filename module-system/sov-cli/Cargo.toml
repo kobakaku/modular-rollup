@@ -9,6 +9,8 @@ authors = { workspace = true }
 anyhow = { workspace = true }
 clap = { workspace = true }
 tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 sov-modules-api = { path = "../../module-system/sov-modules-api" }
 sov-modules-core = { path = "../../module-system/sov-modules-core" }

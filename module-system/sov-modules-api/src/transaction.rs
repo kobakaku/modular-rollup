@@ -1,6 +1,7 @@
+use serde::Deserialize;
 use sov_modules_core::Context;
 
-#[derive(Clone, Debug, borsh::BorshDeserialize)]
+#[derive(Clone, Debug, Deserialize, borsh::BorshDeserialize)]
 pub struct Transaction<C: Context> {
     signature: C::Signature,
     pub_key: C::PublicKey,
@@ -9,6 +10,7 @@ pub struct Transaction<C: Context> {
 }
 
 /// A unsent transaction with the required data to be submitted to the DA layer
+#[derive(Debug, Deserialize)]
 pub struct UnsentTransaction<C: Context> {
     pub tx: Transaction<C>,
 }

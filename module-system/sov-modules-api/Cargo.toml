@@ -10,6 +10,8 @@ anyhow = { workspace = true }
 jsonrpsee = { workspace = true }
 tracing = { workspace = true }
 borsh = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 sov-modules-core = { path = "../sov-modules-core" }
 sov-state = { path = "../sov-state" }
