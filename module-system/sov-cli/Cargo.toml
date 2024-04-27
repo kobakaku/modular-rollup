@@ -8,6 +8,10 @@ authors = { workspace = true }
 [dependencies]
 anyhow = { workspace = true }
 clap = { workspace = true }
+tracing = { workspace = true }
+
+sov-modules-api = { path = "../../module-system/sov-modules-api" }
+sov-modules-core = { path = "../../module-system/sov-modules-core" }
 
 [features]
 default = []

@@ -8,6 +8,11 @@ pub struct Transaction<C: Context> {
     nonce: u64,
 }
 
+/// A unsent transaction with the required data to be submitted to the DA layer
+pub struct UnsentTransaction<C: Context> {
+    pub tx: Transaction<C>,
+}
+
 impl<C: Context> Transaction<C> {
     pub fn verify(&self) -> anyhow::Result<()> {
         Ok(())

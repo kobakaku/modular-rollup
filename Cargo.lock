@@ -1531,6 +1531,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
+ "sov-modules-api",
+ "sov-modules-core",
+ "tracing",
 ]
 
 [[package]]
@@ -1574,6 +1577,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "borsh",
+ "rollup-interface",
 ]
 
 [[package]]
@@ -1583,11 +1587,13 @@ dependencies = [
  "anyhow",
  "async-trait",
  "borsh",
+ "clap",
  "jsonrpsee",
  "rollup-interface",
  "serde",
  "serde_json",
  "sov-bank-module",
+ "sov-cli",
  "sov-db",
  "sov-modules-core",
  "sov-modules-stf-blueprint",

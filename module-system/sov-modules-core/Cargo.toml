@@ -9,5 +9,7 @@ authors = { workspace = true }
 anyhow = { workspace = true }
 borsh = { workspace = true }
 
+rollup-interface = { path = "../../rollup-interface" }
+
 [features]
 default = []

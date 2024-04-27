@@ -14,11 +14,13 @@ tokio = { workspace = true }
 borsh = { workspace = true }
 async-trait = { workspace = true }
 tracing = { workspace = true }
+clap= { workspace = true }
 
 sov-db = { path = "../../full-node/sov-db" }
 sov-sequencer = { path = "../../full-node/sov-sequencer" }
 sov-stf-runner = { path = "../../full-node/sov-stf-runner" }
 sov-bank-module = { path = "../module-implementations/bank-module" }
+sov-cli = { path = "../sov-cli" }
 sov-modules-stf-blueprint = { path = "../sov-modules-stf-blueprint" }
 sov-modules-core = { path = "../sov-modules-core" }
 rollup-interface = { path = "../../rollup-interface" }

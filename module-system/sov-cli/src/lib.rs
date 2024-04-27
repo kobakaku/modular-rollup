@@ -1,1 +1,2 @@
-// TODO: defined workflow of wallet using clap
+pub mod wallet_state;
+pub mod workflows;

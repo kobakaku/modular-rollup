@@ -1,4 +1,4 @@
-use sov_modules_core::{Context, Spec};
+use sov_modules_core::{Address, Context, Spec};
 use sov_state::ProverStorage;
 
 use crate::default_signature::{DefaultPrivateKey, DefaultPublicKey, DefaultSignature};
@@ -7,6 +7,7 @@ use crate::default_signature::{DefaultPrivateKey, DefaultPublicKey, DefaultSigna
 pub struct DefaultContext {}
 
 impl Spec for DefaultContext {
+    type Address = Address;
     type Storage = ProverStorage;
     type PublicKey = DefaultPublicKey;
     type PrivateKey = DefaultPrivateKey;
