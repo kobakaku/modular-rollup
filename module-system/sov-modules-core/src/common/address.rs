@@ -39,8 +39,6 @@ impl<'de> serde::Deserialize<'de> for Address {
     {
         if deserializer.is_human_readable() {
             let bech32_addr: AddressBech32 = serde::Deserialize::deserialize(deserializer)?;
-            println!("{:?}", bech32_addr);
-
             Ok(Address::from(bech32_addr.to_byte_array()))
         } else {
             let addr: [u8; 32] = serde::Deserialize::deserialize(deserializer)?;

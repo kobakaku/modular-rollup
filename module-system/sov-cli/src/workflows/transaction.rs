@@ -5,8 +5,8 @@ use sov_modules_core::Context;
 /// Import, Clean and List the transactions
 #[derive(clap::Subcommand)]
 pub enum TransactionWorkFlows {
-    /// Import a transaction
-    Import,
+    // TODO: Import a transaction
+    // Import,
     /// Delete the currenct batch of transactions
     Clean,
     /// List the currenct batch of transactions
@@ -17,14 +17,14 @@ impl TransactionWorkFlows {
     /// Run the transaction workflow
     pub fn run<C: Context, Tx: Serialize + DeserializeOwned>(
         self,
-        wallet_state: &WalletState<C, Tx>,
+        wallet_state: &mut WalletState<C, Tx>,
     ) -> anyhow::Result<()> {
         match self {
-            TransactionWorkFlows::Import => {
-                todo!()
-            }
+            // TODO: implement import someday
+            // TransactionWorkFlows::Import => todo!(),
             TransactionWorkFlows::Clean => {
-                todo!()
+                wallet_state.unsent_transactions.clear();
+                Ok(())
             }
             TransactionWorkFlows::List => {
                 println!(

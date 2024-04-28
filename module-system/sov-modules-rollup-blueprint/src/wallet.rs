@@ -30,16 +30,18 @@ pub trait WalletBlueprint: RollupBlueprint {
         <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable:
             serde::Serialize + serde::de::DeserializeOwned,
     {
-        let wallet_state = WalletState::<
+        let mut wallet_state = WalletState::<
             <Self as RollupBlueprint>::NativeContext,
             <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable,
-        >::load(WALLET_STATE_DIR)?;
+        >::read(WALLET_STATE_DIR)?;
 
         let cli = Cli::parse();
 
         match cli.workflow {
-            Workflows::Transaction(inner) => inner.run(&wallet_state),
+            Workflows::Transaction(inner) => inner.run(&mut wallet_state)?,
             Workflows::Rpc(_) => todo!(),
         }
+
+        wallet_state.write(WALLET_STATE_DIR)
     }
 }

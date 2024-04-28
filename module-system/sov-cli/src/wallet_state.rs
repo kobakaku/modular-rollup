@@ -24,7 +24,7 @@ impl<C: Context, Tx: Serialize + DeserializeOwned> Default for WalletState<C, Tx
 
 impl<C: Context + DeserializeOwned, Tx: Serialize + DeserializeOwned> WalletState<C, Tx> {
     /// Read the wallet state from the given path
-    pub fn load<P: AsRef<Path>>(path: P) -> anyhow::Result<Self> {
+    pub fn read<P: AsRef<Path>>(path: P) -> anyhow::Result<Self> {
         let path = path.as_ref();
         if path.exists() {
             let data = fs::read(path)?;
@@ -36,7 +36,11 @@ impl<C: Context + DeserializeOwned, Tx: Serialize + DeserializeOwned> WalletStat
     }
 
     /// Write the wallet state to the given path
-    pub fn write() -> () {}
+    pub fn write<P: AsRef<Path>>(&mut self, path: P) -> anyhow::Result<()> {
+        let data = serde_json::to_string_pretty(self)?;
+        fs::write(path, data)?;
+        Ok(())
+    }
 }
 
 // #[derive(Debug, Deserialize)]
