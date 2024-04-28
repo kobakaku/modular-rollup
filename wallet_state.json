@@ -1,4 +1,19 @@
 {
-    "unsent_transactions": [],
+    "unsent_transactions": [
+        {
+            "tx": {
+                "Bank": {
+                    "CreateToken": {
+                        "token_name": "token1",
+                        "initial_balance": 100,
+                        "minter_address": {
+                            "value": "sov1l6n2cku82yfqld30lanm2nfw43n2auc8clw7r5u5m6s7p8jrm4zqrr8r94"
+                        }
+                    }
+                }
+            },
+            "chain_id": 1234
+        }
+    ],
     "addresses": []
 }
