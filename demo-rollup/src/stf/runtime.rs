@@ -1,5 +1,6 @@
 use std::marker::PhantomData;
 
+use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Deserialize, Serialize};
 use sov_bank_module::BankCallMessage;
 use sov_modules_core::{Context, DispatchCall};
@@ -21,7 +22,7 @@ impl<C: Context> Default for Runtime<C> {
 
 impl<C: Context> RuntimeTrait for Runtime<C> {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
 pub enum RuntimeCall<C: Context> {
     Bank(BankCallMessage<C>),
 }

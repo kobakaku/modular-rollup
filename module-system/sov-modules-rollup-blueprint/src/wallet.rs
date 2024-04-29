@@ -1,3 +1,4 @@
+use async_trait::async_trait;
 use clap::Parser;
 use sov_cli::{
     wallet_state::WalletState,
@@ -23,12 +24,18 @@ enum Workflows {
 
 const WALLET_STATE_DIR: &str = "wallet_state.json";
 
+#[async_trait]
 pub trait WalletBlueprint: RollupBlueprint {
-    fn run_wallet() -> anyhow::Result<()>
+    async fn run_wallet() -> anyhow::Result<()>
     where
         <Self as RollupBlueprint>::NativeContext: serde::Serialize + serde::de::DeserializeOwned,
         <<Self as RollupBlueprint>::NativeRuntime as DispatchCall>::Decodable:
-            serde::Serialize + serde::de::DeserializeOwned,
+            serde::Serialize
+                + serde::de::DeserializeOwned
+                + borsh::de::BorshDeserialize
+                + borsh::BorshSerialize
+                + Send
+                + Sync,
     {
         let mut wallet_state = WalletState::<
             <Self as RollupBlueprint>::NativeContext,
@@ -39,7 +46,7 @@ pub trait WalletBlueprint: RollupBlueprint {
 
         match cli.workflow {
             Workflows::Transaction(inner) => inner.run(&mut wallet_state)?,
-            Workflows::Rpc(_) => todo!(),
+            Workflows::Rpc(inner) => inner.run(&mut wallet_state).await?,
         }
 
         wallet_state.write(WALLET_STATE_DIR)

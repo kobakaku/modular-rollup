@@ -9,6 +9,7 @@ authors = { workspace = true }
 anyhow = { workspace = true }
 async-trait = { workspace = true }
 serde = { workspace = true }
+borsh = { workspace = true }
 
 [features]
 default = []

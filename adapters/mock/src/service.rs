@@ -82,14 +82,14 @@ impl MockDaService {
 
     async fn wait_for_height(&self, height: u64) -> anyhow::Result<()> {
         // Wait 100s
-        for _ in 0..100000 {
+        for _ in 0..1000000 {
             let blocks = self.blocks.read().await;
             if blocks.iter().any(|b| b.header().height() == height) {
                 return Ok(());
             }
             time::sleep(Duration::from_millis(1)).await;
         }
-        anyhow::bail!("No block at height={height} has been sent in {:?}s", 100)
+        anyhow::bail!("No block at height={height} has been sent in {:?}s", 1000)
     }
 }
 

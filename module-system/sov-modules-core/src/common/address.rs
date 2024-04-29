@@ -1,9 +1,10 @@
 use bech32::{FromBase32, ToBase32, Variant};
+use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Deserialize, Serialize};
 
 use rollup_interface::state::{BasicAddress, RollupAddress};
 
-#[derive(Debug)]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
 pub struct Address {
     addr: [u8; 32],
 }

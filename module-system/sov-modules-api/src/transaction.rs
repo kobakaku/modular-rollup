@@ -1,3 +1,4 @@
+use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use sov_modules_core::Context;
 
@@ -10,7 +11,7 @@ pub struct Transaction<C: Context> {
 }
 
 /// A unsent transaction with the required data to be submitted to the DA layer
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
 #[serde(bound = "Tx: Serialize + DeserializeOwned")]
 pub struct UnsentTransaction<Tx> {
     /// The underlying transaction

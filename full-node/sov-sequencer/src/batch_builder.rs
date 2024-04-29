@@ -44,7 +44,6 @@ impl<C: Context> BatchBuilder for FiFoBatchBuilder<C> {
 
         // Deserialize
         let mut data = Cursor::new(&raw);
-        // TODO: これでdeserializeできる？トランザクションを送るときのserialize方法を正しく理解する。
         let tx = Transaction::<C>::deserialize_reader(&mut data)
             .context("Failed to deserialize transaction.")?;
 
