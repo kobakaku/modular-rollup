@@ -5,7 +5,7 @@ use std::time::Duration;
 use tokio::sync::{broadcast, RwLock, RwLockWriteGuard};
 use tokio::time;
 
-use crate::types::MockHash;
+use crate::types::{MockAddress, MockHash};
 use crate::types::{MockBlob, MockBlockHeader};
 use crate::{
     types::MockBlock,
@@ -24,14 +24,14 @@ const GENESIS_HEADER: MockBlockHeader = MockBlockHeader {
 
 #[derive(Clone)]
 pub struct MockDaService {
-    sender_address: [u8; 32],
+    sender_address: MockAddress,
     blocks: Arc<RwLock<VecDeque<MockBlock>>>,
     /// Used for calculating correct finality from state of `blocks`
     finalized_header_sender: broadcast::Sender<MockBlockHeader>,
 }
 
 impl MockDaService {
-    pub fn new(sender_address: [u8; 32]) -> Self {
+    pub fn new(sender_address: MockAddress) -> Self {
         let (tx, rx1) = broadcast::channel(10);
         tokio::spawn(async move {
             let mut rx = rx1;
@@ -89,7 +89,7 @@ impl MockDaService {
             }
             time::sleep(Duration::from_millis(1)).await;
         }
-        anyhow::bail!("No block at height={height} has been sent in {:?}s", 1000)
+        anyhow::bail!("No block at height={height} has been sent in {:?}s", 100)
     }
 }
 

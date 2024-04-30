@@ -25,7 +25,9 @@ async fn main() -> anyhow::Result<()> {
 
 #[cfg(feature = "mock")]
 async fn new_rollup(rollup_config_path: &str) -> anyhow::Result<Rollup<MockRollup>> {
-    let rollup_config: RollupConfig =
+    use sov_mock::MockDaConfig;
+
+    let rollup_config: RollupConfig<MockDaConfig> =
         from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
     let rollup = MockRollup {};
     rollup.create_new_rollup(rollup_config).await

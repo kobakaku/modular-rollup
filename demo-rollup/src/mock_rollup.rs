@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 
-use sov_mock::MockDaService;
+use sov_mock::{MockDaConfig, MockDaService};
 use sov_modules_api::default_context::DefaultContext;
 use sov_modules_core::Spec;
 use sov_modules_rollup_blueprint::{register_rpc, RollupBlueprint, WalletBlueprint};
@@ -17,15 +17,16 @@ impl RollupBlueprint for MockRollup {
     type NativeContext = DefaultContext;
     type DaService = MockDaService;
     type NativeRuntime = Runtime<Self::NativeContext>;
+    type DaConfig = MockDaConfig;
 
     fn create_storage_manager(
         &self,
-        _rollup_config: &RollupConfig,
+        _rollup_config: &RollupConfig<Self::DaConfig>,
     ) -> anyhow::Result<Self::StorageManager> {
         Ok(Self::StorageManager::new())
     }
 
-    fn create_da_service(&self, rollup_config: &RollupConfig) -> Self::DaService {
+    fn create_da_service(&self, rollup_config: &RollupConfig<Self::DaConfig>) -> Self::DaService {
         Self::DaService::new(rollup_config.da.sender_address)
     }
 

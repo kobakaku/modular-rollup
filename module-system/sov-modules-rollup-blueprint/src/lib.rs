@@ -20,21 +20,25 @@ pub trait RollupBlueprint: Sized + Send + Sync {
     type NativeContext: Context;
     type NativeRuntime: RuntimeTrait;
     type DaService: DaService;
+    type DaConfig: Send + Sync;
 
     /// Creates instance of a LedgerDB.
-    fn create_ledger_db(&self, rollup_config: &RollupConfig) -> LedgerDB {
+    fn create_ledger_db(&self, rollup_config: &RollupConfig<Self::DaConfig>) -> LedgerDB {
         LedgerDB::open_ledger_db(&rollup_config.storage.path).expect("Ledger DB failed to open")
     }
 
-    fn create_da_service(&self, rollup_config: &RollupConfig) -> Self::DaService;
+    fn create_da_service(&self, rollup_config: &RollupConfig<Self::DaConfig>) -> Self::DaService;
 
     fn create_storage_manager(
         &self,
-        rollup_config: &RollupConfig,
+        rollup_config: &RollupConfig<Self::DaConfig>,
     ) -> anyhow::Result<Self::StorageManager>;
 
     /// Creates a new Rollup
-    async fn create_new_rollup(&self, rollup_config: RollupConfig) -> anyhow::Result<Rollup<Self>> {
+    async fn create_new_rollup(
+        &self,
+        rollup_config: RollupConfig<Self::DaConfig>,
+    ) -> anyhow::Result<Rollup<Self>> {
         let da_service = self.create_da_service(&rollup_config);
 
         let last_finalized_block_header = da_service.get_last_finalized_block_header().await?;

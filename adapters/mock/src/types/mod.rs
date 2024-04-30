@@ -3,6 +3,10 @@
 use std::fmt::{Debug, Formatter};
 
 use rollup_interface::{services::da::SlotData, state::da::BlockHeaderTrait};
+use serde::{Deserialize, Serialize};
+
+mod address;
+pub use address::*;
 
 #[derive(Clone)]
 pub struct MockBlock {
@@ -67,4 +71,9 @@ impl MockBlob {
     pub(crate) fn new() -> Self {
         Self {}
     }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct MockDaConfig {
+    pub sender_address: MockAddress,
 }

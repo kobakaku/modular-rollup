@@ -6,7 +6,7 @@ use std::{
 };
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
-pub struct RollupConfig {
+pub struct RollupConfig<DaServiceConfig> {
     pub runner: RunnerConfig,
     pub storage: StorageConfig,
     /// Da configuration.
@@ -34,11 +34,6 @@ pub struct RpcConfig {
 #[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct StorageConfig {
     pub path: PathBuf,
-}
-
-#[derive(Debug, Clone, PartialEq, Deserialize)]
-pub struct DaServiceConfig {
-    pub sender_address: [u8; 32],
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]

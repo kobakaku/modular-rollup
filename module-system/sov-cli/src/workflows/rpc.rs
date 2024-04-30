@@ -49,10 +49,15 @@ impl RpcWorkFlows {
                     .collect::<Vec<_>>();
 
                 let client = HttpClientBuilder::default().build(RPC_URL)?;
-                let _res: String = client
+                let res: String = client
                     .request("sequencer_publishBatch", data)
                     .await
                     .context("Unable to publish batch")?;
+
+                println!(
+                    "Your batch was submitted to the sequencer for publication. Response: {:?}",
+                    res
+                );
 
                 Ok(())
             }
