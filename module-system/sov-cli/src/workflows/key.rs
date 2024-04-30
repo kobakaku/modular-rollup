@@ -1,4 +1,6 @@
-use crate::wallet_state::WalletState;
+use std::{fs, path::Path};
+
+use crate::wallet_state::{PrivateKeyAndAddress, WalletState};
 use serde::{de::DeserializeOwned, Serialize};
 use sov_modules_core::Context;
 
@@ -33,4 +35,10 @@ impl KeyWorkFlows {
 /// Generate a new key
 fn generate_key() -> anyhow::Result<()> {
     todo!()
+}
+
+pub fn load_priv_key<C: Context>(path: impl AsRef<Path>) -> anyhow::Result<C::PrivateKey> {
+    let data = fs::read(path)?;
+    let key_and_address: PrivateKeyAndAddress<C> = serde_json::from_slice(&data)?;
+    Ok(key_and_address.private_key)
 }

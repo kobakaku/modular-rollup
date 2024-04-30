@@ -7,6 +7,7 @@ pub mod storage;
 /// A maker trait for general addresses
 pub trait BasicAddress:
     Debug
+    + Clone
     + Send
     + Sync
     + serde::Serialize

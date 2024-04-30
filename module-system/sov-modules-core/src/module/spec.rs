@@ -17,7 +17,7 @@ pub trait Spec {
     type PublicKey: PublicKey;
 
     /// The private key used for digital signatures.
-    type PrivateKey: PrivateKey;
+    type PrivateKey: PrivateKey<PublicKey = Self::PublicKey, Signature = Self::Signature>;
 
     /// The digital signature schema used by the rollup.
     type Signature: Signature;

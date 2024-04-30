@@ -44,6 +44,19 @@ impl<C: Context + DeserializeOwned, Tx: Serialize + DeserializeOwned> WalletStat
     }
 }
 
+/// A struct representing private key and associated address
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PrivateKeyAndAddress<C: Context> {
+    pub private_key: C::PrivateKey,
+    /// Address associated from the private key
+    pub address: C::Address,
+}
+
+impl<C: Context> PrivateKeyAndAddress<C> {
+    // TODO: 鍵を生成できるようにする
+    // pub fn generate() -> Self {}
+}
+
 // #[derive(Debug, Deserialize)]
 // pub struct AddressList<C: Context> {
 //     /// The active address is stored first in this array.
@@ -51,10 +64,12 @@ impl<C: Context + DeserializeOwned, Tx: Serialize + DeserializeOwned> WalletStat
 // }
 
 /// An entry in the address list
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddressEntry<C: Context> {
     /// The address
     pub address: C::Address,
     /// The public key associated with the address
     pub pub_key: C::PublicKey,
+    /// The path of the private key on disk.
+    pub path: PathBuf,
 }
