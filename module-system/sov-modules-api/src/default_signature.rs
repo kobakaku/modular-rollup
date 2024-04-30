@@ -1,12 +1,12 @@
 use sov_modules_core::{PrivateKey, PublicKey, Signature};
 
 #[derive(Clone, Debug, borsh::BorshDeserialize, serde::Deserialize, serde::Serialize)]
-pub struct DefaultPublicKey {}
+pub struct DefaultPublicKey(String);
 
 impl PublicKey for DefaultPublicKey {}
 
 #[derive(Clone, Debug, borsh::BorshDeserialize, serde::Deserialize, serde::Serialize)]
-pub struct DefaultPrivateKey {}
+pub struct DefaultPrivateKey(String);
 
 impl PrivateKey for DefaultPrivateKey {}
 

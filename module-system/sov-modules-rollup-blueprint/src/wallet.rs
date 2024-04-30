@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use clap::Parser;
 use sov_cli::{
     wallet_state::WalletState,
-    workflows::{rpc::RpcWorkFlows, transaction::TransactionWorkFlows},
+    workflows::{key::KeyWorkFlows, rpc::RpcWorkFlows, transaction::TransactionWorkFlows},
 };
 use sov_modules_core::DispatchCall;
 
@@ -20,6 +20,8 @@ enum Workflows {
     Transaction(TransactionWorkFlows),
     #[clap(subcommand)]
     Rpc(RpcWorkFlows),
+    #[clap(subcommand)]
+    Key(KeyWorkFlows),
 }
 
 const WALLET_STATE_DIR: &str = "wallet_state.json";
@@ -47,6 +49,7 @@ pub trait WalletBlueprint: RollupBlueprint {
         match cli.workflow {
             Workflows::Transaction(inner) => inner.run(&mut wallet_state)?,
             Workflows::Rpc(inner) => inner.run(&mut wallet_state).await?,
+            Workflows::Key(inner) => inner.run(&mut wallet_state)?,
         }
 
         wallet_state.write(WALLET_STATE_DIR)

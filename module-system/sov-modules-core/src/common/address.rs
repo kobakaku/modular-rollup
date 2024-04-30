@@ -10,9 +10,7 @@ pub struct Address {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct AddressBech32 {
-    value: String,
-}
+pub struct AddressBech32(String);
 
 impl From<[u8; 32]> for Address {
     fn from(addr: [u8; 32]) -> Self {
@@ -52,8 +50,12 @@ impl BasicAddress for Address {}
 impl RollupAddress for Address {}
 
 impl AddressBech32 {
+    pub fn get_string(&self) -> &str {
+        &self.0
+    }
+
     fn to_byte_array(&self) -> [u8; 32] {
-        let (_, vec, _) = split_address_bech32(&self.value).unwrap();
+        let (_, vec, _) = split_address_bech32(self.get_string()).unwrap();
         if vec.len() != 32 {
             panic!("Invalid length {}, should be 32", vec.len())
         }
@@ -68,7 +70,7 @@ impl AddressBech32 {
 impl From<&Address> for AddressBech32 {
     fn from(value: &Address) -> Self {
         let string = to_address_bech32(&value.addr, HRP).unwrap();
-        AddressBech32 { value: string }
+        AddressBech32(string)
     }
 }
 

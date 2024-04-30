@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use std::{fs, path::Path};
 
 use serde::de::DeserializeOwned;

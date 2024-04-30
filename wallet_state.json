@@ -6,14 +6,17 @@
           "CreateToken": {
             "token_name": "token1",
             "initial_balance": 100,
-            "minter_address": {
-              "value": "sov1l6n2cku82yfqld30lanm2nfw43n2auc8clw7r5u5m6s7p8jrm4zqklh0qh"
-            }
+            "minter_address": "sov1l6n2cku82yfqld30lanm2nfw43n2auc8clw7r5u5m6s7p8jrm4zqklh0qh"
           }
         }
       },
       "chain_id": 1234
     }
   ],
-  "addresses": []
+  "addresses": [
+    {
+      "address": "sov1l6n2cku82yfqld30lanm2nfw43n2auc8clw7r5u5m6s7p8jrm4zqklh0qh",
+      "pub_key": "0xf8ad2437a279e1c8932c07358c91dc4fe34864a98c6c25f298e2a0199c1509ff"
+    }
+  ]
 }
