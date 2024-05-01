@@ -10,19 +10,18 @@ pub fn register_rpc<C, D, DC>(
     da_service: &D,
 ) -> anyhow::Result<jsonrpsee::RpcModule<()>>
 where
-    C: Context,
+    C: Context + Send + Sync,
     D: DaService + Clone,
     DC: DispatchCall<Context = C> + 'static,
 {
     let mut module = RpcModule::new(());
 
     // Module RPC.
-    let bank_module_rpc_method = get_bank_module_rpc_method();
+    let bank_module_rpc_method = get_bank_module_rpc_method::<C>();
     module.merge(bank_module_rpc_method).unwrap();
 
     // Sequencer RPC.
     {
-        // TODO: Cをいれたくない
         let batch_builder = FiFoBatchBuilder::<C, DC>::new(storage.clone(), u32::MAX as usize);
         let sequencer_rpc_method =
             sov_sequencer::rpc::get_sequencer_rpc(batch_builder, da_service.clone());

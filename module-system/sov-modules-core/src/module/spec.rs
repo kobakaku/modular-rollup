@@ -20,7 +20,7 @@ pub trait Spec {
     type PrivateKey: PrivateKey<PublicKey = Self::PublicKey, Signature = Self::Signature>;
 
     /// The digital signature schema used by the rollup.
-    type Signature: Signature;
+    type Signature: Signature<PublicKey = Self::PublicKey>;
 }
 
 /// A context contains information which is passed to modules during transaction is executed.
