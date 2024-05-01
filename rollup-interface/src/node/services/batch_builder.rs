@@ -1,5 +1,5 @@
 /// This trait is responsible for managing mempool and building batches.
-pub trait BatchBuilder: Send + Sync + 'static {
+pub trait BatchBuilder {
     /// Accept a new transaction.
     /// Can return error if transation is invalid or mempool is full.
     fn accept_tx(&mut self, tx: Vec<u8>) -> anyhow::Result<()>;

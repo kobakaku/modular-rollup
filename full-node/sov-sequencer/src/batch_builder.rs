@@ -4,24 +4,26 @@ use anyhow::{bail, Context as _};
 use borsh::BorshDeserialize;
 use rollup_interface::services::batch_builder::BatchBuilder;
 use sov_modules_api::transaction::Transaction;
-use sov_modules_core::Context;
+use sov_modules_core::{Context, DispatchCall};
 
 #[derive(Clone)]
-pub struct PooledTransaction<C: Context> {
+pub struct PooledTransaction<C: Context, DC: DispatchCall<Context = C>> {
     /// Raw transaction bytes.
     raw: Vec<u8>,
     /// Deserialized transaction.
     tx: Transaction<C>,
+    /// The decoded runtime message.
+    msg: DC::Decodable,
 }
 
 /// BatchBuilder that creates batches of transaction in the order of FIFO (First-In First-Out)
-pub struct FiFoBatchBuilder<C: Context> {
-    mempool: VecDeque<PooledTransaction<C>>,
+pub struct FiFoBatchBuilder<C: Context, DC: DispatchCall<Context = C>> {
+    mempool: VecDeque<PooledTransaction<C, DC>>,
     current_storage: C::Storage,
     mempool_max_txs_count: usize,
 }
 
-impl<C: Context> FiFoBatchBuilder<C> {
+impl<C: Context, DC: DispatchCall<Context = C>> FiFoBatchBuilder<C, DC> {
     pub fn new(current_storage: C::Storage, mempool_max_txs_count: usize) -> Self {
         Self {
             mempool: VecDeque::new(),
@@ -31,7 +33,7 @@ impl<C: Context> FiFoBatchBuilder<C> {
     }
 }
 
-impl<C: Context> BatchBuilder for FiFoBatchBuilder<C> {
+impl<C: Context, DC: DispatchCall<Context = C>> BatchBuilder for FiFoBatchBuilder<C, DC> {
     /// Attempt to add transaction to the mempool.
     ///
     /// The transaction is discarded if:
@@ -50,10 +52,15 @@ impl<C: Context> BatchBuilder for FiFoBatchBuilder<C> {
         // Verify
         tx.verify().context("Failed to verify transaction.")?;
 
-        // Decode (メッセージをデコードするときに必要？)
+        // Decode
+        // let msg: DC::Decodable = decode(tx.runtime_msg);
 
         // Add the tx to mempool
-        self.mempool.push_back(PooledTransaction { raw, tx });
+        self.mempool.push_back(PooledTransaction {
+            raw,
+            tx,
+            msg: todo!(),
+        });
         Ok(())
     }
 
@@ -62,6 +69,8 @@ impl<C: Context> BatchBuilder for FiFoBatchBuilder<C> {
         let mut txs = Vec::new();
 
         while let Some(pooled_tx) = self.mempool.pop_front() {
+            let msg = pooled_tx.tx.runtime_msg;
+
             tracing::info!("Transaction has been included in the batch");
             txs.push(pooled_tx.raw);
         }

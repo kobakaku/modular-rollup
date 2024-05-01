@@ -8,11 +8,11 @@ const EXTEND_MESSAGE_LEN: usize = 2 * core::mem::size_of::<u64>();
 
 #[derive(Clone, Debug, Deserialize, borsh::BorshSerialize, borsh::BorshDeserialize)]
 pub struct Transaction<C: Context> {
-    signature: C::Signature,
-    pub_key: C::PublicKey,
-    runtime_msg: Vec<u8>,
-    chain_id: u64,
-    nonce: u64,
+    pub signature: C::Signature,
+    pub pub_key: C::PublicKey,
+    pub runtime_msg: Vec<u8>,
+    pub chain_id: u64,
+    pub nonce: u64,
 }
 
 impl<C: Context> Transaction<C> {
