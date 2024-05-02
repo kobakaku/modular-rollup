@@ -12,7 +12,7 @@ pub fn register_rpc<C, D, DC>(
 where
     C: Context + Send + Sync,
     D: DaService + Clone,
-    DC: DispatchCall<Context = C> + 'static,
+    DC: DispatchCall<Context = C> + Send + Sync + 'static,
 {
     let mut module = RpcModule::new(());
 
@@ -22,7 +22,8 @@ where
 
     // Sequencer RPC.
     {
-        let batch_builder = FiFoBatchBuilder::<C, DC>::new(storage.clone(), u32::MAX as usize);
+        let batch_builder =
+            FiFoBatchBuilder::<C, DC>::new(storage.clone(), u32::MAX as usize, DC::default());
         let sequencer_rpc_method =
             sov_sequencer::rpc::get_sequencer_rpc(batch_builder, da_service.clone());
         module.merge(sequencer_rpc_method).unwrap();

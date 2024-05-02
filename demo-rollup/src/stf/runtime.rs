@@ -1,3 +1,5 @@
+use std::io::Cursor;
+
 use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Deserialize, Serialize};
 use sov_bank_module::{BankCallMessage, BankModule};
@@ -30,17 +32,18 @@ impl<C: Context> DispatchCall for Runtime<C> {
 
     type Decodable = RuntimeCall<C>;
 
-    fn decode_call() -> anyhow::Result<Self::Decodable> {
-        todo!()
+    fn decode_call(serialized_message: &[u8]) -> anyhow::Result<Self::Decodable> {
+        let mut data = Cursor::new(serialized_message);
+        let msg = Self::Decodable::deserialize_reader(&mut data)?;
+        Ok(msg)
     }
 
     fn dispatch_call(
         &self,
         message: Self::Decodable,
-        context: &Self::Context,
     ) -> anyhow::Result<sov_modules_core::CallResponse> {
         match message {
-            RuntimeCall::Bank(msg) => BankModule::<Self::Context>::call(&self.bank, msg, context),
+            RuntimeCall::Bank(msg) => BankModule::<Self::Context>::call(&self.bank, msg),
         }
     }
 }

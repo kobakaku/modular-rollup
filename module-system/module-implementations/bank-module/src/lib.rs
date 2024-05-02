@@ -20,11 +20,7 @@ impl<C: Context> Module for BankModule<C> {
     type Context = C;
     type CallMessage = BankCallMessage<C>;
 
-    fn call(
-        &self,
-        msg: Self::CallMessage,
-        _context: &Self::Context,
-    ) -> anyhow::Result<sov_modules_core::CallResponse> {
+    fn call(&self, msg: Self::CallMessage) -> anyhow::Result<sov_modules_core::CallResponse> {
         tracing::debug!("{:?}", msg);
         Ok(CallResponse {})
     }

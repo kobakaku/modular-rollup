@@ -1,4 +1,4 @@
-use std::{mem, path::Path};
+use std::mem;
 
 use anyhow::Context as _;
 use borsh::{BorshDeserialize, BorshSerialize};

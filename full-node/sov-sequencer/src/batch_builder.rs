@@ -21,14 +21,20 @@ pub struct FiFoBatchBuilder<C: Context, DC: DispatchCall<Context = C>> {
     mempool: VecDeque<PooledTransaction<C, DC>>,
     current_storage: C::Storage,
     mempool_max_txs_count: usize,
+    dispatch_call: DC,
 }
 
 impl<C: Context, DC: DispatchCall<Context = C>> FiFoBatchBuilder<C, DC> {
-    pub fn new(current_storage: C::Storage, mempool_max_txs_count: usize) -> Self {
+    pub fn new(
+        current_storage: C::Storage,
+        mempool_max_txs_count: usize,
+        dispatch_call: DC,
+    ) -> Self {
         Self {
             mempool: VecDeque::new(),
             current_storage,
             mempool_max_txs_count,
+            dispatch_call,
         }
     }
 }
@@ -45,22 +51,18 @@ impl<C: Context, DC: DispatchCall<Context = C>> BatchBuilder for FiFoBatchBuilde
         }
 
         // Deserialize
-        let mut data = Cursor::new(&raw);
-        let tx = Transaction::<C>::deserialize_reader(&mut data)
+        let mut tx_data = Cursor::new(&raw);
+        let tx = Transaction::<C>::deserialize_reader(&mut tx_data)
             .context("Failed to deserialize transaction.")?;
 
         // Verify
         tx.verify().context("Failed to verify transaction.")?;
 
         // Decode
-        // let msg: DC::Decodable = decode(tx.runtime_msg);
+        let msg = DC::decode_call(&tx.runtime_msg).context("Failed to decode message.")?;
 
         // Add the tx to mempool
-        self.mempool.push_back(PooledTransaction {
-            raw,
-            tx,
-            msg: todo!(),
-        });
+        self.mempool.push_back(PooledTransaction { raw, tx, msg });
         Ok(())
     }
 
@@ -69,7 +71,11 @@ impl<C: Context, DC: DispatchCall<Context = C>> BatchBuilder for FiFoBatchBuilde
         let mut txs = Vec::new();
 
         while let Some(pooled_tx) = self.mempool.pop_front() {
-            let msg = pooled_tx.tx.runtime_msg;
+            // Execute call message.
+            {
+                let msg = pooled_tx.msg;
+                self.dispatch_call.dispatch_call(msg)?;
+            }
 
             tracing::info!("Transaction has been included in the batch");
             txs.push(pooled_tx.raw);
