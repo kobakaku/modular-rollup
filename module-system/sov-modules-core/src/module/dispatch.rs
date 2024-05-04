@@ -12,5 +12,5 @@ pub trait DispatchCall: Default {
     fn decode_call(serialized_message: &[u8]) -> anyhow::Result<Self::Decodable>;
 
     // Dispatches a call message to the appropriate module.
-    fn dispatch_call(&self, message: Self::Decodable) -> anyhow::Result<CallResponse>;
+    fn dispatch_call(&mut self, message: Self::Decodable) -> anyhow::Result<CallResponse>;
 }

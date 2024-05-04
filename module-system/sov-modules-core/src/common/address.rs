@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use rollup_interface::state::{BasicAddress, RollupAddress};
 
-#[derive(Debug, Clone, BorshSerialize, BorshDeserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, BorshSerialize, BorshDeserialize)]
 pub struct Address {
     addr: [u8; 32],
 }

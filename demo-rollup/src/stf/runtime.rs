@@ -39,11 +39,11 @@ impl<C: Context> DispatchCall for Runtime<C> {
     }
 
     fn dispatch_call(
-        &self,
+        &mut self,
         message: Self::Decodable,
     ) -> anyhow::Result<sov_modules_core::CallResponse> {
         match message {
-            RuntimeCall::Bank(msg) => BankModule::<Self::Context>::call(&self.bank, msg),
+            RuntimeCall::Bank(msg) => BankModule::<Self::Context>::call(&mut self.bank, msg),
         }
     }
 }

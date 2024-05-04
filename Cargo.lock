@@ -1882,6 +1882,7 @@ dependencies = [
  "jsonrpsee",
  "serde",
  "serde_json",
+ "sha2",
  "sov-modules-core",
  "tracing",
 ]

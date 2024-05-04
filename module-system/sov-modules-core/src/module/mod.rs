@@ -15,5 +15,5 @@ pub trait Module {
     type CallMessage;
 
     /// Call allows interaction with the module and invokes state changes.
-    fn call(&self, message: Self::CallMessage) -> anyhow::Result<CallResponse>;
+    fn call(&mut self, message: Self::CallMessage) -> anyhow::Result<CallResponse>;
 }

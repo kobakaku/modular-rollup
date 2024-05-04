@@ -1,4 +1,4 @@
-use std::marker::PhantomData;
+use std::collections::HashMap;
 
 use jsonrpsee::core::RpcResult;
 use rpc::BankModuleRpcServer;
@@ -6,30 +6,42 @@ use rpc::BankModuleRpcServer;
 pub use call::CallMessage as BankCallMessage;
 pub use rpc::get_bank_module_rpc_method;
 use serde::{Deserialize, Serialize};
-use sov_modules_core::{CallResponse, Context, Module};
+use sov_modules_core::{Context, Module};
+use token::Token;
 
 mod call;
 mod rpc;
+mod token;
+mod utils;
 
 #[derive(Serialize, Deserialize)]
 pub struct BankModule<C: Context> {
-    phantom: PhantomData<C>,
+    pub tokens: HashMap<C::Address, Token<C>>,
 }
+
+// rust asref from into 違い
+// スタック・キュートは
 
 impl<C: Context> Module for BankModule<C> {
     type Context = C;
     type CallMessage = BankCallMessage<C>;
 
-    fn call(&self, msg: Self::CallMessage) -> anyhow::Result<sov_modules_core::CallResponse> {
-        tracing::debug!("{:?}", msg);
-        Ok(CallResponse {})
+    fn call(&mut self, msg: Self::CallMessage) -> anyhow::Result<sov_modules_core::CallResponse> {
+        let call_response = match msg {
+            BankCallMessage::CreateToken {
+                token_name,
+                initial_balance,
+                minter_address,
+            } => self.create_token(&token_name, initial_balance, minter_address)?,
+        };
+        Ok(call_response)
     }
 }
 
 impl<C: Context> Default for BankModule<C> {
     fn default() -> Self {
         Self {
-            phantom: Default::default(),
+            tokens: HashMap::default(),
         }
     }
 }

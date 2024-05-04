@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, hash::Hash};
 
 pub mod da;
 pub mod stf;
@@ -10,6 +10,8 @@ pub trait BasicAddress:
     + Clone
     + Send
     + Sync
+    + Eq
+    + Hash
     + serde::Serialize
     + serde::de::DeserializeOwned
     + borsh::BorshSerialize
@@ -18,4 +20,4 @@ pub trait BasicAddress:
 }
 
 /// An address used inside rollup
-pub trait RollupAddress: BasicAddress {}
+pub trait RollupAddress: BasicAddress + From<[u8; 32]> {}
