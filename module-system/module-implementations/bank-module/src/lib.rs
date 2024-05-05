@@ -19,22 +19,34 @@ pub struct BankModule<C: Context> {
     pub tokens: HashMap<C::Address, Token<C>>,
 }
 
-// rust asref from into 違い
-// スタック・キュートは
-
 impl<C: Context> Module for BankModule<C> {
     type Context = C;
     type CallMessage = BankCallMessage<C>;
 
     fn call(&mut self, msg: Self::CallMessage) -> anyhow::Result<sov_modules_core::CallResponse> {
-        let call_response = match msg {
+        match msg {
             BankCallMessage::CreateToken {
                 token_name,
                 initial_balance,
                 minter_address,
-            } => self.create_token(&token_name, initial_balance, minter_address)?,
-        };
-        Ok(call_response)
+            } => self.create_token(&token_name, initial_balance, minter_address),
+            BankCallMessage::Mint {
+                token_address,
+                amount,
+                minter_address,
+            } => self.mint_token(token_address, amount, minter_address),
+            BankCallMessage::Transfer {
+                token_address,
+                amount,
+                from_address,
+                to_address,
+            } => self.transfer_token(token_address, amount, from_address, to_address),
+            BankCallMessage::Burn {
+                token_address,
+                amount,
+                burner_address,
+            } => self.burn_token(token_address, amount, burner_address),
+        }
     }
 }
 
