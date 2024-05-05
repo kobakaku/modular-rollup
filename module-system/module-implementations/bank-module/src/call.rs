@@ -1,5 +1,7 @@
+use anyhow::anyhow;
 use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Deserialize, Serialize};
+
 use sov_modules_core::{CallResponse, Context};
 
 use crate::{token::Token, BankModule};
@@ -53,7 +55,16 @@ impl<C: Context> BankModule<C> {
         amount: u64,
         minter_address: C::Address,
     ) -> anyhow::Result<CallResponse> {
-        todo!()
+        let mut token = self
+            .tokens
+            .get(&token_address)
+            .ok_or(anyhow!("Failed to get the token."))?
+            .clone();
+
+        token.mint(amount, minter_address)?;
+        self.tokens.insert(token_address, token);
+
+        Ok(CallResponse::default())
     }
 
     pub(crate) fn transfer_token(
@@ -63,7 +74,16 @@ impl<C: Context> BankModule<C> {
         from_address: C::Address,
         to_address: C::Address,
     ) -> anyhow::Result<CallResponse> {
-        todo!()
+        let mut token = self
+            .tokens
+            .get(&token_address)
+            .ok_or(anyhow!("Failed to get the token."))?
+            .clone();
+
+        token.transfer(amount, from_address, to_address)?;
+        self.tokens.insert(token_address, token);
+
+        Ok(CallResponse::default())
     }
 
     pub(crate) fn burn_token(
@@ -72,6 +92,15 @@ impl<C: Context> BankModule<C> {
         amount: u64,
         burner_address: C::Address,
     ) -> anyhow::Result<CallResponse> {
-        todo!()
+        let mut token = self
+            .tokens
+            .get(&token_address)
+            .ok_or(anyhow!("Failed to get the token."))?
+            .clone();
+
+        token.burn(amount, burner_address)?;
+        self.tokens.insert(token_address, token);
+
+        Ok(CallResponse::default())
     }
 }
