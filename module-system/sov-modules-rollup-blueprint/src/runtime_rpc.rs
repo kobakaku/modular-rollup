@@ -1,6 +1,7 @@
 use jsonrpsee::server::RpcModule;
 
 use rollup_interface::services::da::DaService;
+use serde::de::DeserializeOwned;
 use sov_bank_module::get_bank_module_rpc_method;
 use sov_modules_core::{Context, DispatchCall};
 use sov_sequencer::batch_builder::FiFoBatchBuilder;
@@ -10,7 +11,7 @@ pub fn register_rpc<C, D, DC>(
     da_service: &D,
 ) -> anyhow::Result<jsonrpsee::RpcModule<()>>
 where
-    C: Context + Send + Sync,
+    C: Context + Send + Sync + DeserializeOwned,
     D: DaService + Clone,
     DC: DispatchCall<Context = C> + Send + Sync + 'static,
 {

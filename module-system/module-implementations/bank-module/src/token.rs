@@ -6,11 +6,11 @@ use sov_modules_core::Context;
 
 use crate::utils::genearte_token_address;
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Token<C: Context> {
-    name: String,
-    total_supply: u64,
-    balance_map: HashMap<C::Address, u64>,
+    pub(crate) name: String,
+    pub(crate) total_supply: u64,
+    pub(crate) balance_map: HashMap<C::Address, u64>,
 }
 
 impl<C: Context> Token<C> {
