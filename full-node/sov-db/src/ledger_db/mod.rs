@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use sov_schema_db::{KeyCodec, Schema, SchemaIterator, ValueCodec, DB};
+use sov_schema_db::DB;
 
 use crate::{
     rocks_db_config::gen_rocks_db_options,
