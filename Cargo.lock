@@ -1893,8 +1893,10 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "borsh",
  "hex",
  "rollup-interface",
+ "serde",
  "sha2",
  "tokio",
  "tracing",

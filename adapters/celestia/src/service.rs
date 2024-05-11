@@ -5,7 +5,7 @@ use std::time::Duration;
 use tokio::sync::{broadcast, RwLock, RwLockWriteGuard};
 use tokio::time;
 
-use crate::types::CelestiaHash;
+use crate::types::{CelestiaAddress, CelestiaHash};
 use crate::types::{CelestiaBlob, CelestiaBlockHeader};
 use crate::{
     types::CelestiaBlock,
@@ -24,14 +24,14 @@ const GENESIS_HEADER: CelestiaBlockHeader = CelestiaBlockHeader {
 
 #[derive(Clone)]
 pub struct CelestiaDaService {
-    sender_address: [u8; 32],
+    sender_address: CelestiaAddress,
     blocks: Arc<RwLock<VecDeque<CelestiaBlock>>>,
     /// Used for calculating correct finality from state of `blocks`
     finalized_header_sender: broadcast::Sender<CelestiaBlockHeader>,
 }
 
 impl CelestiaDaService {
-    pub fn new(sender_address: [u8; 32]) -> Self {
+    pub fn new(sender_address: CelestiaAddress) -> Self {
         let (tx, rx1) = broadcast::channel(10);
         tokio::spawn(async move {
             let mut rx = rx1;

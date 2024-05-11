@@ -35,7 +35,9 @@ async fn new_rollup(rollup_config_path: &str) -> anyhow::Result<Rollup<MockRollu
 
 #[cfg(feature = "celestia")]
 async fn new_rollup(rollup_config_path: &str) -> anyhow::Result<Rollup<CelestiaRollup>> {
-    let rollup_config: RollupConfig =
+    use sov_celestia::CelestiaDaConfig;
+
+    let rollup_config: RollupConfig<CelestiaDaConfig> =
         from_toml_path(rollup_config_path).context("Failed to read rollup configuration")?;
     let rollup = CelestiaRollup {};
     rollup.create_new_rollup(rollup_config).await

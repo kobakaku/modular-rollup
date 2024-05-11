@@ -12,6 +12,8 @@ tracing = { workspace = true }
 async-trait = { workspace = true }
 tokio= { workspace = true }
 sha2= { workspace = true }
+serde = { workspace = true }
+borsh = { workspace = true }
 
 rollup-interface = { path = "../../rollup-interface" }
 

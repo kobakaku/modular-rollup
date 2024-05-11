@@ -3,6 +3,10 @@
 use std::fmt::{Debug, Formatter};
 
 use rollup_interface::{services::da::SlotData, state::da::BlockHeaderTrait};
+use serde::{Deserialize, Serialize};
+
+mod address;
+pub use address::*;
 
 #[derive(Clone)]
 pub struct CelestiaBlock {
@@ -67,4 +71,9 @@ impl CelestiaBlob {
     pub(crate) fn new() -> Self {
         Self {}
     }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct CelestiaDaConfig {
+    pub sender_address: CelestiaAddress,
 }
