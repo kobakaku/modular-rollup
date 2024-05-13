@@ -89,7 +89,7 @@ impl MockDaService {
             }
             time::sleep(Duration::from_millis(1)).await;
         }
-        anyhow::bail!("No block at height={height} has been sent in {:?}s", 100)
+        anyhow::bail!("No block at height={height} has been sent in {:?}s", 1000)
     }
 }
 

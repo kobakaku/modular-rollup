@@ -25,7 +25,7 @@ members = [
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
-repository = "https://github.com/kobakaku/sovereign-rollup"
+repository = "https://github.com/kobakaku/ssr"
 authors = ["kobakaku"]
 
 [workspace.dependencies]
