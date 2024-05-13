@@ -14,6 +14,18 @@ tokio= { workspace = true }
 sha2= { workspace = true }
 serde = { workspace = true }
 borsh = { workspace = true }
+jsonrpsee = { workspace = true }
+
+# celestia
+celestia-proto = { git = "https://github.com/eigerco/celestia-node-rs.git", rev = "66b7c6c" }
+celestia-rpc = { git = "https://github.com/eigerco/celestia-node-rs.git", rev = "66b7c6c", default-features = false, optional = true }
+celestia-types = { git = "https://github.com/eigerco/celestia-node-rs.git", rev = "66b7c6c", default-features = false }
+tendermint = { git = "https://github.com/eigerco/celestia-tendermint-rs.git", rev = "ef58b85", default-features = false }
+tendermint-proto = { git = "https://github.com/eigerco/celestia-tendermint-rs.git", rev = "ef58b85" }
+nmt-rs = { git = "https://github.com/Sovereign-Labs/nmt-rs.git", rev = "d821332", features = [
+    "serde",
+    "borsh",
+] }
 
 rollup-interface = { path = "../../rollup-interface" }
 
