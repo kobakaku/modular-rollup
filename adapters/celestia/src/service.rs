@@ -1,10 +1,13 @@
+use std::fmt::format;
+
 use crate::{
-    types::CelestiaBlock,
+    types::{CelestiaBlock, CelestiaBlockHeader},
     verifier::{CelestiaDaSpec, CelestiaDaVerifier},
     CelestiaDaConfig,
 };
 use async_trait::async_trait;
-use jsonrpsee::http_client::HttpClient;
+use celestia_rpc::prelude::*;
+use jsonrpsee::{http_client::HttpClient, ws_client::HeaderMap};
 use rollup_interface::services::da::DaService;
 
 #[derive(Clone)]
@@ -14,9 +17,19 @@ pub struct CelestiaDaService {
 
 impl CelestiaDaService {
     pub fn new(config: &CelestiaDaConfig) -> Self {
-        let client = jsonrpsee::http_client::HttpClientBuilder::default()
-            .build(&config.rpc_address)
-            .unwrap();
+        let client = {
+            let mut headers = HeaderMap::new();
+            headers.append(
+                "Authorization",
+                format!("Bearer {}", config.rpc_auth_token).parse().unwrap(),
+            );
+
+            jsonrpsee::http_client::HttpClientBuilder::default()
+                .set_headers(headers)
+                .build(&config.rpc_address)
+        }
+        .expect("Client initialization is valid");
+
         Self { client }
     }
 }
@@ -47,9 +60,10 @@ impl DaService for CelestiaDaService {
         &self,
     ) -> anyhow::Result<<Self::Spec as rollup_interface::state::da::DaSpec>::BlockHeader> {
         // Tendermint has instant finality, so head block is the finalized one
-
-        // TODO: 一番最後のblockのheaderを取得する
-        todo!()
+        print!("a");
+        let header = self.client.header_network_head().await?;
+        print!("b");
+        Ok(CelestiaBlockHeader::from(header))
     }
 
     async fn send_transaction(&self, blob: &[u8]) -> anyhow::Result<()> {

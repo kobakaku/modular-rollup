@@ -41,11 +41,29 @@ impl From<CelestiaHash> for [u8; 32] {
     }
 }
 
+// 正しいHeader情報を定義する
 #[derive(Debug, Clone)]
 pub struct CelestiaBlockHeader {
     pub prev_hash: CelestiaHash,
     pub hash: CelestiaHash,
     pub height: u64,
+}
+
+impl CelestiaBlockHeader {
+    fn new(prev_hash: CelestiaHash, hash: CelestiaHash, height: u64) -> Self {
+        Self {
+            prev_hash,
+            hash,
+            height,
+        }
+    }
+}
+
+impl From<celestia_types::ExtendedHeader> for CelestiaBlockHeader {
+    fn from(_extended_header: celestia_types::ExtendedHeader) -> Self {
+        // TODO: 正しい値を返す
+        CelestiaBlockHeader::new(CelestiaHash([0; 32]), CelestiaHash([0; 32]), 0)
+    }
 }
 
 impl BlockHeaderTrait for CelestiaBlockHeader {
