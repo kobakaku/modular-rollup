@@ -1,6 +1,7 @@
 use crate::{
     types::CelestiaBlock,
     verifier::{CelestiaDaSpec, CelestiaDaVerifier},
+    CelestiaDaConfig,
 };
 use async_trait::async_trait;
 use jsonrpsee::http_client::HttpClient;
@@ -12,7 +13,10 @@ pub struct CelestiaDaService {
 }
 
 impl CelestiaDaService {
-    pub fn new(client: HttpClient) -> Self {
+    pub fn new(config: &CelestiaDaConfig) -> Self {
+        let client = jsonrpsee::http_client::HttpClientBuilder::default()
+            .build(&config.rpc_address)
+            .unwrap();
         Self { client }
     }
 }

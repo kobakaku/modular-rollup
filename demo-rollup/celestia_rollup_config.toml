@@ -1,0 +1,15 @@
+[runner]
+start_height = 3
+
+[runner.rpc_config]
+bind_host = "127.0.0.1"
+bind_port = 8000
+
+[storage]
+path = "./rollup-starter-data"
+
+[da]
+rpc_address = "http://127.0.0.1:26658"
+rpc_auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJwdWJsaWMiLCJyZWFkIiwid3JpdGUiLCJhZG1pbiJdfQ.g1RE-kmUmeQVt1Amd8PpUDB-h5JXOX_ZTnZ1CmNkrCM"
+
+[prover_service]

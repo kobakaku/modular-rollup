@@ -29,6 +29,6 @@ sov-modules-stf-blueprint = { path = "../module-system/sov-modules-stf-blueprint
 
 
 [features]
-default = ["mock"]
+default = ["celestia"]
 mock = ["sov-mock"]
 celestia = ["sov-celestia"]

@@ -67,11 +67,11 @@ wait-compose-ready:
 # update the rollup configuration with local network params
 update-celestia-config: wait-compose-ready
 ifeq ($(shell uname -s),Darwin)
-	@sed -i '' 's/^\(celestia_rpc_auth_token = \)"[^"]*"/\1"$(get_auth)"/' celestia_rollup_config.toml
-	@sed -i '' 's#^\(celestia_rpc_address = \)"[^"]*"#\1"http://127.0.0.1:$(RPC_PORT)"#' celestia_rollup_config.toml
+	@sed -i '' 's/^\(rpc_auth_token = \)"[^"]*"/\1"$(get_auth)"/' celestia_rollup_config.toml
+	@sed -i '' 's#^\(rpc_address = \)"[^"]*"#\1"http://127.0.0.1:$(RPC_PORT)"#' celestia_rollup_config.toml
 	@sed -i '' 's#^\(start_height = \)[0-9]*#\1$(START_HEIGHT)#' celestia_rollup_config.toml
 else
-	@sed -i 's/^\(celestia_rpc_auth_token = \)"[^"]*"/\1"$(get_auth)"/' celestia_rollup_config.toml
-	@sed -i 's#^\(celestia_rpc_address = \)"[^"]*"#\1"http://127.0.0.1:$(RPC_PORT)"#' celestia_rollup_config.toml
+	@sed -i 's/^\(rpc_auth_token = \)"[^"]*"/\1"$(get_auth)"/' celestia_rollup_config.toml
+	@sed -i 's#^\(rpc_address = \)"[^"]*"#\1"http://127.0.0.1:$(RPC_PORT)"#' celestia_rollup_config.toml
 	@sed -i 's#^\(start_height = \)[0-9]*#\1$(START_HEIGHT)#' celestia_rollup_config.toml
 endif

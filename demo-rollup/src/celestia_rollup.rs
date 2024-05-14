@@ -27,7 +27,7 @@ impl RollupBlueprint for CelestiaRollup {
     }
 
     fn create_da_service(&self, rollup_config: &RollupConfig<Self::DaConfig>) -> Self::DaService {
-        Self::DaService::new(rollup_config.da.sender_address)
+        Self::DaService::new(&rollup_config.da)
     }
 
     fn create_rpc_methods(

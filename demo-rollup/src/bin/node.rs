@@ -10,7 +10,10 @@ use demo_rollup::initialize_logging;
 use sov_modules_rollup_blueprint::{Rollup, RollupBlueprint};
 use sov_stf_runner::{from_toml_path, RollupConfig};
 
-const CONFIG_PATH: &'static str = "./rollup_config.toml";
+#[cfg(feature = "mock")]
+const CONFIG_PATH: &'static str = "./mock_rollup_config.toml";
+#[cfg(feature = "celestia")]
+const CONFIG_PATH: &'static str = "./celestia_rollup_config.toml";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

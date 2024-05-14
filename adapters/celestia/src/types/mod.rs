@@ -75,5 +75,8 @@ impl CelestiaBlob {
 
 #[derive(Serialize, Deserialize)]
 pub struct CelestiaDaConfig {
-    pub sender_address: CelestiaAddress,
+    /// The JWT used to authenticate with the Celestia RPC server
+    pub rpc_auth_token: String,
+    /// The address of the Celestia RPC server
+    pub rpc_address: String,
 }

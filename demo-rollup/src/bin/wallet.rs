@@ -1,8 +1,8 @@
-use demo_rollup::{initialize_logging, mock_rollup::MockRollup};
+use demo_rollup::{celestia_rollup::CelestiaRollup, initialize_logging};
 use sov_modules_rollup_blueprint::WalletBlueprint;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     initialize_logging();
-    MockRollup::run_wallet().await
+    CelestiaRollup::run_wallet().await
 }
