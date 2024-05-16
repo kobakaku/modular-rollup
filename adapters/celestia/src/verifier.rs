@@ -1,11 +1,11 @@
 use rollup_interface::state::da::{DaSpec, DaVerifier};
 
-use crate::types::{CelestiaBlob, CelestiaBlockHeader, CelestiaHash};
+use crate::types::{CelestiaBlob, CelestiaBlockHeader};
 
 pub struct CelestiaDaSpec;
 
 impl DaSpec for CelestiaDaSpec {
-    type BlockHash = CelestiaHash;
+    type BlockHash = [u8; 32];
 
     type BlockHeader = CelestiaBlockHeader;
 

@@ -1,24 +1,28 @@
 // use std::fmt::{write, Display};
 
-use std::fmt::{Debug, Formatter};
+use std::fmt::Debug;
 
 use rollup_interface::{services::da::SlotData, state::da::BlockHeaderTrait};
 use serde::{Deserialize, Serialize};
 
 mod address;
-pub use address::*;
 
 #[derive(Clone)]
 pub struct CelestiaBlock {
     pub header: CelestiaBlockHeader,
-    pub blobs: Vec<CelestiaBlob>,
+}
+
+impl CelestiaBlock {
+    pub fn new(header: CelestiaBlockHeader) -> Self {
+        Self { header }
+    }
 }
 
 impl SlotData for CelestiaBlock {
     type BlockHeader = CelestiaBlockHeader;
 
     fn hash(&self) -> [u8; 32] {
-        self.header.hash.0
+        self.header.hash
     }
 
     fn header(&self) -> &Self::BlockHeader {
@@ -26,51 +30,47 @@ impl SlotData for CelestiaBlock {
     }
 }
 
-#[derive(Clone, Copy)]
-pub struct CelestiaHash(pub [u8; 32]);
+// #[derive(Clone, Copy, Default)]
+// pub struct CelestiaHash(pub [u8; 32]);
 
-impl Debug for CelestiaHash {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "0x{}", hex::encode(self.0))
-    }
-}
+// impl Debug for CelestiaHash {
+//     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+//         write!(f, "0x{}", hex::encode(self.0))
+//     }
+// }
 
-impl From<CelestiaHash> for [u8; 32] {
-    fn from(value: CelestiaHash) -> Self {
-        value.0
-    }
-}
+// impl From<CelestiaHash> for [u8; 32] {
+//     fn from(value: CelestiaHash) -> Self {
+//         value.0
+//     }
+// }
 
 // 正しいHeader情報を定義する
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct CelestiaBlockHeader {
-    pub prev_hash: CelestiaHash,
-    pub hash: CelestiaHash,
+    pub hash: [u8; 32],
     pub height: u64,
 }
 
 impl CelestiaBlockHeader {
-    fn new(prev_hash: CelestiaHash, hash: CelestiaHash, height: u64) -> Self {
-        Self {
-            prev_hash,
-            hash,
-            height,
-        }
+    pub fn new(hash: [u8; 32], height: u64) -> Self {
+        Self { hash, height }
     }
 }
 
 impl From<celestia_types::ExtendedHeader> for CelestiaBlockHeader {
     fn from(_extended_header: celestia_types::ExtendedHeader) -> Self {
         // TODO: 正しい値を返す
-        CelestiaBlockHeader::new(CelestiaHash([0; 32]), CelestiaHash([0; 32]), 0)
+        CelestiaBlockHeader::new([0; 32], 0)
     }
 }
 
 impl BlockHeaderTrait for CelestiaBlockHeader {
-    type Hash = CelestiaHash;
+    type Hash = [u8; 32];
 
     fn prev_hash(&self) -> Self::Hash {
-        self.prev_hash
+        // TODO: 正しい値を取得する
+        [0; 32]
     }
 
     fn hash(&self) -> Self::Hash {
@@ -85,11 +85,7 @@ impl BlockHeaderTrait for CelestiaBlockHeader {
 #[derive(Clone)]
 pub struct CelestiaBlob {}
 
-impl CelestiaBlob {
-    pub(crate) fn new() -> Self {
-        Self {}
-    }
-}
+impl CelestiaBlob {}
 
 #[derive(Serialize, Deserialize)]
 pub struct CelestiaDaConfig {
