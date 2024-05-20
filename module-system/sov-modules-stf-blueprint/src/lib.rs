@@ -7,10 +7,9 @@ pub use stf_blueprint::StfBlueprint;
 /// This trait has to be implementer by a runtime in order to be used in `StfBlueprint`.
 pub trait RuntimeTrait: DispatchCall + Default {}
 
-impl<C, RT> StateTransitionFunction for StfBlueprint<C, RT>
+impl<C> StateTransitionFunction for StfBlueprint<C>
 where
     C: Context,
-    RT: RuntimeTrait,
 {
     type StateRoot = <C::Storage as Storage>::Root;
 

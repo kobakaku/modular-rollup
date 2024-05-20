@@ -9,9 +9,7 @@ members = [
     "full-node/sov-schema-db",
     "full-node/sov-sequencer",
     "full-node/sov-stf-runner",
-    # "module-system/module-implementations/sov-nft",
     "module-system/module-implementations/my-module",
-    # "module-system/module-implementations/sov-bank",
     "module-system/module-implementations/bank-module",
     "module-system/sov-cli",
     "module-system/sov-modules-api",
@@ -29,26 +27,6 @@ repository = "https://github.com/kobakaku/ssr"
 authors = ["kobakaku"]
 
 [workspace.dependencies]
-# Adapters
-# sov-mock-da = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-celestia-adapter = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-risc0-adapter = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# Full Node
-# sov-prover-storage-manager = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-stf-runner = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-db = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-sequencer = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# Module System
-# sov-modules-rollup-blueprint = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-modules-api = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-state = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-modules-stf-blueprint = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-accounts = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-bank = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-sequencer-registry = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# sov-modules-macros = { git = "https://github.com/kobakaku/sovereign-sdk", rev = "669d5d33f6ec5c057e5ae4fd6441d3e79b29914d" }
-# Rollup Interface
-
 jmt = { git = "https://github.com/penumbra-zone/jmt.git", rev = "1d007e11cb68aa5ca13e9a5af4a12e6439d5f7b6" }
 
 serde = { version = "1.0.192", features = ["derive", "rc"] }

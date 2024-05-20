@@ -91,11 +91,8 @@ pub trait RollupBlueprint: Sized + Send + Sync {
 /// Dependencies needed to run the rollup.
 pub struct Rollup<S: RollupBlueprint> {
     /// The State Transition Runner.
-    pub runner: StateTransitionRunner<
-        StfBlueprint<S::NativeContext, S::NativeRuntime>,
-        S::StorageManager,
-        S::DaService,
-    >,
+    pub runner:
+        StateTransitionRunner<StfBlueprint<S::NativeContext>, S::StorageManager, S::DaService>,
     /// Rpc methods for the rollup.
     pub rpc_methods: jsonrpsee::RpcModule<()>,
 }
