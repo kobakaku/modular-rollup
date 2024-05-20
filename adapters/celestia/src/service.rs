@@ -53,13 +53,12 @@ impl DaService for CelestiaDaService {
         }
 
         let client = self.client.clone();
-        let header: celestia_types::ExtendedHeader = client.header_get_by_height(height).await?;
+        let extended_header = client.header_get_by_height(height).await?;
         tracing::debug!("Fetching header at height: {}", height);
 
         Ok(CelestiaBlock::new(CelestiaBlockHeader::new(
-            // TODO: 正しいhash値をいれる
-            [0; 32],
-            header.height().into(),
+            extended_header.dah,
+            extended_header.header,
         )))
     }
 

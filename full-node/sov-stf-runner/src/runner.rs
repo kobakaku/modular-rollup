@@ -62,10 +62,7 @@ where
                 block_header,
                 genesis_params,
             } => {
-                info!(
-                    "No history detected. Initializing chain on block_header={:?}",
-                    block_header
-                );
+                info!("No history detected. Initializing chain",);
                 let storage = storage_manager.create_storage_on()?;
                 let (genesis_root, _initialized_storage) = stf.init_chain(storage, genesis_params);
                 storage_manager.save_change_set()?;

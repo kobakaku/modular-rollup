@@ -1,9 +1,9 @@
-// use std::fmt::{write, Display};
-
 use std::fmt::Debug;
 
+use celestia_types::DataAvailabilityHeader;
 use rollup_interface::{services::da::SlotData, state::da::BlockHeaderTrait};
 use serde::{Deserialize, Serialize};
+use tendermint::block::Header;
 
 mod address;
 
@@ -22,7 +22,12 @@ impl SlotData for CelestiaBlock {
     type BlockHeader = CelestiaBlockHeader;
 
     fn hash(&self) -> [u8; 32] {
-        self.header.hash
+        match self.header.hash() {
+            tendermint::Hash::Sha256(h) => h,
+            tendermint::Hash::None => {
+                unreachable!("tendermint::Hash::None should not be reachable")
+            }
+        }
     }
 
     fn header(&self) -> &Self::BlockHeader {
@@ -30,55 +35,44 @@ impl SlotData for CelestiaBlock {
     }
 }
 
-// #[derive(Clone, Copy, Default)]
-// pub struct CelestiaHash(pub [u8; 32]);
-
-// impl Debug for CelestiaHash {
-//     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-//         write!(f, "0x{}", hex::encode(self.0))
-//     }
-// }
-
-// impl From<CelestiaHash> for [u8; 32] {
-//     fn from(value: CelestiaHash) -> Self {
-//         value.0
-//     }
-// }
-
 // 正しいHeader情報を定義する
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 pub struct CelestiaBlockHeader {
-    pub hash: [u8; 32],
-    pub height: u64,
+    pub dah: DataAvailabilityHeader,
+    pub header: Header,
+    pub prev_hash: Option<[u8; 32]>,
 }
 
 impl CelestiaBlockHeader {
-    pub fn new(hash: [u8; 32], height: u64) -> Self {
-        Self { hash, height }
+    pub fn new(dah: DataAvailabilityHeader, header: Header) -> Self {
+        Self {
+            dah,
+            header,
+            prev_hash: None,
+        }
     }
 }
 
 impl From<celestia_types::ExtendedHeader> for CelestiaBlockHeader {
-    fn from(_extended_header: celestia_types::ExtendedHeader) -> Self {
-        // TODO: 正しい値を返す
-        CelestiaBlockHeader::new([0; 32], 0)
+    fn from(extended_header: celestia_types::ExtendedHeader) -> Self {
+        CelestiaBlockHeader::new(extended_header.dah, extended_header.header)
     }
 }
 
 impl BlockHeaderTrait for CelestiaBlockHeader {
-    type Hash = [u8; 32];
+    type Hash = tendermint::Hash;
 
     fn prev_hash(&self) -> Self::Hash {
-        // TODO: 正しい値を取得する
-        [0; 32]
+        // TODO: 正しい値をハッシュを計算する
+        self.header.hash()
     }
 
     fn hash(&self) -> Self::Hash {
-        self.hash
+        self.header.hash()
     }
 
     fn height(&self) -> u64 {
-        self.height
+        self.header.height.value()
     }
 }
 
